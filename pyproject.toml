@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "GeoKG"
+version = "0.1.0"
+description = "GeoNexus 领域知识图谱内容包：SDG 框架、国家/卫星/行政区划参考数据与摄入管道"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+keywords = ["geospatial", "knowledge-graph", "sdg", "geonode", "geonexus"]
+
+# GeoKG 是纯内容层：图引擎与持久化由 SDK 提供，这里只依赖它，
+# 不重复实现。依赖是单向的（geokg → geonexus），SDK 不反向导入本包。
+dependencies = [
+    "geonexus-sdk>=1.0.0",
+]
+
+[project.optional-dependencies]
+# OSM 摄入路径（ingest_from_osm）所需
+osm = ["httpx>=0.27"]
+dev = ["pytest>=7.4", "ruff>=0.6"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+src = ["src"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

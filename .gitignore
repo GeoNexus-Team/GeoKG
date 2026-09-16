@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv/
+.venv-*/
+venv/
+
+# Test / lint caches
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Generated graph artifacts (can be hundreds of MB)
+outputs/
+*.ndjson
+*.ndjson.gz
+geokg.json
+geokg.json.gz
+
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+*.swp
