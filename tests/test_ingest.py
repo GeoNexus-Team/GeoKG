@@ -5,6 +5,7 @@ from __future__ import annotations
 import json
 
 from geonexus.kg import KGEntity, KnowledgeGraph
+
 from geokg.ingest import (
     IngestReport,
     ingest_admin1,

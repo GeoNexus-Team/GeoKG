@@ -32,6 +32,9 @@ src = ["src"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP", "SIM"]
+# 与 GeoNexus-SDK 保持一致：本包内有大段数据字面量与中文注释，
+# 长行不可避免，故不启用行宽限制。
+ignore = ["E501", "SIM108"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

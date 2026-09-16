@@ -21,6 +21,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from geonexus.kg import KGEntity, KnowledgeGraph
+
 from .reference_data import (
     ADMIN1_REGIONS,
     CONCEPTS,
