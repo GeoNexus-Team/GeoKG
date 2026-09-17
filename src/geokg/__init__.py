@@ -38,7 +38,6 @@ from .ingest import (
     ingest_from_osm,
     ingest_gaag_contracts,
     ingest_monitoring_units,
-    ingest_satellite_constellations,
     ingest_satellites,
     ingest_sdg_framework,
     ingest_skills,
@@ -58,7 +57,6 @@ from .provenance import (
 from .reference_data import (
     CONCEPTS,
     COUNTRIES,
-    SATELLITES,
     SDG_GOALS,
     SDG_INDICATOR_COUNTS,
     SDG_TARGETS,
@@ -82,7 +80,6 @@ __all__ = [
     "ingest_from_osm",
     "ingest_gaag_contracts",
     "ingest_monitoring_units",
-    "ingest_satellite_constellations",
     "ingest_satellites",
     "ingest_sdg_framework",
     "ingest_skills",
@@ -90,7 +87,6 @@ __all__ = [
     # 参考数据
     "CONCEPTS",
     "COUNTRIES",
-    "SATELLITES",
     "SDG_GOALS",
     "SDG_INDICATOR_COUNTS",
     "SDG_TARGETS",

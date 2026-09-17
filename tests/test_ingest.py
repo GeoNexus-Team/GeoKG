@@ -18,10 +18,10 @@ from geokg.ingest import (
 from geokg.reference_data import (
     CONCEPTS,
     COUNTRIES,
-    SATELLITES,
     SDG_GOALS,
     reference_data_stats,
 )
+from geokg.satellites import SATELLITES, satellite_stats
 
 # --------------------------------------------------------------------------- #
 # 参考数据集完整性
@@ -39,10 +39,10 @@ class TestReferenceData:
         assert stats["countries"] >= 190, f"ISO 国家数偏少: {stats['countries']}"
 
     def test_satellite_catalog_meets_2026_target(self):
-        """2026 年度目标：≥100 颗卫星。"""
-        stats = reference_data_stats()
-        assert stats["satellites"] >= 100
-        assert stats["satellite_bands"] >= 300
+        """2026 年度目标：≥100 颗卫星（现由 WMO OSCAR/Space 提供，T2）。"""
+        st = satellite_stats()
+        assert st["satellites"] >= 100, f"卫星数偏少: {st}"
+        assert st["operational"] > 0 and st["planned"] > 0
 
     def test_gadm_admin1_removed(self):
         """回归护栏：GADM 来源的一级行政区必须不在包内。
@@ -62,10 +62,13 @@ class TestReferenceData:
         for entry in COUNTRIES:
             assert len(entry) == 4, f"国家条目字段数应为 4: {entry}"
 
-    def test_satellite_tuple_shape(self):
-        for sat in SATELLITES:
-            assert len(sat) == 7, f"卫星条目字段数应为 7: {sat[0]}"
-            assert isinstance(sat[6], list) and sat[6], f"卫星 {sat[0]} 缺波段"
+    def test_satellite_records_carry_provenance(self):
+        """卫星目录改为 OSCAR 后，每条记录都应可追溯到官方 id 与机构。"""
+        assert len(SATELLITES) == 1044
+        for sat in SATELLITES[:50]:
+            assert sat.oscar_id, f"{sat.slug} 缺 OSCAR id"
+            assert sat.slug and sat.entity_id.startswith("satellite.")
+            assert sat.status, f"{sat.slug} 缺状态"
 
 
 # --------------------------------------------------------------------------- #
@@ -115,27 +118,37 @@ class TestIngestCountries:
 
 
 class TestIngestSatellites:
-    def test_satellites_and_bands(self):
+    """WMO OSCAR/Space 卫星目录的摄入。
+
+    旧的 114 条手写记录 + 2,863 条合成"星座展开"已全部移除（无出处），
+    因此这里不再断言 Band 实体或旧的 id 形式。
+    """
+
+    def test_oscar_catalog_ingested(self):
         kg = KnowledgeGraph("t")
         ingest_satellites(kg, IngestReport())
         sats = kg.search_by_type("Satellite")
-        bands = kg.search_by_type("Band")
-        assert len(sats) >= 100
-        assert len(bands) >= 300
+        assert len(sats) == 1044, f"OSCAR 目录应为 1,044 颗，实际 {len(sats)}"
 
-    def test_sentinel2_present(self):
+    def test_entity_id_uses_oscar_slug(self):
         kg = KnowledgeGraph("t")
         ingest_satellites(kg, IngestReport())
-        assert kg.get_entity("satellite.SENTINEL-2A") is not None
-        # Sentinel-2A 有 13 个波段
-        s2_bands = [e for e in kg.search_by_type("Band") if e.properties.get("satellite") == "SENTINEL-2A"]
-        assert len(s2_bands) == 13
+        assert kg.get_entity("satellite.sentinel_2a") is not None
 
-    def test_org_relation(self):
+    def test_operated_by_relation(self):
         kg = KnowledgeGraph("t")
         ingest_satellites(kg, IngestReport())
-        neighbors = kg.neighbors("satellite.SENTINEL-2A", "OWNS")
-        assert len(neighbors) >= 1
+        n = kg.neighbors("satellite.sentinel_2a", "OPERATED_BY")
+        assert len(n) >= 1, "卫星应挂在所属机构下"
+
+    def test_carries_status_and_attribution(self):
+        kg = KnowledgeGraph("t")
+        ingest_satellites(kg, IngestReport())
+        e = kg.get_entity("satellite.sentinel_2a")
+        assert e.properties.get("status")
+        assert e.properties.get("oscar_id")
+        # WMO 许可要求致谢，署名随实体分发
+        assert "WMO" in e.properties.get("attribution", "")
 
 
 class TestIngestConcepts:
@@ -178,7 +191,7 @@ class TestFullPipeline:
         d = report.to_dict()
         assert "by_source" in d
         assert d["by_source"]["sdg_framework"] > 300
-        assert d["by_source"]["satellites"] > 400
+        assert d["by_source"]["oscar_satellites"] > 1000
         assert str(report).startswith("GeoKG 灌数报告")
 
     def test_entity_types_diversity(self):
@@ -188,8 +201,9 @@ class TestFullPipeline:
         types = set(kg.stats()["by_type"])
         expected = {
             "SDG_Goal", "SDG_Target", "SDG_Indicator", "Country", "Region",
-            "AdminRegion", "Satellite", "Band", "Concept", "ConceptCategory",
+            "AdminRegion", "Satellite", "Concept", "ConceptCategory",
             "Organization", "Skill", "MonitoringUnit", "DataRequirement",
+            "LandCoverClass", "ClimateClass", "HazardType",
         }
         assert expected.issubset(types), f"缺少类型: {expected - types}"
 
@@ -212,12 +226,16 @@ class TestFullPipeline:
     def test_reference_baseline_a_plus_b(self):
         """策展 + 展开基线（不含派生任务空间）。
 
-        2026-09 移除 GADM 来源的一级行政区后由 8,327 降至 7,590。
-        该下降是合规处置的结果，不是回归。
+        数字随来源整改而变，均为预期：
+          8,327 → 7,590  移除 GADM 来源的一级行政区
+          7,590 → 8,834  改用 UN M49 国家表 + GeoNames 行政区 + L3 本体
+          8,834 → 6,216  卫星目录改用 WMO OSCAR（1,044 条真实记录），
+                         同时删除 2,863 条合成"星座展开"与 3,156 条波段实体
+        最后一次是**净减少**——用权威目录替掉合成数据，实体数下降是正确的。
         """
         kg = KnowledgeGraph("t")
         report = run_full_ingestion(kg, include_monitoring=False)
-        assert report.total_entities > 7000, (
+        assert report.total_entities > 6000, (
             f"参考基线 {report.total_entities} 偏低"
         )
         # 基线应全部是策展的结构化事实

@@ -13,92 +13,6 @@
 from __future__ import annotations
 
 # --------------------------------------------------------------------------- #
-# 1. 卫星星座扩充
-# --------------------------------------------------------------------------- #
-#: 大型商业星座（真实存在，采用 "名称-编号" 模式化标识）
-#: 格式: (星座前缀, 全名模板, 机构, 类型, 传感器, 分辨率m, 波段, 数量)
-CONSTELLATIONS: list[tuple[str, str, str, str, str, float, list[str], int]] = [
-    # Planet Dove 星座（真实在轨约 200 颗）
-    ("DOVE", "Dove {n}", "Planet", "optical", "PS2", 3.0, ["B", "G", "R", "NIR"], 200),
-    # Planet SkySat（真实约 21 颗）
-    ("SKYSAT", "SkySat {n}", "Planet", "optical", "SkySat-C", 0.5, ["PAN", "B", "G", "R", "NIR"], 21),
-    # ICEYE SAR 星座（真实在轨 30+）
-    ("ICEYE", "ICEYE-X{n}", "ICEYE", "sar", "X-SAR", 0.25, ["HH", "VV"], 30),
-    # Capella SAR（真实在轨约 10）
-    ("CAPELLA", "Capella-{n}", "Capella Space", "sar", "X-SAR", 0.5, ["HH", "VV"], 10),
-    # 中国吉林一号（真实在轨 100+）
-    ("JL1", "Jilin-1 {n:03d}", "CGSTL", "optical", "Multi-spectral", 0.75, ["PAN", "B", "G", "R", "NIR"], 100),
-    # 中国珠海一号高光谱（真实在轨 12）
-    ("ZH1", "Zhuhai-1 OHS-{n}", "Zhuhai Orbita", "hyperspectral", "OHS", 10.0,
-     [f"B{i:02d}" for i in range(1, 33)], 12),
-    # 北京三号
-    ("BJ3", "Beijing-3 {n}", "Twenty First Century", "optical", "PMC", 0.3, ["PAN", "B", "G", "R", "NIR"], 4),
-    # 中国环境减灾
-    ("HJ2", "Huanjing-2{'AB'[n-1] if n <= 2 else n}", "CNSA", "optical", "CCD", 16.0,
-     ["B1", "B2", "B3", "B4"], 2),
-    # 欧空局 Sentinel 补充（1C/2C/3C 等后续星）
-    ("SENTINEL-1", "Sentinel-1{n}", "ESA", "sar", "C-SAR", 5.0, ["VV", "VH"], 1),
-    ("SENTINEL-2", "Sentinel-2{n}", "ESA", "optical", "MSI", 10.0,
-     ["B01","B02","B03","B04","B05","B06","B07","B08","B8A","B09","B10","B11","B12"], 1),
-    # SPOT-6/7
-    ("SPOT", "SPOT-{n}", "Airbus", "optical", "NAOMI", 1.5, ["PAN", "B1", "B2", "B3", "B4"], 2),
-    # 日本 ALOS 系列
-    ("ALOS", "ALOS-{n}", "JAXA", "sar", "PALSAR-{n}", 3.0, ["HH", "HV", "VH", "VV"], 2),
-    # 加拿大 RADARSAT 星座
-    ("RCM", "RADARSAT Constellation {n}", "CSA", "sar", "C-SAR", 3.0,
-     ["HH", "HV", "VH", "VV"], 3),
-    # 阿根廷 SAOCOM
-    ("SAOCOM", "SAOCOM-1{'AB'[n-1]}", "CONAE", "sar", "L-SAR", 10.0, ["HH", "HV", "VH", "VV"], 2),
-    # 德国 TerraSAR 后续
-    ("TSX", "TerraSAR-X {n}", "DLR/Airbus", "sar", "X-SAR", 0.25, ["HH", "HV", "VH", "VV"], 2),
-    # 韩国 KOMPSAT
-    ("KOMPSAT", "KOMPSAT-{n}", "KARI", "optical", "AESA", 0.5, ["PAN", "MS1", "MS2", "MS3", "MS4"], 5),
-    # 印度 Cartosat
-    ("CARTOSAT", "Cartosat-{n}", "ISRO", "optical", "PAN/AX", 0.25, ["PAN", "B", "G", "R", "NIR"], 5),
-    # 印度 RISAT
-    ("RISAT", "RISAT-{n}", "ISRO", "sar", "C-SAR", 1.0, ["HH", "HV", "VH", "VV"], 2),
-    # 欧洲 PROBA-V
-    ("PROBAV", "PROBA-V {n}", "ESA", "optical", "Vegetation", 100.0,
-     ["BLUE", "RED", "NIR", "SWIR"], 1),
-    # NOAA JPSS
-    ("JPSS", "JPSS-{n}", "NOAA", "optical", "VIIRS", 375.0,
-     ["I1","I2","I3","I4","I5","M1","M2","M3","M4","M5","M6","M7","M8","M9","M10","M11"], 4),
-    # 气象卫星
-    ("GOES", "GOES-{n}", "NOAA", "atmospheric", "ABI", 500.0,
-     [f"C{i:02d}" for i in range(1, 17)], 4),
-    ("HIMAWARI", "Himawari-{n}", "JMA", "atmospheric", "AHI", 500.0,
-     [f"B{i:02d}" for i in range(1, 17)], 2),
-    ("METOP", "MetOp-{'ABC'[n-1]}", "EUMETSAT", "atmospheric", "AVHRR/IASI", 1000.0,
-     ["AVHRR-1","AVHRR-2","AVHRR-3","IASI-1","IASI-2"], 3),
-    ("FENGYUN", "Fengyun-{n}", "CMA", "atmospheric", "AGRI", 250.0,
-     [f"B{i:02d}" for i in range(1, 15)], 8),
-    ("GAOFEN", "Gaofen-{n} PM", "CNSA", "optical", "PMC", 2.0, ["PAN", "MSS"], 10),
-    ("ZY", "Ziyuan-{n}", "MNR China", "optical", "TLC", 2.1, ["NAD", "FWD", "BWD"], 5),
-    ("HAIYANG", "Haiyang-{n}", "SOA China", "ocean", "COCTS", 1100.0,
-     [f"B{i:02d}" for i in range(1, 11)], 4),
-    ("TANSAT", "TanSat-{n}", "CAS", "atmospheric", "ACGS", 2000.0, ["O2-A", "CO2-1", "CO2-2"], 2),
-    ("SDGSAT", "SDGSAT-{n}", "CAS", "optical", "GIS", 10.0, ["B1", "B2", "B3", "B4", "B5", "B6", "B7"], 2),
-]
-
-
-def expand_satellite_constellations() -> list[tuple[str, str, str, str, str, float, list[str]]]:
-    """按星座定义展开为逐星条目。
-
-    Returns: 与 reference_data.SATELLITES 同构的元组列表。
-    """
-    out: list[tuple[str, str, str, str, str, float, list[str]]] = []
-    for prefix, name_tpl, agency, sat_type, sensor, res, bands, count in CONSTELLATIONS:
-        for n in range(1, count + 1):
-            sat_id = f"{prefix}-{n:03d}"
-            try:
-                name = name_tpl.format(n=n)
-            except (KeyError, IndexError):
-                name = name_tpl
-            out.append((sat_id, name, agency, sat_type, sensor, res, bands))
-    return out
-
-
-# --------------------------------------------------------------------------- #
 # 2. 国别监测单元（国家 × 地理空间 SDG 指标）
 # --------------------------------------------------------------------------- #
 #: GeoNexus 优先监测的地理空间指标（与 reference_data.GEOSPATIAL_INDICATORS 对应）
@@ -211,11 +125,8 @@ EXTENDED_CONCEPTS: dict[str, list[str]] = {
 # --------------------------------------------------------------------------- #
 def expansion_stats() -> dict[str, int]:
     """返回扩充数据的条目数统计（一级行政区已改由 GeoNames 提供，不计入本模块）。"""
-    sats = expand_satellite_constellations()
     concepts = sum(len(v) for v in EXTENDED_CONCEPTS.values())
     return {
-        "constellation_satellites": len(sats),
-        "constellation_bands": sum(len(s[6]) for s in sats),
         "extended_concepts": concepts,
         "monitored_indicators": len(MONITORED_INDICATORS),
         "required_input_types": len(REQUIRED_INPUTS),

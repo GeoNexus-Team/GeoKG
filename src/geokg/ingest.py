@@ -34,11 +34,12 @@ from .reference_data import (
     CONCEPTS,
     COUNTRIES_FULL,
     GEOSPATIAL_INDICATORS,
-    SATELLITES,
     SDG_GOALS,
     SDG_INDICATOR_COUNTS,
     SDG_TARGETS,
 )
+from .satellites import ATTRIBUTION as SATELLITE_ATTRIBUTION
+from .satellites import SATELLITES
 
 logger = logging.getLogger(__name__)
 
@@ -86,6 +87,12 @@ class _ProvenanceKG:
     def __getattr__(self, name: str) -> Any:
         return getattr(self._kg, name)
 
+
+
+def _slug(text: str) -> str:
+    """把名称转成实体 id 用的 slug（模块级共用）。"""
+    return (text.lower().replace(" ", "-").replace(",", "").replace("/", "-")
+            .replace(":", "").replace("(", "").replace(")", "").replace(".", ""))
 
 
 @dataclass
@@ -277,43 +284,53 @@ def ingest_countries(kg: KnowledgeGraph, report: IngestReport) -> None:
 # 3. 卫星与载荷
 # --------------------------------------------------------------------------- #
 def ingest_satellites(kg: KnowledgeGraph, report: IngestReport) -> None:
-    """导入对地观测卫星目录 + 波段实体。"""
+    """导入 WMO OSCAR/Space 卫星目录（T2 官方机构）。
+
+    取代了原先 114 条无出处的手写记录与 2,863 条按规则合成的"星座展开"实体
+    （见 docs/provenance-audit.md）。OSCAR 是真实的官方目录，无需再用规则凑数。
+
+    实体 id 用 OSCAR slug（官方 id 派生，稳定）；同时建立所属机构关系。
+    """
     entities = 0
     relations = 0
 
-    for sat_id, name, agency, sat_type, sensor, res, bands in SATELLITES:
-        sid = f"satellite.{sat_id}"
+    for s in SATELLITES:
+        sid = s.entity_id
+        if kg.get_entity(sid) is not None:
+            continue
+        props: dict[str, Any] = {
+            "name": s.fullname or s.acronym or s.slug,
+            "acronym": s.acronym,
+            "oscar_id": s.oscar_id,
+            "status": s.status,
+            "orbit": s.orbit,
+            "attribution": SATELLITE_ATTRIBUTION,
+        }
+        for key, val in (("space_agency", s.space_agency), ("launch_date", s.launch_date),
+                         ("eol", s.eol), ("altitude_km", s.altitude_km),
+                         ("ect", s.ect), ("wigos_id", s.wigos_id)):
+            if val:
+                props[key] = val
+        if s.instrument_count:
+            props["instrument_count"] = s.instrument_count
         kg.add_entity(KGEntity(
-            id=sid, type="Satellite",
-            properties={
-                "name": name, "agency": agency, "type": sat_type,
-                "sensor": sensor, "resolution_m": res, "band_count": len(bands),
-            },
-            labels=["satellite", sat_type],
+            id=sid, type="Satellite", properties=props,
+            labels=["satellite", "oscar"],
         ))
         entities += 1
 
-        # 机构实体
-        org_id = f"org.{agency.split('/')[0].lower().replace(' ', '-')}"
-        if kg.get_entity(org_id) is None:
-            kg.add_entity(KGEntity(org_id, "Organization", {"name": agency}, ["organization"]))
-            entities += 1
-        kg.add_relation(sid, org_id, "OWNS")
-        relations += 1
-
-        # 波段实体
-        for band in bands:
-            bid = f"band.{sat_id}.{band}"
-            kg.add_entity(KGEntity(
-                id=bid, type="Band",
-                properties={"satellite": sat_id, "name": band, "sensor": sensor},
-                labels=["band", "sensor"],
-            ))
-            kg.add_relation(bid, sid, "BELONGS_TO")
-            entities += 1
+        if s.space_agency:
+            org_id = "org." + _slug(s.space_agency.split(",")[0])
+            if kg.get_entity(org_id) is None:
+                kg.add_entity(KGEntity(org_id, "Organization",
+                                       {"name": s.space_agency}, ["organization"]))
+                entities += 1
+            kg.add_relation(sid, org_id, "OPERATED_BY")
             relations += 1
 
-    report.record("satellites", entities, relations)
+    report.record("oscar_satellites", entities, relations)
+
+
 
 
 # --------------------------------------------------------------------------- #
@@ -386,49 +403,6 @@ def ingest_gaag_contracts(kg: KnowledgeGraph, registry: Any, report: IngestRepor
 # --------------------------------------------------------------------------- #
 # 6. 扩充数据集（gazetteer）
 # --------------------------------------------------------------------------- #
-def ingest_satellite_constellations(kg: KnowledgeGraph, report: IngestReport) -> None:
-    """导入大型卫星星座（Planet/Jilin-1/ICEYE 等），扩充至 ≥400 颗。"""
-    from .gazetteer import expand_satellite_constellations
-
-    entities = 0
-    relations = 0
-
-    for sat_id, name, agency, sat_type, sensor, res, bands in expand_satellite_constellations():
-        sid = f"satellite.{sat_id}"
-        if kg.get_entity(sid) is not None:
-            continue
-        kg.add_entity(KGEntity(
-            id=sid, type="Satellite",
-            properties={
-                "name": name, "agency": agency, "type": sat_type,
-                "sensor": sensor, "resolution_m": res, "band_count": len(bands),
-                "constellation": sat_id.rsplit("-", 1)[0],
-            },
-            labels=["satellite", sat_type, "constellation"],
-        ))
-        entities += 1
-
-        org_id = f"org.{agency.split('/')[0].lower().replace(' ', '-')}"
-        if kg.get_entity(org_id) is None:
-            kg.add_entity(KGEntity(org_id, "Organization", {"name": agency}, ["organization"]))
-            entities += 1
-        kg.add_relation(sid, org_id, "OWNS")
-        relations += 1
-
-        for band in bands:
-            bid = f"band.{sat_id}.{band}"
-            if kg.get_entity(bid) is not None:
-                continue
-            kg.add_entity(KGEntity(
-                id=bid, type="Band",
-                properties={"satellite": sat_id, "name": band, "sensor": sensor},
-                labels=["band", "sensor"],
-            ))
-            kg.add_relation(bid, sid, "BELONGS_TO")
-            entities += 1
-            relations += 1
-
-    report.record("satellite_constellations", entities, relations)
 
 
 def ingest_admin1(kg: KnowledgeGraph, report: IngestReport) -> None:
@@ -778,13 +752,11 @@ def run_full_ingestion(
         ingest_countries(_ProvenanceKG(kg, ORIGIN_CURATED, "un-m49"), report)
         # ⚠️ 以下两项来源待核实（审计债务），显式标注而非默认放行
         ingest_satellites(
-            _ProvenanceKG(kg, ORIGIN_CURATED, "unverified-satellites"), report)
+            _ProvenanceKG(kg, ORIGIN_CURATED, "wmo-oscar-satellites"), report)
         ingest_concepts(
             _ProvenanceKG(kg, ORIGIN_CURATED, "unverified-concepts"), report)
 
     if include_expansion:
-        ingest_satellite_constellations(
-            _ProvenanceKG(kg, ORIGIN_EXPANDED, "unverified-satellite-constellations"), report)
         ingest_admin1(
             _ProvenanceKG(kg, ORIGIN_EXPANDED, "geonames-admin1"), report)
         ingest_extended_concepts(

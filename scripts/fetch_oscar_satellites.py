@@ -1,0 +1,162 @@
+#!/usr/bin/env python
+"""从 WMO OSCAR/Space 生成卫星目录。
+
+## 为什么用它
+
+原卫星目录（114 条手写 + 2,863 条星座展开）**没有任何出处**
+（见 docs/provenance-audit.md）。OSCAR/Space 是 WMO（世界气象组织，
+联合国专门机构）官方维护的对地观测卫星与仪器数据库，属 **T2 官方机构**。
+
+它同时解决了两个问题：来源可追溯，且不必再用"按规则展开星座"凑数量——
+真实在轨与规划中的卫星本来就有上千颗。
+
+## 来源与许可
+
+    API:   https://space.oscar.wmo.int/api/v1/satellites   （HAL 分页，30/页）
+    文档:  https://space.oscar.wmo.int/apidoc/              （Swagger UI）
+    免责:  https://space.oscar.wmo.int/pages/disclaimer
+
+许可原文（引自免责声明页）::
+
+    "All information available on these pages may be used and redistributed
+     freely, however, any publication using this information should
+     acknowledge WMO."
+
+即**可自由使用与再分发，需致谢 WMO**；同时 WMO 不对数据准确性作任何担保。
+
+署名: ``WMO OSCAR/Space, https://space.oscar.wmo.int/``
+
+用法::
+
+    python scripts/fetch_oscar_satellites.py            # 全量抓取
+    python scripts/fetch_oscar_satellites.py --pages 3  # 只抓前 N 页（验证用）
+    python scripts/fetch_oscar_satellites.py --check    # 只校验，不写入
+"""
+
+from __future__ import annotations
+
+import argparse
+import json
+import ssl
+import time
+import urllib.request
+from pathlib import Path
+
+API = "https://space.oscar.wmo.int/api/v1/satellites"
+UA = {"User-Agent": "GeoNexus-GeoKG/0.1 (+https://github.com/muyang/GeoKG)"}
+
+OUT = Path(__file__).resolve().parent.parent / "src" / "geokg" / "data" / "oscar_satellites.tsv"
+
+COLUMNS = ["oscar_id", "slug", "acronym", "fullname", "space_agency", "status",
+           "orbit", "launch_date", "eol", "altitude_km", "ect",
+           "wigos_id", "instrument_count"]
+
+#: 署名要求（OSCAR 免责声明）
+ATTRIBUTION = "WMO OSCAR/Space, https://space.oscar.wmo.int/"
+
+
+def _ctx() -> ssl.SSLContext:
+    ctx = ssl.create_default_context()
+    ctx.check_hostname = False
+    ctx.verify_mode = ssl.CERT_NONE
+    return ctx
+
+
+def fetch_page(page: int, *, retries: int = 3) -> dict:
+    url = f"{API}?page={page}"
+    last: Exception | None = None
+    for attempt in range(retries):
+        try:
+            with urllib.request.urlopen(
+                urllib.request.Request(url, headers=UA), timeout=60, context=_ctx()
+            ) as r:
+                return json.loads(r.read().decode("utf-8", "replace"))
+        except Exception as exc:  # 网络不稳，重试
+            last = exc
+            time.sleep(1.5 * (attempt + 1))
+    raise RuntimeError(f"抓取第 {page} 页失败: {last}")
+
+
+def _clean(v: object) -> str:
+    """制表符/换行会破坏 TSV，统一清洗为空串或去噪字符串。"""
+    if v is None:
+        return ""
+    return str(v).replace("\t", " ").replace("\n", " ").replace("\r", " ").strip()
+
+
+def collect(max_pages: int | None = None) -> tuple[list[list[str]], int]:
+    first = fetch_page(1)
+    last_page = int(first["_links"]["last"]["href"].rsplit("page=", 1)[1])
+    if max_pages:
+        last_page = min(last_page, max_pages)
+    print(f"  共 {last_page} 页（每页 30 条）")
+
+    rows: list[list[str]] = []
+    seen: set[str] = set()
+    for p in range(1, last_page + 1):
+        payload = first if p == 1 else fetch_page(p)
+        for s in payload.get("_embedded", {}).get("satellites", []):
+            oid = _clean(s.get("id"))
+            if not oid or oid in seen:
+                continue
+            seen.add(oid)
+            instruments = s.get("satellite-instruments") or []
+            rows.append([
+                oid,
+                _clean(s.get("slug")),
+                _clean(s.get("acronym")),
+                _clean(s.get("fullname")),
+                _clean(s.get("space_agency")),
+                _clean(s.get("status")),
+                _clean(s.get("orbit")),
+                _clean(s.get("launch_date")),
+                _clean(s.get("EoL")),
+                _clean(s.get("Altitude")),
+                _clean(s.get("ECT")),
+                _clean(s.get("WIGOS_Station_Identifier")),
+                str(len(instruments) if isinstance(instruments, list) else 0),
+            ])
+        if p % 5 == 0 or p == last_page:
+            print(f"    第 {p}/{last_page} 页，累计 {len(rows)} 条")
+    return rows, last_page
+
+
+def render(rows: list[list[str]], *, pages: int) -> str:
+    header = (
+        "# WMO OSCAR/Space 对地观测卫星目录\n"
+        f"# 来源: {API}（{pages} 页）\n"
+        "# 文档: https://space.oscar.wmo.int/apidoc/\n"
+        "# 许可: 可自由使用与再分发，须致谢 WMO；WMO 不对准确性作担保\n"
+        "# 署名: " + ATTRIBUTION + "\n"
+        "# 生成: python scripts/fetch_oscar_satellites.py   —— 请勿手工编辑\n"
+        "#\n"
+        "# 每行 13 列，制表符分隔: " + "\t".join(COLUMNS) + "\n"
+    )
+    return header + "\n".join("\t".join(r) for r in rows) + "\n"
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--pages", type=int, default=None, help="只抓前 N 页（验证用）")
+    ap.add_argument("--check", action="store_true")
+    args = ap.parse_args()
+
+    rows, pages = collect(args.pages)
+    print(f"  合计 {len(rows)} 颗卫星")
+    text = render(rows, pages=pages)
+
+    if args.check:
+        if OUT.exists() and OUT.read_text(encoding="utf-8") == text:
+            print("  ✅ 与磁盘上的数据文件一致")
+            return 0
+        print("  ⚠️ 与磁盘上的数据文件不一致（OSCAR 可能已更新）")
+        return 1
+
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(text, encoding="utf-8")
+    print(f"  ✅ 已写入 {OUT.name} ({OUT.stat().st_size:,} bytes)")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

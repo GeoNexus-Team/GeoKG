@@ -1,0 +1,1052 @@
+# WMO OSCAR/Space 对地观测卫星目录
+# 来源: https://space.oscar.wmo.int/api/v1/satellites（35 页）
+# 文档: https://space.oscar.wmo.int/apidoc/
+# 许可: 可自由使用与再分发，须致谢 WMO；WMO 不对准确性作担保
+# 署名: WMO OSCAR/Space, https://space.oscar.wmo.int/
+# 生成: python scripts/fetch_oscar_satellites.py   —— 请勿手工编辑
+#
+# 每行 13 列，制表符分隔: oscar_id	slug	acronym	fullname	space_agency	status	orbit	launch_date	eol	altitude_km	ect	wigos_id	instrument_count
+1	acrimsat	ACRIMSat	Active Cavity Radiometer Irradiance Monitor Satellite	NASA	Inactive	Sunsynchronous orbit	20 Dec 1999	14 Dec 2013	696	10:50 desc		1
+2	adeos	ADEOS	Advanced Earth Observing Satellite (original name: “Midori”)	JAXA	Inactive	Sunsynchronous orbit	17 Aug 1996	30 Jun 1997	797	10:30 desc	0-20009-0-120	8
+3	adeos_2	ADEOS-2	Advanced Earth Observing Satellite - 2 (original name: “Midori-2”)	JAXA	Inactive	Sunsynchronous orbit	14 Dec 2002	25 Oct 2003	812	10:30:00 desc	0-20009-0-121	6
+4	aeolus	Aeolus	Aeolus	ESA	Inactive	Sunsynchronous orbit	22 Aug 2018	05 Jul 2023	320	06:00 desc	0-20009-0-048	1
+5	alos	ALOS	Advanced Land Observing Satellite	JAXA	Inactive	Sunsynchronous orbit	24 Jan 2006	22 Apr 2011	692	10:30 desc		3
+6	alos_2	ALOS-2	Advanced Land Observing Satellite  - 2	JAXA	Operational	Sunsynchronous orbit	24 May 2014	≥2026	640	12:00 desc		3
+7	alos_3	ALOS-3	Advanced Land Observing Satellite - 3	JAXA	Lost at launch	Sunsynchronous orbit	06 Mar 2023	06 Mar 2023	669	10:30 desc		1
+8	alsat_1	AlSat-1	Algeria Satellite - 1	ASAL	Inactive	Sunsynchronous orbit	28 Nov 2002	15 Aug 2010	700	10:30 asc		1
+9	alsat_2	AlSat-2	Algeria Satellite - 2	ASAL	Presumably inactive	Sunsynchronous orbit	12 Jul 2010	≥2019	686	10:30 asc		1
+10	alsat_2b	AlSat-2B	Algeria Satellite - 2B	ASAL	Operational	Sunsynchronous orbit	26 Sep 2016	≥2030	680	09:30 asc		1
+11	amazonia_1	Amazônia-1	Amazônia-1	INPE,AEB	Operational	Sunsynchronous orbit	28 Feb 2021	≥2026	752	10:30 desc		1
+12	ascends	ASCENDS	Active Sensing of CO2 Emissions over Nights, Days, and Seasons	NASA	Mission concept	Sunsynchronous orbit	TBD	TBD	450	10:30 asc		2
+13	ats_1	ATS-1	Application Technology Satellite - 1	NASA	Inactive	Geostationary orbit	06 Dec 1966	01 Dec 1978	35786			1
+14	ats_3	ATS-3	Application Technology Satellite - 3	NASA	Inactive	Geostationary orbit	06 Nov 1967	01 Dec 1978	35786			1
+15	ats_6	ATS-6	Application Technology Satellite - 6	NASA	Inactive	Geostationary orbit	30 Apr 1974	03 Aug 1979	35786			1
+16	bilsat	BILSat	BILTEN Satellte	TÜBITAK-UZAY	Inactive	Sunsynchronous orbit	27 Sep 2003	15 Aug 2006	686	10:30 asc		3
+17	bird	BIRD	Bi-spectral Infra-Red Detection	DLR	Inactive	Sunsynchronous orbit	22 Oct 2001	01 Jul 2007	572	10:30 desc		3
+18	beijing_1	Beijing-1	Beijing-1	NRSCC	Presumably inactive	Sunsynchronous orbit	27 Oct 2005	≥2010	699	08:15 asc		2
+19	calipso	CALIPSO	Cloud-Aerosol Lidar and Infrared Pathfinder Satellite Observations	NASA,CNES	Inactive	Sunsynchronous orbit	28 Apr 2006	01 Aug 2023	689	13:45 asc	0-20009-0-787	3
+20	cartosat_1_irs_p5	CartoSat-1 (IRS-P5)	CartoSat-1	ISRO	Inactive	Sunsynchronous orbit	05 May 2005	05 May 2019	618	10:15 desc		1
+21	cartosat_2	CartoSat-2	CartoSat-2	ISRO	Inactive	Sunsynchronous orbit	10 Jan 2007	13 Aug 2019	635	09:30 desc		1
+22	cartosat_2a	CartoSat-2A	CartoSat-2A	ISRO	Operational	Sunsynchronous orbit	28 Apr 2008	≥2026	635	09:32 desc		1
+23	cartosat_2b	CartoSat-2B	CartoSat-2B	ISRO	Operational	Sunsynchronous orbit	12 Jul 2010	≥2026	640	09:30 desc		1
+24	cartosat_3	CartoSat-3	CartoSat-3	ISRO	Operational	Sunsynchronous orbit	27 Nov 2019	≥2026	450	09:30 desc		2
+25	cbers_1	CBERS-1	China-Brazil Earth Resources Satellite - 1 (ZY-1 FM1)	CAST,AEB,CRESDA,INPE	Inactive	Sunsynchronous orbit	14 Oct 1999	12 Oct 2003	778	10:30:00 desc		4
+26	cbers_2	CBERS-2	China-Brazil Earth Resources Satellite - 2 (ZY-1 FM2)	CAST,AEB,CRESDA,INPE	Inactive	Sunsynchronous orbit	21 Oct 2003	15 Nov 2007	778	10:30:00 desc		4
+27	cbers_2b	CBERS-2B	China-Brazil Earth Resources Satellite - 2B (ZY-1 FM2B)	CAST,AEB,CRESDA,INPE	Inactive	Sunsynchronous orbit	19 Sep 2007	16 May 2010	778	10:30:00 desc		4
+28	cbers_3	CBERS-3	China-Brazil Earth Resources Satellite - 3 (ZY-1 FM3)	CAST,AEB,CRESDA,INPE	Lost at launch	Sunsynchronous orbit	09 Dec 2013	09 Dec 2013	778	10:30 desc		5
+29	cbers_4	CBERS-4	China-Brazil Earth Resources Satellite - 4 (ZY-1 FM4)	CAST,AEB,CRESDA,INPE	Operational	Sunsynchronous orbit	07 Dec 2014	≥2026	778	10:30 asc		5
+30	champ	CHAMP	Challenging Mini-Satellite Payload	DLR	Inactive	Drifting orbit	15 Jul 2000	19 Sep 2010	470		0-20009-0-041	6
+31	clarreo_1a	CLARREO-1A	Climate Absolute Radiance and Refractivity Observatory - 1A	NASA	Mission concept	Drifting orbit	TBD	TBD	609			3
+32	cloudsat	CloudSat	CloudSat	NASA	Inactive	Sunsynchronous orbit	28 Apr 2006	01 Aug 2023	689	13:30 asc	0-20009-0-788	1
+33	coms	COMS	Communication, Oceanography and Meteorology Satellite	KMA,KARI,ME (NIER),MLTM	Inactive	Geostationary orbit	26 Jun 2010	01 Apr 2021	35786		0-20009-0-810	2
+34	geo_kompsat_2a	GEO-KOMPSAT-2A	Geostationary Korea Multi-Purpose Satellite - 2A	KMA,KARI,ME (NIER),MLTM	Operational	Geostationary orbit	04 Dec 2018	≥2029	35786		0-20009-0-811	4
+35	geo_kompsat_2b	GEO-KOMPSAT-2B	Geostationary Korea Multi-Purpose Satellite - 2B	KMA,KARI,ME (NIER),MLTM	Operational	Geostationary orbit	18 Feb 2020	≥2030	35786		0-20009-0-814	2
+36	coriolis	Coriolis	Coriolis	DoD,NASA	Inactive	Sunsynchronous orbit	06 Jan 2003	Dec 2020	838	06:10 desc	0-20009-0-283	2
+37	cosmic_1	COSMIC-1	Constellation Observing System for Meteorology, Ionosphere & Climate - 1	NSPO,NOAA,UCAR	Inactive	Drifting orbit	14 Apr 2006	06 May 2020	800		0-20009-0-740	3
+38	cryosat	CryoSat	CryoSat	ESA	Inactive	Sunsynchronous orbit	08 Oct 2005	08 Oct 2005	717		-20009--	4
+39	cryosat_2	CryoSat-2	CryoSat-2	ESA	Operational	Drifting orbit	08 Apr 2010	≥2028	717		0-20009-0-047	4
+40	csg_1	CSG-1	COSMO-SkyMed Second Generation - 1	ASI	Operational	Sunsynchronous orbit	18 Dec 2019	≥2026	619	05:46 asc		1
+41	csg_2	CSG-2	COSMO-SkyMed Second Generation - 2	ASI	Operational	Sunsynchronous orbit	31 Jan 2022	≥2029	619	05:46 asc		1
+42	csk_1	CSK-1	COSMO-SkyMed - 1	ASI	Operational	Sunsynchronous orbit	08 Jun 2007	≥2026	629.5	05:46 asc		1
+43	csk_2	CSK-2	COSMO-SkyMed - 2	ASI	Operational	Sunsynchronous orbit	09 Dec 2007	≥2026	629.5	05:46 asc		1
+44	csk_3	CSK-3	COSMO-SkyMed - 3	ASI	Operational	Sunsynchronous orbit	25 Oct 2008	≥2026	629.5	05:46 asc		1
+45	csk_4	CSK-4	COSMO-SkyMed - 4	ASI	Operational	Sunsynchronous orbit	06 Nov 2010	≥2026	629.5	05:46 asc		1
+46	deimos_1	Deimos-1	Deimos-1	Elecnor-Deimos	Presumably inactive	Sunsynchronous orbit	29 Jul 2009	≥2019	660	10:30 asc		1
+47	desdyni	DESDynI	Deformation, Ecosystem Structure, and Dynamics of Ice	NASA	Mission concept	Sunsynchronous orbit	TBD	TBD	400	06:00 desc		2
+48	dmsp_f01	DMSP-F01	Defense Meteorological Satellite Program - F01	DoD,NOAA	Inactive	Sunsynchronous orbit	11 Sep 1976	17 Sep 1979	820	06:20:00 desc	0-20009-0-746	4
+49	dmsp_f02	DMSP-F02	Defense Meteorological Satellite Program - F02	DoD,NOAA	Inactive	Sunsynchronous orbit	04 Jun 1977	19 Mar 1978	832	10:00:00 desc	0-20009-0-747	5
+50	dmsp_f03	DMSP-F03	Defense Meteorological Satellite Program - F03	DoD,NOAA	Inactive	Sunsynchronous orbit	30 Apr 1978	01 Dec 1979	810	06:20:00 desc	0-20009-0-748	4
+51	dmsp_f04	DMSP-F04	Defense Meteorological Satellite Program - F04	DoD,NOAA	Inactive	Sunsynchronous orbit	06 Jun 1979	09 Aug 1980	840	10:00:00 desc	0-20009-0-749	5
+52	dmsp_f05	DMSP-F05	Defense Meteorological Satellite Program - F05	DoD,NOAA	Inactive	Sunsynchronous orbit	14 Jul 1980	14 Jul 1980	820	06:20 desc		4
+53	dmsp_f06	DMSP-F06	Defense Meteorological Satellite Program - F06	DoD,NOAA	Inactive	Sunsynchronous orbit	21 Dec 1982	10 Nov 1997	824	06:20:00 desc		4
+54	dmsp_f07	DMSP-F07	Defense Meteorological Satellite Program - F07	DoD,NOAA	Inactive	Sunsynchronous orbit	18 Nov 1983	16 May 1988	835	10:10:00 desc	0-20009-0-240	6
+55	dmsp_f08	DMSP-F08	Defense Meteorological Satellite Program - F08	DoD,NOAA	Inactive	Sunsynchronous orbit	18 Jun 1987	01 Oct 2006	856	06:10:00 desc	0-20009-0-241	6
+56	dmsp_f09	DMSP-F09	Defense Meteorological Satellite Program - F09	DoD,NOAA	Inactive	Sunsynchronous orbit	03 Feb 1988	01 Aug 1994	832	09:30:00 desc	0-20009-0-242	4
+57	dmsp_f10	DMSP-F10	Defense Meteorological Satellite Program - F10	DoD,NOAA	Inactive	Sunsynchronous orbit	01 Dec 1990	24 Oct 1997	790	07:30:00 desc	0-20009-0-243	6
+58	dmsp_f11	DMSP-F11	Defense Meteorological Satellite Program - F11	DoD,NOAA	Inactive	Sunsynchronous orbit	28 Nov 1991	07 Aug 2000	853	05:00:00 desc	0-20009-0-244	7
+59	dmsp_f12	DMSP-F12	Defense Meteorological Satellite Program - F12	DoD,NOAA	Inactive	Sunsynchronous orbit	29 Aug 1994	13 Oct 2008	850	03:35 desc	0-20009-0-245	8
+60	dmsp_f13	DMSP-F13	Defense Meteorological Satellite Program - F13	DoD,NOAA	Inactive	Sunsynchronous orbit	24 Mar 1995	03 Feb 2015	850	05:51 desc	0-20009-0-246	7
+61	dmsp_f14	DMSP-F14	Defense Meteorological Satellite Program - F14	DoD,NOAA	Inactive	Sunsynchronous orbit	04 Apr 1997	11 Feb 2020	852	05:00 desc	0-20009-0-247	7
+62	dmsp_f15	DMSP-F15	Defense Meteorological Satellite Program - F15	DoD,NOAA	Inactive	Sunsynchronous orbit	12 Dec 1999	Dec 2020	850	14:50 asc	0-20009-0-248	8
+63	dmsp_f16	DMSP-F16	Defense Meteorological Satellite Program - F16	DoD,NOAA	Inactive	Sunsynchronous orbit	18 Oct 2003	≥2023	848	06:20 desc	0-20009-0-249	10
+64	dmsp_f17	DMSP-F17	Defense Meteorological Satellite Program - F17	DoD,NOAA	Operational	Sunsynchronous orbit	04 Nov 2006	Sep 2026	848	06:35 desc	0-20009-0-285	10
+65	dmsp_f18	DMSP-F18	Defense Meteorological Satellite Program - F18	DoD,NOAA	Operational	Sunsynchronous orbit	18 Oct 2009	Sep 2026	850	04:30 desc	0-20009-0-286	10
+66	dmsp_f19	DMSP-F19	Defense Meteorological Satellite Program - S19	DoD,NOAA	Inactive	Sunsynchronous orbit	03 Apr 2014	11 Feb 2016	850	06:36 desc	0-20009-0-287	10
+68	dubaisat_1	DubaiSat-1	DubaiSat-1	EIAST	Inactive	Sunsynchronous orbit	29 Jul 2009	09 May 2016	686	10:30 desc		1
+71	earthcare	EarthCARE	Earth Clouds, Aerosol and Radiation Explorer	ESA,JAXA	Operational	Sunsynchronous orbit	28 May 2024	≥2034	394	14:00 desc	0-20009-0-049	4
+72	electro_goms	Electro-GOMS	Electro - Geostationary Operational Meteorological Satellite	RosHydroMet,Roscosmos	Inactive	Geostationary orbit	31 Oct 1994	15 Nov 2000	35786			5
+73	electro_l_n1	Electro-L N1	Electro-L Number 1	RosHydroMet,Roscosmos	Inactive	Geostationary orbit	20 Jan 2011	≥2016	35786			10
+74	electro_l_n2	Electro-L N2	Electro-L Number 2	RosHydroMet,Roscosmos	Operational	Geostationary orbit	11 Dec 2015	≥2026	35786		-20009--	10
+75	electro_m_n1_1	Electro-M N1-1	Electro-M Number 1	RosHydroMet,Roscosmos	Planned	Geostationary orbit	≥2033	≥2046	35786		-20009--	15
+76	electro_m_n1_2	Electro-M N1-2	Electro-M Number 2	RosHydroMet,Roscosmos	Planned	Geostationary orbit	≥2034	≥2046	35786		-20009--	15
+77	enmap	EnMAP	Environmental Mapping and Analysis Programme	DLR	Operational	Sunsynchronous orbit	01 Apr 2022	≥2026	653	11:00 desc		1
+78	envisat	Envisat	Environmental Satellite	ESA	Inactive	Sunsynchronous orbit	01 Mar 2002	08 Apr 2012	774	10:00 desc	0-20009-0-060	11
+79	aqua	Aqua	Earth Observation System - Aqua	NASA	Operational	Sunsynchronous orbit	04 May 2002	≥2026	705	14:18 asc	0-20009-0-784	6
+80	aura	Aura	Earth Observation System - Aura	NASA	Operational	Sunsynchronous orbit	15 Jul 2004	≥2026	705	13:56 asc	0-20009-0-785	5
+81	terra	Terra	Earth Observation System - Terra	NASA	Operational	Sunsynchronous orbit	18 Dec 1999	≥2026	705	09:40 asc	0-20009-0-783	5
+83	metop_sg_a2	Metop-SG-A2	Meteorological operational satellite Second Generation A2	EUMETSAT,ESA	Planned	Sunsynchronous orbit	≥2033	≥2042	835	09:30 desc	0-20009-0-026	10
+84	metop_sg_a3	Metop-SG-A3	Meteorological operational satellite Second Generation A3	EUMETSAT,ESA	Planned	Sunsynchronous orbit	≥2039	≥2047	835	09:30 desc	0-20009-0-028	10
+85	metop_sg_b1	Metop-SG-B1	Meteorological operational satellite Second Generation B1	EUMETSAT,ESA	Planned	Sunsynchronous orbit	Oct 2026	≥2035	835	09:30 desc	0-20009-0-025	7
+86	metop_sg_b2	Metop-SG-B2	Meteorological operational satellite Second Generation B2	EUMETSAT,ESA	Planned	Sunsynchronous orbit	≥2033	≥2041	835	09:30 desc	0-20009-0-027	7
+87	metop_sg_b3	Metop-SG-B3	Meteorological operational satellite Second Generation B3	EUMETSAT,ESA	Planned	Sunsynchronous orbit	≥2040	≥2048	835	09:30 desc	0-20009-0-029	7
+88	erbs	ERBS	Earth Radiation Budget Satellite	NASA	Inactive	Drifting orbit	05 Oct 1984	14 Oct 2005	610		0-20009-0-780	2
+89	ers_1	ERS-1	European Remote-sensing Satellite - 1	ESA	Inactive	Sunsynchronous orbit	17 Jul 1991	10 Mar 2000	785	10:30 desc	0-20009-0-001	8
+90	ers_2	ERS-2	European Remote-sensing Satellite - 2	ESA	Inactive	Sunsynchronous orbit	21 Apr 1995	06 Jul 2011	785	10:30 desc	0-20009-0-002	9
+91	essa_1	ESSA-1	Environmental Science and Services Administration - 1	NOAA,NASA	Inactive	Sunsynchronous orbit	03 Feb 1966	08 Mar 1967	770	09:30:00 desc		2
+92	essa_2	ESSA-2	Environmental Science and Services Administration - 2	NOAA,NASA	Inactive	Sunsynchronous orbit	28 Feb 1966	16 Oct 1970	1390	09:30 desc		1
+93	essa_3	ESSA-3	Environmental Science and Services Administration - 3	NOAA,NASA	Inactive	Sunsynchronous orbit	02 Oct 1966	02 Dec 1968	1440	09:30:00 desc		2
+94	essa_4	ESSA-4	Environmental Science and Services Administration - 4	NOAA,NASA	Inactive	Sunsynchronous orbit	26 Jan 1967	05 May 1968	1380	09:30:00 desc		1
+95	essa_5	ESSA-5	Environmental Science and Services Administration - 5	NOAA,NASA	Inactive	Sunsynchronous orbit	20 Apr 1967	20 Feb 1970	1390	09:30:00 desc		2
+96	essa_6	ESSA-6	Environmental Science and Services Administration - 6	NOAA,NASA	Inactive	Sunsynchronous orbit	10 Nov 1967	03 Dec 1969	1450	09:30:00 desc		1
+97	essa_7	ESSA-7	Environmental Science and Services Administration - 7	NOAA,NASA	Inactive	Sunsynchronous orbit	16 Aug 1968	10 Mar 1970	1450	09:30:00 desc		2
+98	essa_8	ESSA-8	Environmental Science and Services Administration - 8	NOAA,NASA	Inactive	Sunsynchronous orbit	15 Dec 1968	12 Mar 1976	1440	09:30:00 desc		1
+99	essa_9	ESSA-9	Environmental Science and Services Administration - 9	NOAA,NASA	Inactive	Sunsynchronous orbit	26 Feb 1969	12 Nov 1972	1470	09:30:00 desc		2
+100	formosat_2	FORMOSAT-2	FORMOSAT-2	NSPO,UCAR	Inactive	Sunsynchronous orbit	21 May 2004	19 Aug 2016	891	09:30 desc		2
+101	fy_1a	FY-1A	Feng-Yun - 1A	CMA,NRSCC	Inactive	Sunsynchronous orbit	07 Sep 1988	16 Oct 1988	900	15:30 asc		3
+102	fy_1b	FY-1B	Feng-Yun - 1B	CMA,NRSCC	Inactive	Sunsynchronous orbit	03 Sep 1990	05 Aug 1991	900	07:50 desc		3
+103	fy_1c	FY-1C	Feng-Yun - 1C	CMA,NRSCC	Inactive	Sunsynchronous orbit	10 May 1999	26 Apr 2004	862	07:00 desc	0-20009-0-500	3
+104	fy_1d	FY-1D	Feng-Yun - 1D	CMA,NRSCC	Inactive	Sunsynchronous orbit	15 May 2002	01 Apr 2012	866	09:00 desc	0-20009-0-501	3
+105	fy_2a	FY-2A	Feng-Yun - 2A	CMA,NRSCC	Inactive	Geostationary orbit	10 Jun 1997	08 Apr 1998	35786			3
+106	fy_2b	FY-2B	Feng-Yun - 2B	CMA,NRSCC	Inactive	Geostationary orbit	25 Jun 2000	Sep 2004	35786		0-20009-0-512	3
+107	fy_2c	FY-2C	Feng-Yun - 2C	CMA,NRSCC	Inactive	Geostationary orbit	19 Oct 2004	23 Nov 2009	35786		0-20009-0-513	3
+108	fy_2d	FY-2D	Feng-Yun - 2D	CMA,NRSCC	Inactive	Geostationary orbit	08 Dec 2006	Jul 2015	35786		0-20009-0-514	3
+109	fy_2e	FY-2E	Feng-Yun - 2E	CMA,NRSCC	Inactive	Geostationary orbit	23 Dec 2008	31 Dec 2018	35786		0-20009-0-515	3
+110	fy_2f	FY-2F	Feng-Yun - 2F	CMA,NRSCC	Inactive	Geostationary orbit	13 Jan 2012	01 Apr 2022	35786		0-20009-0-516	6
+111	fy_2g	FY-2G	Feng-Yun - 2G	CMA,NRSCC	Operational	Geostationary orbit	31 Dec 2014	≥2026	35786		0-20009-0-517	6
+112	fy_2h	FY-2H	Feng-Yun - 2H	CMA,NRSCC	Operational	Geostationary orbit	05 Jun 2018	≥2026	35786		0-20009-0-518	6
+113	fy_3a	FY-3A	Feng-Yun - 3A	CMA,NRSCC	Inactive	Sunsynchronous orbit	27 May 2008	05 Jan 2015	834	09:05 desc	0-20009-0-520	12
+114	fy_3b	FY-3B	Feng-Yun - 3B	CMA,NRSCC	Inactive	Sunsynchronous orbit	04 Nov 2010	09 Dec 2021	836	14:45 asc	0-20009-0-521	12
+115	fy_3c	FY-3C	Feng-Yun 3C	CMA,NRSCC	Inactive	Sunsynchronous orbit	23 Sep 2013	28 Nov 2024	836	08:20 desc	0-20009-0-522	14
+116	fy_3d	FY-3D	Feng-Yun 3D	CMA,NRSCC	Operational	Sunsynchronous orbit	14 Nov 2017	≥2026	836	14:00 asc	0-20009-0-523	13
+117	fy_3e	FY-3E	Feng-Yun 3E	CMA,NRSCC	Operational	Sunsynchronous orbit	04 Jul 2021	≥2029	836	05:40 desc	0-20009-0-524	14
+118	fy_3h	FY-3H	Feng-Yun 3H	CMA,NRSCC	Commissioning	Sunsynchronous orbit	27 Sep 2025	≥2033	836	14:00 asc	-20009--	12
+119	fy_3f	FY-3F	Feng-Yun 3F	CMA,NRSCC	Operational	Sunsynchronous orbit	03 Aug 2023	≥2031	836	10:00 desc	0-20009-0-525	12
+120	fy_4a	FY-4A	Feng-Yun - 4A	CMA,NRSCC	Operational	Geostationary orbit	10 Dec 2016	≥2026	35786		0-20009-0-530	5
+121	fy_4b	FY-4B	Feng-Yun - 4B	CMA,NRSCC	Operational	Geostationary orbit	02 Jun 2021	≥2029	35786		0-20009-0-531	5
+122	fy_4c	FY-4C	Feng-Yun - 4C	CMA,NRSCC	Commissioning	Geostationary orbit	26 Dec 2025	≥2033	35786		-20009--	14
+123	fy_4d	FY-4D	Feng-Yun - 4D	CMA,NRSCC	Planned	Geostationary orbit	≥2026	≥2034	35786		-20009--	7
+124	fy_4e	FY-4E	Feng-Yun - 4E	CMA,NRSCC	Planned	Geostationary orbit	≥2027	≥2035	35786		-20009--	6
+127	gcom_c	GCOM-C	Global Change Observation Mission for Climate	JAXA	Operational	Sunsynchronous orbit	23 Dec 2017	≥2026	798	10:30 desc	0-20009-0-123	1
+130	gcom_w	GCOM-W	Global Change Observation Mission for Water	JAXA	Operational	Sunsynchronous orbit	17 May 2012	≥2026	700	13:30 asc	0-20009-0-122	1
+133	geosat	GEOSat	Geodetic Satellite	DoD,NASA	Inactive	Drifting orbit	12 Mar 1985	31 Jan 1990	785			1
+134	gfo	GFO	GEOSat Follow-on	DoD,NASA	Inactive	Drifting orbit	10 Feb 1998	22 Oct 2008	784			4
+135	glory	Glory	Glory	NASA	Lost at launch	Sunsynchronous orbit	04 Mar 2011	04 Mar 2011	705	13:30 asc		3
+136	goce	GOCE	Gravity Field and Steady-State Ocean Circulation Explorer	ESA	Inactive	Sunsynchronous orbit	17 Mar 2009	21 Oct 2013	230	06:00 asc		3
+137	goes_1	GOES-1	Geostationary Operational Environmental Satellite - 1	NOAA,NASA	Inactive	Geostationary orbit	16 Oct 1975	07 Mar 1985	35786		0-20009-0-731	8
+138	goes_2	GOES-2	Geostationary Operational Environmental Satellite - 2	NOAA,NASA	Inactive	Geostationary orbit	16 Jun 1977	01 Jul 1993	35786		0-20009-0-732	8
+139	goes_3	GOES-3	Geostationary Operational Environmental Satellite - 3	NOAA,NASA	Inactive	Geostationary orbit	16 Jun 1978	01 Jul 1993	35786		0-20009-0-733	8
+140	goes_4	GOES-4	Geostationary Operational Environmental Satellite - 4	NOAA,NASA	Inactive	Geostationary orbit	09 Sep 1980	22 Nov 1988	35786		0-20009-0-734	8
+141	goes_5	GOES-5	Geostationary Operational Environmental Satellite - 5	NOAA,NASA	Inactive	Geostationary orbit	22 May 1981	18 Jul 1990	35786		0-20009-0-735	8
+142	goes_6	GOES-6	Geostationary Operational Environmental Satellite - 6	NOAA,NASA	Inactive	Geostationary orbit	28 Apr 1983	01 Jul 1989	35786		0-20009-0-250	8
+143	goes_7	GOES-7	Geostationary Operational Environmental Satellite - 7	NOAA,NASA	Inactive	Geostationary orbit	26 Feb 1987	11 Jan 1996	35786		0-20009-0-251	8
+144	goes_8	GOES-8	Geostationary Operational Environmental Satellite - 8	NOAA,NASA	Inactive	Geostationary orbit	13 Apr 1994	05 May 2004	35786		0-20009-0-252	10
+145	goes_9	GOES-9	Geostationary Operational Environmental Satellite - 9	NOAA,NASA	Inactive	Geostationary orbit	23 May 1995	22 May 2003	35786		0-20009-0-253	10
+146	goes_10	GOES-10	Geostationary Operational Environmental Satellite - 10	NOAA,NASA	Inactive	Geostationary orbit	25 Apr 1997	01 Dec 2006	35786		0-20009-0-254	10
+147	goes_11	GOES-11	Geostationary Operational Environmental Satellite - 11	NOAA,NASA	Inactive	Geostationary orbit	03 May 2000	05 Dec 2011	35786		0-20009-0-255	10
+148	goes_12	GOES-12	Geostationary Operational Environmental Satellite - 12	NOAA,NASA	Inactive	Geostationary orbit	23 Jul 2001	10 May 2010	35786		0-20009-0-256	13
+149	goes_13	GOES-13	Geostationary Operational Environmental Satellite - 13	NOAA,NASA	Inactive	Geostationary orbit	24 May 2006	Oct 2019	35786		0-20009-0-257	13
+150	goes_14	GOES-14	Geostationary Operational Environmental Satellite - 14	NOAA,NASA	Stand-by	Geostationary orbit	27 Jun 2009	≥2027	35786		0-20009-0-258	13
+151	goes_15	GOES-15	Geostationary Operational Environmental Satellite - 15	NOAA,NASA	Inactive	Geostationary orbit	04 Mar 2010	Jun 2023	35786		0-20009-0-259	13
+152	goes_16	GOES-16	Geostationary Operational Environmental Satellite - 16	NOAA,NASA	Back-up	Geostationary orbit	19 Nov 2016	≥2032	35786		0-20009-0-270	13
+154	gosat	GOSAT	Green-house gas Observing Satellite	JAXA,MOE	Operational	Sunsynchronous orbit	23 Jan 2009	≥2026	666	13:00 desc	0-20009-0-140	2
+156	gpm_core_observatory	GPM Core Observatory	Global Precipitation Measurement - Core Observatory	NASA,JAXA	Operational	Drifting orbit	27 Feb 2014	≥2030	442		0-20009-0-288	2
+158	grace_a	GRACE A	Gravity Recovery and Climate Experiment A	NASA,DLR	Inactive	Drifting orbit	17 Mar 2002	27 Oct 2017	337		0-20009-0-722	5
+159	grace_c_grace_fo	GRACE C (GRACE-FO)	Gravity Recovery and Climate Experiment C - Follow-on	NASA,DLR	Operational	Drifting orbit	22 May 2018	≥2029	490		0-20009-0-803	5
+160	himawari_1_gms_1	Himawari-1 (GMS-1)	Himawari-1 (Geostationary Meteorological Satellite - 1)	JMA,JAXA	Inactive	Geostationary orbit	14 Jul 1977	30 Jun 1989	35786		0-20009-0-153	3
+161	himawari_2_gms_2	Himawari-2 (GMS-2)	Himawari-2 (Geostationary Meteorological Satellite - 2)	JMA,JAXA	Inactive	Geostationary orbit	11 Aug 1981	20 Nov 1987	35786		0-20009-0-154	3
+162	himawari_3_gms_3	Himawari-3 (GMS-3)	Himawari-3 (Geostationary Meteorological Satellite - 3)	JMA,JAXA	Inactive	Geostationary orbit	03 Aug 1984	22 Jun 1995	35786		0-20009-0-150	3
+163	himawari_4_gms_4	Himawari-4 (GMS-4)	Himawari-4 (Geostationary Meteorological Satellite - 4)	JMA,JAXA	Inactive	Geostationary orbit	06 Sep 1989	24 Feb 2000	35786		0-20009-0-151	3
+164	himawari_5_gms_5	Himawari-5 (GMS-5)	Himawari-5 (Geostationary Meteorological Satellite - 5)	JMA,JAXA	Inactive	Geostationary orbit	18 Mar 1995	22 May 2003	35786		0-20009-0-152	2
+165	himawari_6_mtsat_1r	Himawari-6 (MTSAT-1R)	Himawari-6 (Multifunction Transport Satellite -1R)	JMA,JCAB	Inactive	Geostationary orbit	26 Feb 2005	04 Dec 2015	35786		0-20009-0-171	2
+166	himawari_7_mtsat_2	Himawari-7 (MTSAT-2)	Himawari-7 (Multifunction Transport Satellite - 2)	JMA,JCAB	Inactive	Geostationary orbit	18 Feb 2006	10 May 2016	35786		0-20009-0-172	2
+167	himawari_8	Himawari-8	Himawari-8	JMA	Stand-by	Geostationary orbit	07 Oct 2014	≥2030	35786		0-20009-0-173	2
+169	hj_1a	HJ-1A	Huan Jing 1A	CRESDA,CAST	Inactive	Sunsynchronous orbit	06 Sep 2008	≥2018	650	10:30 desc		2
+170	hj_1b	HJ-1B	Huan Jing 1B	CRESDA,CAST	Presumably inactive	Sunsynchronous orbit	06 Sep 2008	≥2018	650	10:30 desc		2
+171	hj_1c	HJ-1C	Huan Jing 1C	CRESDA,CAST	Inactive	Sunsynchronous orbit	18 Nov 2012	≥2023	502	06:00 desc	0-20009-0-	2
+172	hy_1a	HY-1A	Hai Yang 1A	NSOAS,CAST	Inactive	Sunsynchronous orbit	15 May 2002	30 Mar 2004	795	10:30 desc		2
+173	hy_1b	HY-1B	Hai Yang 1B	NSOAS,CAST	Inactive	Sunsynchronous orbit	11 Apr 2007	13 Feb 2016	798	10:30 desc		2
+174	hy_1c	HY-1C	Hai Yang 1C	NSOAS,CAST	Operational	Sunsynchronous orbit	07 Sep 2018	≥2026	785	10:30 desc	-20009--	5
+175	hy_1d	HY-1D	Hai Yang 1D	NSOAS,CAST	Operational	Sunsynchronous orbit	10 Jun 2020	≥2026	798	13:30 asc	-20009--	5
+176	hy_2a	HY-2A	Hai Yang 2A	NSOAS,CAST	Presumably inactive	Sunsynchronous orbit	16 Aug 2011	≥2022	975	06:00 desc	0-20009-0-502	7
+177	icesat	ICESat	Ice, Cloud and land Elevation Satellite	NASA	Inactive	Drifting orbit	12 Jan 2003	14 Aug 2010	600			3
+178	icesat_2	ICESat-2	Ice, Cloud and land Elevation Satellite	NASA	Operational	Drifting orbit	15 Sep 2018	≥2034	481		0-20009-0-	3
+179	ims_1	IMS-1	Indian Mini-Satellite - 1	ISRO	Inactive	Sunsynchronous orbit	28 Apr 2008	20 Sep 2012	632	09:30 desc		2
+180	seosat_ingenio	SEOSat/Ingenio	Spanish Earth Observation Satellite (also Ingenio)	CDTI,ESA	Lost at launch	Sunsynchronous orbit	17 Nov 2020	17 Nov 2020	668	10:30 desc		3
+181	insat_1a	INSAT-1A	Indian National Satellite - 1A	ISRO	Inactive	Geostationary orbit	10 Apr 1982	06 Sep 1982	35786			2
+182	insat_1b	INSAT-1B	Indian National Satellite - 1B	ISRO	Inactive	Geostationary orbit	30 Aug 1983	15 Jul 1993	35786		0-20009-0-430	2
+183	insat_1c	INSAT-1C	Indian National Satellite - 1C	ISRO	Inactive	Geostationary orbit	22 Jul 1988	22 Nov 1989	35786		0-20009-0-431	2
+184	insat_1d	INSAT-1D	Indian National Satellite - 1D	ISRO	Inactive	Geostationary orbit	12 Jun 1990	14 May 2002	35786		0-20009-0-432	2
+185	insat_2a	INSAT-2A	Indian National Satellite - 2A	ISRO	Inactive	Geostationary orbit	10 Jul 1992	30 May 2002	35786		0-20009-0-450	3
+186	insat_2b	INSAT-2B	Indian National Satellite - 2B	ISRO	Inactive	Geostationary orbit	23 Jul 1993	01 Jul 2004	35786		0-20009-0-451	3
+187	insat_2c	INSAT-2C	Indian National Satellite - 2C	ISRO	Inactive	Geostationary orbit	07 Dec 1995	15 Apr 2002	35786			0
+188	insat_2d	INSAT-2D	Indian National Satellite - 2D	ISRO	Inactive	Geostationary orbit	04 Jun 1997	04 Oct 1997	35786			3
+189	insat_2e	INSAT-2E	Indian National Satellite - 2E	ISRO	Inactive	Geostationary orbit	03 Apr 1999	15 Apr 2012	35786		0-20009-0-452	4
+190	insat_3a	INSAT-3A	Indian National Satellite - 3A	IMD,ISRO	Inactive	Geostationary orbit	10 Apr 2003	Sep 2016	35786		0-20009-0-470	4
+191	insat_3b	INSAT-3B	Indian National Satellite - 3B	IMD,ISRO	Inactive	Geostationary orbit	22 Mar 2000	02 Nov 2010	35786			0
+192	insat_3c	INSAT-3C	Indian National Satellite - 3C	IMD,ISRO	Inactive	Geostationary orbit	24 Jan 2002	≥2014	35786			0
+193	insat_3d	INSAT-3D	Indian National Satellite - 3D	IMD,ISRO	Back-up	Geostationary orbit	25 Jul 2013	01 Oct 2024	35786		0-20009-0-471	4
+194	insat_3dr	INSAT-3DR	Indian National Satellite - 3D repeat	IMD,ISRO	Operational	Geostationary orbit	08 Sep 2016	≥2026	35786		0-20009-0-473	4
+196	irs_1a	IRS-1A	Indian Remote Sensing satellite - 1A	ISRO	Inactive	Sunsynchronous orbit	17 Mar 1988	01 Jul 1992	904	10:30 desc		2
+197	irs_1b	IRS-1B	Indian Remote Sensing satellite - 1B	ISRO	Inactive	Sunsynchronous orbit	29 Aug 1991	01 Jul 2001	904	10:30:00 desc		2
+198	irs_1c	IRS-1C	Indian Remote Sensing satellite - 1C	ISRO	Inactive	Sunsynchronous orbit	28 Dec 1995	21 Sep 2005	817	10:30:00 desc		3
+199	irs_1d	IRS-1D	Indian Remote Sensing satellite - 1D	ISRO	Inactive	Sunsynchronous orbit	29 Sep 1997	15 Jan 2010	778	10:30 desc		3
+200	irs_1e_irs_p1	IRS-1E (IRS-P1)	Indian Remote Sensing satellite - 1E / P1	ISRO	Lost at launch	Sunsynchronous orbit	20 Sep 1993	20 Sep 1993	904	10:30 desc		2
+201	irs_p2	IRS-P2	Indian Remote Sensing satellite - P2	ISRO	Inactive	Sunsynchronous orbit	15 Oct 1994	15 Sep 1997	817	10:30 desc		1
+202	irs_p3	IRS-P3	Indian Remote Sensing satellite - P3	ISRO	Inactive	Sunsynchronous orbit	21 Mar 1996	15 Oct 2004	817	10:30 desc		3
+203	itos_1_tiros_m	ITOS-1 (TIROS-M)	Improved TIROS Operational System	NOAA,NASA	Inactive	Sunsynchronous orbit	23 Jan 1970	18 Jun 1971	1470	14:30 asc		5
+204	jason_1	JASON-1	Joint Altimetry Satellite Oceanography Network - 1	NOAA,CNES,EUMETSAT	Inactive	Drifting orbit	07 Dec 2001	01 Jul 2013	1324		0-20009-0-260	5
+205	jason_2	JASON-2	Joint Altimetry Satellite Oceanography Network - 2	NOAA,CNES,EUMETSAT	Inactive	Drifting orbit	20 Jun 2008	01 Oct 2019	1309.5		0-20009-0-261	7
+206	jason_3	JASON-3	Joint Altimetry Satellite Oceanography Network - 3	NOAA,CNES,EUMETSAT	Operational	Drifting orbit	17 Jan 2016	≥2027	1336		0-20009-0-262	8
+207	jers	JERS	Japan Earth Resources Satellite	JAXA	Inactive	Sunsynchronous orbit	11 Feb 1992	11 Oct 1998	568	10:45 desc		2
+208	noaa_20	NOAA-20	National Oceanic and Atmospheric Administration - 20	NOAA,NASA	Operational	Sunsynchronous orbit	18 Nov 2017	≥2032	824	13:25 asc	0-20009-0-225	5
+209	noaa_21	NOAA-21	National Oceanic and Atmospheric Administration - 21	NOAA,NASA	Operational	Sunsynchronous orbit	10 Nov 2022	≥2030	824	13:25 asc	0-20009-0-226	6
+210	kalpana_1	Kalpana-1	Kalpana-1	ISRO,IMD	Inactive	Geostationary orbit	12 Sep 2002	Sep 2017	35786		0-20009-0-410	2
+211	kanopus_v1	KANOPUS-V1	KANOPUS-V1	Roscosmos,RosHydroMet	Inactive	Sunsynchronous orbit	22 Jul 2012	01 Jul 2020	510	10:30 asc		3
+212	kanopus_v_ik_1	KANOPUS-V-IK-1	Kanopus-Vulkan-Infra-Krasny-1	Roscosmos,RosHydroMet	Operational	Sunsynchronous orbit	14 Jul 2017	≥2026	510	10:30 asc		3
+213	kompsat_1	KOMPSAT-1	Korea Multi-Purpose Satellite - 1	KARI	Inactive	Sunsynchronous orbit	20 Dec 1999	31 Jan 2008	685	10:50:00 asc		4
+214	kompsat_2	KOMPSAT-2	Korea Multi-Purpose Satellite - 2	KARI	Operational	Sunsynchronous orbit	28 Jul 2006	≥2026	685	10:50 asc		1
+215	kompsat_3	KOMPSAT-3	Korea Multi-Purpose Satellite - 3	KARI	Operational	Sunsynchronous orbit	17 May 2012	≥2026	675	13:30 asc		1
+216	kompsat_5	KOMPSAT-5	Korea Multi-Purpose Satellite - 5	KARI	Operational	Sunsynchronous orbit	22 Aug 2013	≥2026	550	06:00 asc	0-20009-0-825	4
+217	lageos_1	LAGEOS-1	Laser Geodynamics Satellite - 1	ASI,NASA	Operational	Drifting orbit	04 May 1976	≥2026	5900			1
+218	lageos_2	LAGEOS-2	Laser Geodynamics Satellite - 2	ASI,NASA	Operational	Drifting orbit	22 Oct 1992	≥2042	5780			1
+219	landsat_1_erts	Landsat-1 (ERTS)	Landsat-1	USGS,NASA	Inactive	Sunsynchronous orbit	23 Jul 1972	02 Jan 1978	907	10:00 desc		3
+220	landsat_2	Landsat-2	Landsat-2	USGS,NASA	Inactive	Sunsynchronous orbit	22 Jan 1975	25 Feb 1982	908	10:00:00 desc		3
+221	landsat_3	Landsat-3	Landsat-3	USGS,NASA	Inactive	Sunsynchronous orbit	05 Mar 1978	31 Mar 1983	915	10:00:00 desc		3
+222	landsat_4	Landsat-4	Landsat-4.	USGS,NASA	Inactive	Sunsynchronous orbit	16 Jul 1982	≥1993	705	10:00 desc	0-20009-0-221	3
+223	landsat_5	Landsat-5	Landsat-5	USGS,NASA	Inactive	Sunsynchronous orbit	01 Mar 1984	18 Nov 2011	705	09:45 desc	0-20009-0-220	3
+224	landsat_6	Landsat-6	Landsat-6	USGS,NASA	Lost at launch	Sunsynchronous orbit	05 Oct 1993	05 Oct 1993	705	09:45 desc		1
+225	landsat_7	Landsat-7	Landsat-7	USGS,NASA	Inactive	Sunsynchronous orbit	15 Apr 1999	≥2024	705	08:30 desc	0-20009-0-222	1
+226	lares_1	LARES-1	Laser RElativity Satellite - 1	ASI,NASA	Operational	Drifting orbit	13 Feb 2012	≥2050	1450		-20009--	1
+227	landsat_8	Landsat-8	Landsat-8	USGS,NASA	Operational	Sunsynchronous orbit	11 Feb 2013	≥2026	705	10:11 desc		2
+228	megha_tropiques	Megha-Tropiques	Megha-Tropiques	ISRO,CNES	Inactive	Drifting orbit	12 Oct 2011	Jan 2022	867		0-20009-0-440	5
+229	meteor_1_1	Meteor-1-1	Meteor-1-1	RosHydroMet,Roscosmos	Inactive	Drifting orbit	26 Mar 1969	26 Jan 1970	560			3
+230	meteor_1_2	Meteor-1-2	Meteor-1-2	RosHydroMet,Roscosmos	Inactive	Drifting orbit	06 Oct 1969	06 Jul 1970	530			3
+231	meteor_1_3	Meteor-1-3	Meteor-1-3	RosHydroMet,Roscosmos	Inactive	Drifting orbit	17 Mar 1970	17 Dec 1970	680			3
+232	meteor_1_4	Meteor-1-4	Meteor-1-4	RosHydroMet,Roscosmos	Inactive	Drifting orbit	28 Apr 1970	28 Jan 1971	560			3
+233	meteor_1_5	Meteor-1-5	Meteor-1-5	RosHydroMet,Roscosmos	Inactive	Drifting orbit	23 Jun 1970	23 Mar 1971	840			3
+234	meteor_1_6	Meteor-1-6	Meteor-1-6	RosHydroMet,Roscosmos	Inactive	Drifting orbit	15 Oct 1970	15 Jul 1971	440			3
+235	meteor_1_7	Meteor-1-7	Meteor-1-7	RosHydroMet,Roscosmos	Inactive	Drifting orbit	20 Jan 1971	20 Oct 1971	540			3
+236	meteor_1_8	Meteor-1-8	Meteor-1-8	RosHydroMet,Roscosmos	Inactive	Drifting orbit	17 Apr 1971	17 Jan 1972	250			3
+237	meteor_1_9	Meteor-1-9	Meteor-1-9	RosHydroMet,Roscosmos	Inactive	Drifting orbit	16 Jul 1971	16 Apr 1972	350			3
+238	meteor_1_10	Meteor-1-10	Meteor-1-10	RosHydroMet,Roscosmos	Inactive	Drifting orbit	29 Dec 1971	29 Sep 1972	870			3
+239	meteor_1_11	Meteor-1-11	Meteor-1-11	RosHydroMet,Roscosmos	Inactive	Drifting orbit	30 Mar 1972	30 Dec 1972	870			3
+240	meteor_1_12	Meteor-1-12	Meteor-1-12	RosHydroMet,Roscosmos	Inactive	Drifting orbit	30 Jun 1972	30 Mar 1973	880			3
+241	meteor_1_13	Meteor-1-13	Meteor-1-13	RosHydroMet,Roscosmos	Inactive	Drifting orbit	26 Oct 1972	26 Jul 1973	860			3
+242	meteor_1_14	Meteor-1-14	Meteor-1-14	RosHydroMet,Roscosmos	Inactive	Drifting orbit	20 Mar 1973	20 Dec 1973	850			3
+243	meteor_1_15	Meteor-1-15	Meteor-1-15	RosHydroMet,Roscosmos	Inactive	Drifting orbit	29 May 1973	28 Feb 1974	860			3
+244	meteor_1_16	Meteor-1-16	Meteor-1-16	RosHydroMet,Roscosmos	Inactive	Drifting orbit	05 Mar 1974	05 Dec 1974	850			3
+245	meteor_1_17	Meteor-1-17	Meteor-1-17	RosHydroMet,Roscosmos	Inactive	Drifting orbit	24 Apr 1974	24 Jan 1975	870			3
+246	meteor_1_19	Meteor-1-19	Meteor-1-19	RosHydroMet,Roscosmos	Inactive	Drifting orbit	28 Oct 1974	01 Dec 1975	860			3
+247	meteor_1_20	Meteor-1-20	Meteor-1-20	RosHydroMet,Roscosmos	Inactive	Drifting orbit	17 Dec 1974	17 Sep 1975	860			3
+248	meteor_1_21	Meteor-1-21	Meteor-1-21	RosHydroMet,Roscosmos	Inactive	Drifting orbit	01 Apr 1975	01 Jul 1976	870			3
+249	meteor_1_22	Meteor-1-22	Meteor-1-22	RosHydroMet,Roscosmos	Inactive	Drifting orbit	18 Sep 1975	01 Dec 1976	850			3
+250	meteor_1_23	Meteor-1-23	Meteor-1-23	RosHydroMet,Roscosmos	Inactive	Drifting orbit	25 Dec 1975	25 Sep 1976	860			3
+251	meteor_1_24	Meteor-1-24	Meteor-1-24	RosHydroMet,Roscosmos	Inactive	Drifting orbit	07 Apr 1976	07 Jan 1977	860			3
+252	meteor_1_26	Meteor-1-26	Meteor-1-26	RosHydroMet,Roscosmos	Inactive	Drifting orbit	15 Oct 1976	15 Jul 1977	860			3
+253	meteor_1_27	Meteor-1-27	Meteor-1-27	RosHydroMet,Roscosmos	Inactive	Drifting orbit	05 Apr 1977	05 Jan 1978	860			3
+254	meteor_2_1	Meteor-2-1	Meteor-2-1	RosHydroMet,Roscosmos	Inactive	Drifting orbit	11 Jul 1975	11 Jan 1977	860			4
+255	meteor_2_2	Meteor-2-2	Meteor-2-2	RosHydroMet,Roscosmos	Inactive	Drifting orbit	06 Jan 1977	06 Jul 1978	880			4
+256	meteor_2_3	Meteor-2-3	Meteor-2-3	RosHydroMet,Roscosmos	Inactive	Drifting orbit	14 Dec 1977	14 Jun 1979	860			4
+257	meteor_2_4	Meteor-2-4	Meteor-2-4	RosHydroMet,Roscosmos	Inactive	Drifting orbit	01 Mar 1979	01 Sep 1980	850			4
+258	meteor_2_5	Meteor-2-5	Meteor-2-5	RosHydroMet,Roscosmos	Inactive	Drifting orbit	31 Oct 1979	30 Apr 1981	870			4
+259	meteor_2_6	Meteor-2-6	Meteor-2-6	RosHydroMet,Roscosmos	Inactive	Drifting orbit	09 Sep 1980	09 Mar 1982	860			4
+260	meteor_2_7	Meteor-2-7	Meteor-2-7	RosHydroMet,Roscosmos	Inactive	Drifting orbit	14 May 1981	14 Nov 1982	860			4
+261	meteor_2_8	Meteor-2-8	Meteor-2-8	RosHydroMet,Roscosmos	Inactive	Drifting orbit	25 Mar 1982	25 Sep 1983	940			4
+262	meteor_2_9	Meteor-2-9	Meteor-2-9	RosHydroMet,Roscosmos	Inactive	Drifting orbit	14 Dec 1982	14 Jun 1984	840			4
+263	meteor_2_10	Meteor-2-10	Meteor-2-10	RosHydroMet,Roscosmos	Inactive	Drifting orbit	28 Oct 1983	28 Apr 1985	810			4
+264	meteor_2_11	Meteor-2-11	Meteor-2-11	RosHydroMet,Roscosmos	Inactive	Drifting orbit	05 Jul 1984	05 Jan 1986	950			4
+265	meteor_2_12	Meteor-2-12	Meteor-2-12	RosHydroMet,Roscosmos	Inactive	Drifting orbit	06 Feb 1985	06 Jul 1986	940			4
+266	meteor_2_13	Meteor-2-13	Meteor-2-13	RosHydroMet,Roscosmos	Inactive	Drifting orbit	26 Dec 1985	26 Jun 1987	950			4
+267	meteor_2_14	Meteor-2-14	Meteor-2-14	RosHydroMet,Roscosmos	Inactive	Drifting orbit	27 May 1986	27 Nov 1987	950			4
+268	meteor_2_15	Meteor-2-15	Meteor-2-15	RosHydroMet,Roscosmos	Inactive	Drifting orbit	05 Jan 1987	05 Jul 1988	950			4
+269	meteor_2_16	Meteor-2-16	Meteor-2-16	RosHydroMet,Roscosmos	Inactive	Drifting orbit	18 Aug 1987	18 Feb 1989	950			4
+270	meteor_2_17	Meteor-2-17	Meteor-2-17	RosHydroMet,Roscosmos	Inactive	Drifting orbit	30 Jan 1988	30 Jul 1990	950			4
+271	meteor_2_18	Meteor-2-18	Meteor-2-18	RosHydroMet,Roscosmos	Inactive	Drifting orbit	28 Feb 1989	28 Aug 1990	940			4
+272	meteor_2_19	Meteor-2-19	Meteor-2-19	RosHydroMet,Roscosmos	Inactive	Drifting orbit	27 Jun 1990	27 Dec 1991	950			4
+273	meteor_2_20	Meteor-2-20	Meteor-2-20	RosHydroMet,Roscosmos	Inactive	Drifting orbit	28 Sep 1990	28 Mar 1992	950			4
+274	meteor_2_21	Meteor-2-21	Meteor-2-21	RosHydroMet,Roscosmos	Inactive	Drifting orbit	31 Aug 1993	28 Feb 1995	950		0-20009-0-320	4
+276	meteor_3_1	Meteor-3-1	Meteor-3-1	RosHydroMet,Roscosmos	Inactive	Drifting orbit	24 Oct 1985	24 Oct 1987	1200			5
+277	meteor_3_2	Meteor-3-2	Meteor-3-2	RosHydroMet,Roscosmos	Inactive	Drifting orbit	26 Jul 1988	26 Jul 1990	1200			5
+278	meteor_3_3	Meteor-3-3	Meteor-3-3	RosHydroMet,Roscosmos	Inactive	Drifting orbit	24 Oct 1989	24 Oct 1991	1240			5
+279	meteor_3_4	Meteor-3-4	Meteor-3-4	RosHydroMet,Roscosmos	Inactive	Drifting orbit	24 Apr 1991	24 Apr 1993	1200			5
+280	meteor_3_5	Meteor-3-5	Meteor-3-5	RosHydroMet,Roscosmos	Inactive	Drifting orbit	15 Aug 1991	15 Aug 1993	1200		0-20009-0-321	6
+281	meteor_3_6	Meteor-3-6	Meteor-3-6	RosHydroMet,Roscosmos	Inactive	Drifting orbit	25 Jan 1994	25 Jan 1996	1210			7
+282	meteor_3m	Meteor-3M	Meteor-3M	RosHydroMet,Roscosmos	Inactive	Sunsynchronous orbit	10 Dec 2001	05 Apr 2006	1020	09:15 asc		11
+283	meteor_m_n1	Meteor-M N1	Meteor-M Number 1	RosHydroMet,Roscosmos	Inactive	Sunsynchronous orbit	17 Sep 2009	23 Sep 2014	826	09:30 desc		10
+284	meteor_m_n2	Meteor-M N2	Meteor-M Number 2	RosHydroMet,Roscosmos	Inactive	Sunsynchronous orbit	08 Jul 2014	01 Jun 2024	820	09:30 asc	0-20009-0-324	11
+286	meteor_op_n1	Meteor-OP N1	Meteor-OP Number 1	RosHydroMet,Roscosmos	Planned	Sunsynchronous orbit	≥2036	≥2043	830	15:30 asc	-20009--	14
+287	meteor_op_n2	Meteor-OP N2	Meteor-OP Number 2	RosHydroMet,Roscosmos	Planned	Sunsynchronous orbit	≥2037	≥2044	830	09:30 desc	-20009--	15
+289	meteosat_12	Meteosat-12	Meteosat-12 (formerly MTG-1)	EUMETSAT,EC,ESA	Operational	Geostationary orbit	13 Dec 2022	≥2033	35786		0-20009-0-071	5
+290	mtg_i2	MTG-I2	Meteosat Third Generation - Imaging 2	EUMETSAT,EC,ESA	Commissioning	Geostationary orbit	27 Aug 2026	≥2037	35786		0-20009-0-073	5
+291	mtg_i3	MTG-I3	Meteosat Third Generation - Imaging 3	EUMETSAT,EC,ESA	Planned	Geostationary orbit	≥2033	≥2044	35786		0-20009-0-074	5
+292	mtg_i4	MTG-I4	Meteosat Third Generation - Imaging 4	EUMETSAT,EC,ESA	Planned	Geostationary orbit	≥2036	≥2047	35786		0-20009-0-076	5
+293	mtg_s1	MTG-S1	Meteosat Third Generation - Sounding 1	EUMETSAT,EC,ESA	Commissioning	Geostationary orbit	01 Jul 2025	≥2036	35786		0-20009-0-072	4
+294	mtg_s2	MTG-S2	Meteosat Third Generation - Sounding 2	EUMETSAT,EC,ESA	Planned	Geostationary orbit	≥2035	≥2046	35786		0-20009-0-075	4
+295	meteosat_1	Meteosat-1	Meteosat-1	EUMETSAT,ESA	Inactive	Geostationary orbit	23 Nov 1977	24 Nov 1979	35786		0-20009-0-058	2
+296	meteosat_2	Meteosat-2	Meteosat-2	EUMETSAT,ESA	Inactive	Geostationary orbit	19 Jun 1981	02 Dec 1991	35786		0-20009-0-059	2
+297	meteosat_3	Meteosat-3	Meteosat-3	EUMETSAT,ESA	Inactive	Geostationary orbit	15 Jun 1988	01 Aug 1991	35786		0-20009-0-050	2
+298	meteosat_4	Meteosat-4	Meteosat-4	EUMETSAT,ESA	Inactive	Geostationary orbit	06 Mar 1989	08 Nov 1995	35786		0-20009-0-051	2
+299	meteosat_5	Meteosat-5	Meteosat-5	EUMETSAT,ESA	Inactive	Geostationary orbit	02 Mar 1991	01 Jun 1998	35786		0-20009-0-052	2
+300	meteosat_6	Meteosat-6	Meteosat-6	EUMETSAT,ESA	Inactive	Geostationary orbit	20 Nov 1993	27 Apr 2007	35786		0-20009-0-053	2
+301	meteosat_7_iodc	Meteosat-7 (IODC)	Meteosat-7 (Indian Ocean Data Coverage)	EUMETSAT,ESA	Inactive	Geostationary orbit	05 Dec 2006	01 Feb 2017	35786		-20009--	2
+302	meteosat_8	Meteosat-8	Meteosat-8	EUMETSAT,ESA	Inactive	Geostationary orbit	28 Aug 2002	04 Jul 2016	35786		0-20009-0-055	4
+303	meteosat_9	Meteosat-9	Meteosat-9	EUMETSAT,ESA	Inactive	Geostationary orbit	21 Dec 2005	01 Apr 2022	35786		0-20009-0-056	4
+304	meteosat_10	Meteosat-10	Meteosat-10	EUMETSAT,ESA	Operational	Geostationary orbit	05 Jul 2012	≥2030	35786		0-20009-0-057	4
+305	meteosat_11	Meteosat-11	Meteosat-11	EUMETSAT,ESA	Operational	Geostationary orbit	15 Jul 2015	≥2033	35786		0-20009-0-070	4
+306	metop_a	Metop-A	Meteorological operational satellite - A	EUMETSAT,ESA	Inactive	Sunsynchronous orbit	19 Oct 2006	15 Nov 2021	827	07:50 desc	0-20009-0-004	13
+307	metop_b	Metop-B	Meteorological operational satellite - B	EUMETSAT,ESA	Operational	Sunsynchronous orbit	17 Sep 2012	≥2030	830	09:00 desc	0-20009-0-003	13
+308	metop_c	Metop-C	Meteorological operational satellite - C	EUMETSAT,ESA	Operational	Sunsynchronous orbit	07 Nov 2018	≥2033	827	09:31 desc	0-20009-0-005	11
+309	orbview_1_microlab	OrbView-1/MicroLab	OrbView-1/MicroLab	NASA,UCAR	Inactive	Drifting orbit	01 Apr 1995	03 Apr 2000	785			2
+310	monitor_e	Monitor-E	Monitor - Experimental	Roscosmos	Inactive	Sunsynchronous orbit	26 Aug 2005	15 Aug 2008	540	10:30 asc		2
+311	mos_1	MOS-1	Marine Observatory Satellite -1	JAXA	Inactive	Sunsynchronous orbit	19 Feb 1987	29 Nov 1995	908	10:15 desc		3
+312	mos_1b	MOS-1B	Marine Observatory Satellite - 1B	JAXA	Inactive	Sunsynchronous orbit	07 Feb 1990	25 Apr 1996	908	10:35 desc		3
+313	nigeriasat_1	NigeriaSat-1	NigeriaSat-1	NASRDA	Inactive	Sunsynchronous orbit	27 Sep 2003	15 Nov 2011	686	10:30 asc		1
+314	nigeriasat_2	NigeriaSat-2	NigeriaSat-2	NASRDA	Unclear	Sunsynchronous orbit	17 Aug 2011	≥2023	718	10:30 asc		2
+315	nimbus_1	Nimbus-1	Nimbus-1	NASA	Inactive	Sunsynchronous orbit	28 Aug 1964	23 Sep 1964	634	12:00 desc	0-20009-0-761	3
+316	nimbus_2	Nimbus-2	Nimbus-2	NASA	Inactive	Sunsynchronous orbit	15 May 1966	17 Jan 1969	1140	11:30 desc	0-20009-0-762	4
+317	nimbus_3	Nimbus-3	Nimbus-3	NASA	Inactive	Sunsynchronous orbit	13 Apr 1969	22 Jan 1972	1100	12:00 desc	0-20009-0-763	7
+318	nimbus_4	Nimbus-4	Nimbus-4	NASA	Inactive	Sunsynchronous orbit	08 Apr 1970	30 Sep 1980	1100	12:00 desc	0-20009-0-764	9
+319	nimbus_5	Nimbus-5	Nimbus-5	NASA	Inactive	Sunsynchronous orbit	10 Dec 1972	29 Mar 1983	1100	12:00 desc	0-20009-0-765	6
+320	nimbus_6	Nimbus-6	Nimbus-6	NASA	Inactive	Sunsynchronous orbit	12 Jun 1975	29 Mar 1983	1100	12:00 desc	0-20009-0-766	8
+321	nimbus_7	Nimbus-7	Nimbus-7	NASA	Inactive	Sunsynchronous orbit	24 Oct 1978	01 Aug 1994	947	12:00 desc	0-20009-0-767	9
+322	nmp_eo_1	NMP-EO-1	New Millennium Program Earth Observing - 1	NASA,USGS	Inactive	Sunsynchronous orbit	21 Nov 2000	30 Mar 2017	691	09:45 desc		3
+323	noaa_1	NOAA-1	National Oceanic and Atmospheric Administration - 1	NOAA,NASA	Inactive	Sunsynchronous orbit	11 Dec 1970	19 Aug 1971	1450	13:30 asc	0-20009-0-701	5
+324	noaa_2	NOAA-2	National Oceanic and Atmospheric Administration - 2	NOAA,NASA	Inactive	Sunsynchronous orbit	13 Oct 1972	30 Jan 1975	1450	14:30:00 asc	0-20009-0-702	4
+325	noaa_3	NOAA-3	National Oceanic and Atmospheric Administration - 3	NOAA,NASA	Inactive	Sunsynchronous orbit	06 Nov 1973	31 Aug 1976	1500	14:30:00 asc	0-20009-0-703	4
+326	noaa_4	NOAA-4	National Oceanic and Atmospheric Administration - 4	NOAA,NASA	Inactive	Sunsynchronous orbit	15 Nov 1974	18 Nov 1978	1450	14:30:00 asc	0-20009-0-704	4
+327	noaa_5	NOAA-5	National Oceanic and Atmospheric Administration - 5	NOAA,NASA	Inactive	Sunsynchronous orbit	29 Jul 1976	16 Jul 1979	1510	14:30:00 asc	0-20009-0-705	4
+328	noaa_6	NOAA-6	National Oceanic and Atmospheric Administration - 6	NOAA,NASA	Inactive	Sunsynchronous orbit	27 Jun 1979	31 Mar 1987	840	07:30 desc	0-20009-0-706	7
+329	noaa_7	NOAA-7	National Oceanic and Atmospheric Administration - 7	NOAA,NASA	Inactive	Sunsynchronous orbit	23 Jun 1981	07 Jun 1986	860	14:30:00 asc	0-20009-0-707	7
+330	noaa_8	NOAA-8	National Oceanic and Atmospheric Administration - 8	NOAA,NASA	Inactive	Sunsynchronous orbit	28 Mar 1983	29 Dec 1985	820	07:30:00 desc	0-20009-0-200	8
+331	noaa_9	NOAA-9	National Oceanic and Atmospheric Administration - 9	NOAA,NASA	Inactive	Sunsynchronous orbit	12 Dec 1984	13 Feb 1998	850	14:30:00 asc	0-20009-0-201	10
+332	noaa_10	NOAA-10	National Oceanic and Atmospheric Administration - 10	NOAA,NASA	Inactive	Sunsynchronous orbit	17 Sep 1986	30 Aug 2001	810	07:30:00 desc	0-20009-0-202	9
+333	noaa_11	NOAA-11	National Oceanic and Atmospheric Administration - 11	NOAA,NASA	Inactive	Sunsynchronous orbit	24 Sep 1988	16 Jun 2004	843	14:10:00 asc	0-20009-0-203	7
+334	noaa_12	NOAA-12	National Oceanic and Atmospheric Administration - 12	NOAA,NASA	Inactive	Sunsynchronous orbit	14 May 1991	10 Aug 2007	804	05:10:00 desc	0-20009-0-204	6
+335	noaa_13	NOAA-13	National Oceanic and Atmospheric Administration - 13	NOAA,NASA	Inactive	Sunsynchronous orbit	09 Aug 1993	21 Aug 1993	820	14:00:00 asc		8
+336	noaa_14	NOAA-14	National Oceanic and Atmospheric Administration - 14	NOAA,NASA	Inactive	Sunsynchronous orbit	30 Dec 1994	23 May 2007	844	09:30:00 desc	0-20009-0-205	10
+337	noaa_15	NOAA-15	National Oceanic and Atmospheric Administration - 15	NOAA,NASA	Inactive	Sunsynchronous orbit	13 May 1998	19 Aug 2025	813	07:29 desc	0-20009-0-206	8
+338	noaa_16	NOAA-16	National Oceanic and Atmospheric Administration - 16	NOAA,NASA	Inactive	Sunsynchronous orbit	21 Sep 2000	09 Jun 2014	849	09:01 desc	0-20009-0-207	9
+339	noaa_17	NOAA-17	National Oceanic and Atmospheric Administration - 17	NOAA,NASA	Inactive	Sunsynchronous orbit	24 Jun 2002	10 Apr 2013	810	07:03 desc	0-20009-0-208	9
+340	noaa_18	NOAA-18	National Oceanic and Atmospheric Administration - 18	NOAA,NASA	Inactive	Sunsynchronous orbit	20 May 2005	06 Jun 2025	854	10:34 desc	0-20009-0-209	9
+341	noaa_19	NOAA-19	National Oceanic and Atmospheric Administration - 19	NOAA,NASA	Inactive	Sunsynchronous orbit	06 Feb 2009	13 Aug 2025	870	08:22 desc	0-20009-0-223	9
+342	snpp	SNPP	Suomi National Polar-orbiting Partnership	NOAA,NASA	Operational	Sunsynchronous orbit	28 Oct 2011	01 Nov 2026	824	13:25 asc	0-20009-0-224	7
+343	oceansat_1_irs_p4	OceanSat-1 (IRS-P4)	Satellite for the Ocean - 1	ISRO	Inactive	Sunsynchronous orbit	26 May 1999	08 Aug 2010	723	12:00 desc		2
+344	oceansat_2	OceanSat-2	Satellite for the Ocean - 2	ISRO	Inactive	Sunsynchronous orbit	23 Sep 2009	Jul 2023	730	11:53 desc	0-20009-0-421	4
+345	oceansat_3_eos_06	OceanSat-3 (EOS-06)	OceanSat-3 (EOS-06)	ISRO	Operational	Sunsynchronous orbit	26 Nov 2022	≥2027	723	12:00 desc	0-20009-0-423	3
+346	oco	OCO	Orbiting Carbon Observatory	NASA	Lost at launch	Sunsynchronous orbit	24 Feb 2009	24 Feb 2009	705	13:15 asc		3
+347	oco_2	OCO-2	Orbiting Carbon Observatory - 2	NASA	Operational	Sunsynchronous orbit	02 Jul 2014	≥2026	705	13:36 asc	0-20009-0-289	3
+348	odin	Odin	Odin	SNSA,CNES,CSA	Inactive	Sunsynchronous orbit	20 Feb 2001	30 Apr 2026	552	06:42 desc	0-20009-0-813	3
+349	okean_o_1	Okean-O-1	Okean-O-1	NSAU,Roscosmos,RosHydroMet	Inactive	Drifting orbit	17 Jul 1999	15 Sep 2000	648			9
+350	okean_o1_1	Okean-O1-1	Okean-O1-1	NSAU,Roscosmos,RosHydroMet	Inactive	Drifting orbit	29 Jul 1986	29 Jul 1988	660			5
+351	okean_o1_2	Okean-O1-2	Okean-O1-2	NSAU,Roscosmos,RosHydroMet	Inactive	Drifting orbit	16 Jul 1987	16 Jul 1989	660			5
+352	okean_o1_3	Okean-O1-3	Okean-O1-3	NSAU,Roscosmos,RosHydroMet	Inactive	Drifting orbit	05 Jul 1988	05 Jul 1990	660			6
+353	okean_o1_4	Okean-O1-4	Okean-O1-4	NSAU,Roscosmos,RosHydroMet	Inactive	Drifting orbit	09 Jun 1989	09 Jun 1989	660			5
+354	okean_o1_5	Okean-O1-5	Okean-O1-5	NSAU,Roscosmos,RosHydroMet	Inactive	Drifting orbit	28 Feb 1990	28 Feb 1992	660			5
+355	okean_o1_6	Okean-O1-6	Okean-O1-6	NSAU,Roscosmos,RosHydroMet	Inactive	Drifting orbit	04 Jun 1991	04 Jun 1993	660			5
+356	okean_o1_7	Okean-O1-7	Okean-O1-7	NSAU,Roscosmos,RosHydroMet	Inactive	Drifting orbit	11 Oct 1994	11 Oct 1996	660			5
+357	Orsted	Ørsted	Ørsted	DNSC,CNES,NASA	Inactive	Drifting orbit	23 Feb 1999	Jan 2014	750			5
+358	pace	PACE	Plankton, Aerosol, Cloud, ocean Ecosystem	NASA,CNES	Operational	Sunsynchronous orbit	08 Feb 2024	≥2027	676	13:00 desc	-20009--	3
+359	parasol	PARASOL	Polarisation et Anisotropie des Réflectances au sommet de l'Atmosphère, couplées avec un Satellite d'Observation emportant un Lidar	CNES	Inactive	Sunsynchronous orbit	18 Dec 2004	18 Dec 2013	700	15:20 asc		1
+360	seosar_paz	SEOSAR/Paz	Satélite Español de Observación SAR (also Paz)	MDE,CDTI	Operational	Sunsynchronous orbit	22 Feb 2018	≥2026	514	06:00 asc	0-20009-0-044	4
+361	pleiades_1a	Pléiades-1A	Pleiades-1A	CNES	Operational	Sunsynchronous orbit	17 Dec 2011	≥2028	705	10:30 desc	0-20009-0-	1
+362	pleiades_1b	Pléiades-1B	Pleiades-1B	CNES	Operational	Sunsynchronous orbit	02 Dec 2012	≥2028	694	10:30 desc	0-20009-0-	1
+363	prisma	PRISMA	PRecursore IperSpettrale della Missione Applicativa	ASI	Operational	Sunsynchronous orbit	22 Mar 2019	≥2026	615	10:30 desc	0-20009-0-	2
+364	proba_1	PROBA-1	Project for On-Board Autonomy - 1	ESA	Operational	Sunsynchronous orbit	22 Oct 2001	≥2026	615	07:30 desc	0-20009-0-	4
+365	quikscat	QuikSCAT	Quick Scatterometer Mission	NASA	Inactive	Sunsynchronous orbit	19 Jun 1999	23 Nov 2009	803	06:00 asc	0-20009-0-281	1
+366	radarsat_1	RadarSat-1	RadarSat-1	CSA	Inactive	Sunsynchronous orbit	04 Nov 1995	29 Mar 2013	798	06:00 desc		1
+367	radarsat_2	RadarSat-2	RadarSat-2	CSA	Operational	Sunsynchronous orbit	14 Dec 2007	≥2027	798	05:59 desc	-20009--	1
+368	rapideye_5_sats	RapidEye (5 sats)	RapidEye (5 sats)	Planet,DLR,RapidEye	Presumably inactive	Sunsynchronous orbit	29 Aug 2008	Mar 2020	630	11:00 desc		1
+369	rasat	RASAT	Remote Sensing Satellite	TÜBITAK-UZAY	Operational	Sunsynchronous orbit	17 Aug 2011	≥2026	690	10:15 asc	0-20009-0-	1
+370	rcm_1	RCM-1	RadarSat Constellation Mission - 1	CSA	Operational	Sunsynchronous orbit	12 Jun 2019	≥2031	592	06:01 desc	-20009--	2
+373	resourcesat_1_irs_p6	ResourceSat-1 (IRS-P6)	Satellite for Earth Resources - 1	ISRO	Inactive	Sunsynchronous orbit	17 Oct 2003	07 Dec 2013	817	10:42 desc		3
+374	resourcesat_2	ResourceSat-2	Satellite for Earth Resources - 2	ISRO	Operational	Sunsynchronous orbit	20 Apr 2011	≥2026	817	10:33 desc	-20009--	3
+375	resurs_dk	Resurs-DK	Resurs-DK	Roscosmos	Inactive	Drifting orbit	15 Jun 2006	≥2016	570			3
+376	resurs_o1_1	Resurs-O1-1	Resurs-O1-1	Roscosmos,RosHydroMet	Inactive	Sunsynchronous orbit	03 Oct 1985	11 Nov 1986	620	10:15 asc		3
+377	resurs_o1_2	Resurs-O1-2	Resurs-O1-2	Roscosmos,RosHydroMet	Inactive	Sunsynchronous orbit	20 Apr 1988	01 Jun 1999	650	10:15:00 asc		2
+378	resurs_o1_3	Resurs-O1-3	Resurs-O1-3	Roscosmos,RosHydroMet	Inactive	Sunsynchronous orbit	04 Nov 1994	15 May 2001	675	10:15:00 asc		2
+379	resurs_o1_4	Resurs-O1-4	Resurs-O1-4	Roscosmos,RosHydroMet	Inactive	Sunsynchronous orbit	10 Jul 1998	15 Jan 2002	835	10:15 asc		4
+380	risat_1	RISAT-1	Radar Imaging Satellite -1	ISRO	Inactive	Sunsynchronous orbit	26 Apr 2012	31 Mar 2017	546	06:00 desc		1
+381	risat_2	RISAT-2	Radar Imaging Satellite - 2	ISRO	Inactive	Drifting orbit	20 Apr 2009	30 Oct 2022	440			1
+382	sac_a	SAC-A	Satélite de Aplicaciones Cientificas - A	CONAE,AEB,INPE,NASA	Inactive	Drifting orbit	04 Dec 1998	15 Aug 1999	395			0
+383	sac_b	SAC-B	Satélite de Aplicaciones Cientificas - B	CONAE,AEB,INPE,NASA	Lost at launch	Drifting orbit	04 Nov 1996	04 Nov 1996	550			5
+384	sac_c	SAC-C	Satélite de Aplicaciones Cientificas - B	CONAE,AEB,INPE,NASA	Inactive	Sunsynchronous orbit	21 Nov 2000	15 Aug 2013	705	10:20 desc	0-20009-0-820	9
+385	sac_d	SAC-D	Satélite de Aplicaciones Cientificas - D	CONAE,AEB,INPE,NASA	Inactive	Sunsynchronous orbit	10 Jun 2011	07 Jun 2015	661	06:00 desc	0-20009-0-821	8
+386	saocom_1a	SAOCOM-1A	SAtélite Argentino de Observación COn Microondas - 1A	CONAE	Operational	Sunsynchronous orbit	08 Oct 2018	≥2026	620	06:00 asc	0-20009-0-	2
+387	saocom_1b	SAOCOM-1B	SAtélite Argentino de Observación COn Microondas - 1B	CONAE	Operational	Sunsynchronous orbit	30 Aug 2020	≥2026	620	06:00 asc	0-20009-0-	2
+388	saocom_2a	SAOCOM-2A	SAtélite Argentino de Observación COn Microondas - 2A	CONAE	Planned	Sunsynchronous orbit	≥2026	≥2030	620	06:00 asc	0-20009-0-	2
+389	saocom_2b	SAOCOM-2B	SAtélite Argentino de Observación COn Microondas - 2B	CONAE	Planned	Sunsynchronous orbit	≥2026	≥2031	620	06:00 asc		2
+390	saral	SARAL	Satellite with ARGOS and AltiKa	CNES,ISRO	Operational	Sunsynchronous orbit	25 Feb 2013	≥2026	800	05:56 asc	0-20009-0-441	4
+391	scd_1	SCD-1	Satélite de Coleta de Dados - 1	INPE,AEB	Operational	Drifting orbit	09 Feb 1993	≥2026	750		0-20009-0-	1
+392	scd_2	SCD-2	Satélite de Coleta de Dados - 2	INPE,AEB	Operational	Drifting orbit	22 Oct 1998	≥2026	750		0-20009-0-	1
+393	scisat_1	SCISAT-1	Scientific Satellite -1	CSA,NASA	Operational	Drifting orbit	13 Aug 2003	≥2027	650		0-20009-0-812	3
+394	seasat	SeaSat	SeaSat	NASA	Inactive	Drifting orbit	27 Jun 1978	10 Oct 1978	785			7
+395	orbview_2_seastar	OrbView-2/SeaStar	OrbView-2 (former: SeaStar)	GeoEye	Inactive	Sunsynchronous orbit	01 Aug 1997	11 Dec 2010	705	12:00 desc		1
+396	sentinel_1a	Sentinel-1A	Sentinel-1A	ESA,EC	Inactive	Sunsynchronous orbit	03 Apr 2014	29 Jun 2026	693	06:00 desc	0-20009-0-062	1
+397	sentinel_1b	Sentinel-1B	Sentinel-1B	ESA,EC	Inactive	Sunsynchronous orbit	25 Apr 2016	03 Aug 2022	693	06:00 desc	0-20009-0-063	1
+398	sentinel_2a	Sentinel-2A	Sentinel-2A	ESA,EC	Unclear	Sunsynchronous orbit	23 Jun 2015	May 2026	786	10:30 desc	-20009--	1
+399	sentinel_2b	Sentinel-2B	Sentinel-2B	ESA,EC	Operational	Sunsynchronous orbit	07 Mar 2017	≥2027	786	10:30 desc	-20009--	1
+400	sentinel_3a	Sentinel-3A	Sentinel-3A	ESA,EC,EUMETSAT	Operational	Sunsynchronous orbit	16 Feb 2016	≥2027	814.5	10:00 desc	0-20009-0-061	7
+402	sentinel_5p	Sentinel-5P	Sentinel-5 precursor	ESA,NSO	Operational	Sunsynchronous orbit	13 Oct 2017	≥2027	824	13:30 asc	0-20009-0-064	3
+403	sich_1	SICH-1	SICH-1 (Okean-O1-8)	NSAU,Roscosmos,RosHydroMet	Inactive	Drifting orbit	31 Aug 1995	14 Dec 2001	650			5
+404	sich_1m	SICH-1M	SICH-1 (Okean-O1-9)	NSAU,Roscosmos,RosHydroMet	Inactive	Drifting orbit	24 Dec 2004	15 Apr 2006	650			5
+405	sich_2	SICH-2	SICH-2	NSAU	Inactive	Sunsynchronous orbit	17 Aug 2011	12 Dec 2012	700	10:50 desc		3
+406	smap	SMAP	Soil Moisture Active-Passive	NASA	Operational	Sunsynchronous orbit	31 Jan 2015	≥2026	685	06:00 desc	0-20009-0-789	1
+407	smm	SMM	Solar Maximum Mission	NASA	Inactive	Drifting orbit	14 Feb 1980	24 Nov 1989	510			7
+408	smos	SMOS	Soil Moisture and Ocean Salinity	ESA,CDTI,CNES	Operational	Sunsynchronous orbit	02 Nov 2009	≥2028	755	06:00 asc	0-20009-0-046	3
+409	sms_1	SMS-1	Synchronous Meteorological Satellite - 1	NASA,NOAA	Inactive	Geostationary orbit	17 May 1974	21 Jan 1981	35786			8
+410	sms_2	SMS-2	Synchronous Meteorological Satellite - 2	NASA,NOAA	Inactive	Geostationary orbit	06 Feb 1975	05 Aug 1982	35786			8
+411	sorce	SORCE	Solar Radiation and Climate Experiment	NASA	Inactive	Drifting orbit	25 Jan 2003	25 Feb 2020	640			5
+412	spot_1	SPOT-1	Satellite Pour l’Observation de la Terre - 1	CNES,Spot Image	Inactive	Sunsynchronous orbit	22 Feb 1986	02 Aug 2003	822	10:30 desc	0-20009-0-020	1
+413	spot_2	SPOT-2	Satellite Pour l’Observation de la Terre - 2	CNES,Spot Image	Inactive	Sunsynchronous orbit	22 Jan 1990	01 Jul 2009	822	10:30 desc	0-20009-0-021	2
+414	spot_3	SPOT-3	Satellite Pour l’Observation de la Terre - 3	CNES,Spot Image	Inactive	Sunsynchronous orbit	26 Sep 1993	14 Nov 1996	822	10:30:00 desc	0-20009-0-022	3
+415	spot_4	SPOT-4	Satellite Pour l’Observation de la Terre - 4	CNES,Spot Image	Inactive	Sunsynchronous orbit	24 Mar 1998	11 Jan 2013	832	10:30:00 desc	0-20009-0-023	5
+416	spot_5	SPOT-5	Satellite Pour l’Observation de la Terre - 5	CNES,Spot Image	Inactive	Sunsynchronous orbit	04 May 2002	27 Mar 2015	832	10:30:00 desc		4
+417	spot_6	SPOT-6	Satellite Pour l’Observation de la Terre - 6	Spot Image,CNES	Operational	Sunsynchronous orbit	09 Sep 2012	≥2026	695	10:30 desc	0-20009-0-	1
+418	spot_7	SPOT-7	Satellite Pour l’Observation de la Terre - 7	Spot Image,CNES	Operational	Sunsynchronous orbit	30 Jun 2014	≥2026	695	10:30 desc	0-20009-0-	1
+419	starlette	STARLETTE	Satellite de Taille Adaptée avec Réflecteurs Laser pour les Etudes de la Terre	CNES	Operational	Drifting orbit	06 Feb 1975	≥2050	812			1
+420	stella	STELLA	STELLA	CNES	Operational	Drifting orbit	30 Sep 1993	≥2050	800			1
+421	sumbandilasat	SumbandilaSat	SumbandilaSat	SANSA	Inactive	Sunsynchronous orbit	17 Sep 2009	15 Jul 2011	504	09:00 desc		1
+422	swarm_c	SWARM-C	The Earth’s Magnetic Field and Environment Explorers - C	ESA,CNES,CSA	Operational	Drifting orbit	22 Nov 2013	≥2026	460		0-20009-0-	9
+423	swarm_b	SWARM-B	The Earth’s Magnetic Field and Environment Explorers - B	ESA,CNES,CSA	Operational	Drifting orbit	22 Nov 2013	≥2026	530		0-20009-0-	9
+424	swot	SWOT	Surface Water and Ocean Topography	NASA,CNES	Operational	Drifting orbit	16 Dec 2022	≥2029	891		0-20009-0-280	9
+425	tacsat_2	TacSat-2	Tactical Satellite - 2	DoD	Inactive	Drifting orbit	12 Dec 2006	21 Dec 2007	418			1
+426	tandem_x	TanDEM-X	TerraSAR-X Add-oN for Digital Elevation Measurement	DLR	Operational	Sunsynchronous orbit	21 Jun 2010	≥2026	515	06:00 desc	0-20009-0-043	2
+427	terrasar_x	TerraSAR-X	TerraSAR-X	DLR	Operational	Sunsynchronous orbit	15 Jun 2007	≥2026	515	06:00 desc	0-20009-0-042	2
+428	tandem_l	Tandem-L	Tandem-L Interferometric Radar Mission	DLR	Considered	Sunsynchronous orbit	≥2028	≥2040	745	06:00 desc	0-20009-0-	2
+429	theos_1	THEOS-1	Thailand Earth Observation System - 1	GISTDA	Operational	Sunsynchronous orbit	01 Oct 2008	≥2026	822	21:35 asc	0-20009-0-	2
+430	timed	TIMED	Thermosphere, Ionosphere, Mesosphere Energetics and Dynamics mission	NASA	Operational	Drifting orbit	07 Dec 2001	≥2026	625		0-20009-0-	8
+431	tiros_1	TIROS-1	Television and Infra-Red Observation Satellite - 1	NASA	Inactive	Drifting orbit	01 Apr 1960	17 Jun 1960	720			2
+432	tiros_2	TIROS-2	Television and Infra-Red Observation Satellite - 2	NASA	Inactive	Drifting orbit	23 Nov 1960	24 Dec 1961	670			4
+433	tiros_3	TIROS-3	Television and Infra-Red Observation Satellite - 3	NASA	Inactive	Drifting orbit	12 Jul 1961	27 Feb 1962	780			3
+434	tiros_4	TIROS-4	Television and Infra-Red Observation Satellite - 4	NASA	Inactive	Drifting orbit	02 Feb 1962	19 Jul 1962	770			4
+435	tiros_5	TIROS-5	Television and Infra-Red Observation Satellite - 5	NASA	Inactive	Drifting orbit	19 Jun 1962	27 Nov 1963	750			2
+436	tiros_6	TIROS-6	Television and Infra-Red Observation Satellite - 6	NASA	Inactive	Drifting orbit	18 Sep 1962	12 Oct 1963	700			2
+437	tiros_7	TIROS-7	Television and Infra-Red Observation Satellite - 7	NASA	Inactive	Drifting orbit	19 Jun 1963	03 Jun 1968	680			4
+438	tiros_8	TIROS-8	Television and Infra-Red Observation Satellite - 8	NASA	Inactive	Drifting orbit	21 Dec 1963	01 Jul 1967	730			2
+439	tiros_9	TIROS-9	Television and Infra-Red Observation Satellite - 9	NASA	Inactive	Sunsynchronous orbit	22 Jan 1965	12 Jun 1968	1350	09:30 desc		1
+440	tiros_10	TIROS-10	Television and Infra-Red Observation Satellite - 10	NASA	Inactive	Sunsynchronous orbit	02 Jul 1965	01 Jul 1967	790	09:30 desc		1
+441	tiros_n	TIROS-N	Television and Infra-Red Observation Satellite - N	NOAA,NASA	Inactive	Sunsynchronous orbit	13 Oct 1978	27 Feb 1981	850	14:30 asc	0-20009-0-708	7
+442	toms_earth_probe	TOMS Earth Probe	Total Ozone Mapping Spectrometer - Earth Probe	NASA	Inactive	Sunsynchronous orbit	02 Jul 1996	02 Dec 2006	750	12:00 desc		1
+443	topex_poseidon	TOPEX-Poseidon	Topography Experiment - Positioning,Ocean,Solid Earth, Ice Dynamics, Orbital Navigator	NASA,CNES	Inactive	Drifting orbit	10 Aug 1992	09 Oct 2005	1336			6
+444	topsat	TopSat	TopSat	UKSA	Inactive	Sunsynchronous orbit	27 Oct 2005	17 Aug 2008	686	10:30 asc		1
+445	trmm	TRMM	Tropical Rainfall Measuring Mission	NASA,JAXA	Inactive	Drifting orbit	27 Nov 1997	08 Apr 2015	402		0-20009-0-282	5
+446	uars	UARS	Upper Atmosphere Research Satellite	NASA	Inactive	Drifting orbit	12 Sep 1991	14 Dec 2005	570		0-20009-0-781	12
+447	uk_dmc_1	UK-DMC-1	UK contribution to the Disaster Monitoring Constellation - 1	SSTL,UKSA	Inactive	Sunsynchronous orbit	27 Sep 2003	15 Nov 2011	686	10:30 asc		1
+448	uk_dmc_2	UK-DMC-2	UK contribution to the Disaster Monitoring Constellation - 2	SSTL,UKSA	Presumably inactive	Sunsynchronous orbit	29 Jul 2009	≥2019	686	10:30 asc		1
+449	vens	VENµS	Vegetation and Environment monitoring on a New Micro-Satellite	CNES,ISA	Operational	Sunsynchronous orbit	02 Aug 2017	≥2026	720	10:30 desc	0-20009-0-	1
+450	cosmic_2	COSMIC-2	Constellation Observing System for Meteorology, Ionosphere & Climate - 2a	NSPO,NOAA,UCAR	Operational	Drifting orbit	25 Jun 2019	≥2026	520		0-20009-0-741	4
+451	triton	TRITON	TRITON also (FORMOSAT-7R)	NSPO,NOAA,UCAR	Operational	Sunsynchronous orbit	09 Oct 2023	≥2029	628	10:00 desc	-20009--	1
+452	resurs_p1	Resurs-P1	Resurs-P1	Roscosmos	Inactive	Sunsynchronous orbit	25 Jun 2013	Oct 2021	473	10:30 desc		4
+453	x_sat	X-Sat	X-Sat	NTU	Presumably inactive	Sunsynchronous orbit	20 Apr 2011	≥2019	820	10:20 desc		1
+454	ace	ACE	Advanced Composition Explorer	NASA	Operational	Lagrange libration point 1	25 Aug 1997	≥2027	1.5e+06		-20009--	9
+455	solar_b_hinode	Solar-B (Hinode)	Solar-B (Hinode)	JAXA	Operational	Sunsynchronous orbit	23 Sep 2006	≥2026	680	06:00 asc	0-20009-0-	7
+456	mms_a	MMS-A	Magnetospheric MultiScale mission - A	NASA	Operational	Cross-magnetosphere orbit	13 Mar 2015	≥2026			0-20009-0-	14
+457	sdo	SDO	Solar Dynamics Observatory	NASA	Operational	Geosynchronous orbit	11 Feb 2010	≥2026	35756		0-20009-0-	6
+458	soho	SOHO	Solar and Heliospheric Observatory	ESA,NASA	Operational	Lagrange libration point 1	02 Dec 1995	≥2027	1.5e+06		0-20009-0-	18
+459	stereo_b	STEREO-B	Solar-TErrestrial RElations Observatory - B	NASA	Inactive	Ecliptic orbit	26 Oct 2006	01 Oct 2014				16
+460	themis_d	THEMIS-D	Time History of Events and Macroscale Interactions during Substorms - D	NASA	Operational	Cross-magnetosphere orbit	17 Feb 2007	≥2026			-20009--	7
+461	trace	TRACE	Transition Region and Coronal Explorer	NASA	Inactive	Sunsynchronous orbit	02 Apr 1998	21 Jun 2010	627	06:00 asc		1
+464	amazonia_1b	Amazônia-1B	Amazônia-1B	INPE,AEB	Planned	Sunsynchronous orbit	≥2026	≥2029	752	10:30 desc	0-20009-0-	1
+465	arctica_m_n1	Arctica-M N1	Arctica-M N1	RosHydroMet,Roscosmos	Operational	Molniya orbit	28 Feb 2021	≥2026			-20009--	6
+466	arctica_m_n2	Arctica-M N2	Arctica-M N2	RosHydroMet,Roscosmos	Operational	Molniya orbit	16 Dec 2023	≥2028			-20009--	6
+467	asnaro_1	ASNARO-1	Advanced Satellite with new system ARchitecure for Observation - 1	USEF,METI,NEC	Operational	Sunsynchronous orbit	06 Nov 2014	≥2026	504	11:00 desc	0-20009-0-	1
+468	asnaro_2	ASNARO-2	Advanced Satellite with new system ARchitecure for Observation - 2	USEF,METI,NEC	Operational	Sunsynchronous orbit	17 Jan 2018	≥2026	500	06:00 desc	0-20009-0-	1
+469	aditya_1	Aditya-1	Aditya-1	ISRO	Operational	Lagrange libration point 1	02 Sep 2023	≥2028	1500000		-20009--	8
+470	cassiope	CASSIOPE	Cascade SmallSat and Ionospheric Polar Explorer	CSA	Inactive	Cross-magnetosphere orbit	29 Sep 2013	17 Dec 2021	670			9
+471	cluster_1	CLUSTER-1	CLUSTER-1	ESA,NASA	Inactive	Cross-magnetosphere orbit	09 Aug 2000	22 Oct 2025			0-20009-0-	12
+472	cluster_3	CLUSTER-3	CLUSTER-3	ESA,NASA	Inactive	Cross-magnetosphere orbit	16 Jul 2000	08 Sep 2024			0-20009-0-	12
+473	coronas_photon	Coronas-Photon	Complex Orbital Observations Near-Earth of Activity of the Sun - Photon	Roscosmos	Inactive	Drifting orbit	30 Jan 2009	01 Dec 2009	550			12
+474	electro_l_n3	Electro-L N3	Electro-L Number 3	RosHydroMet,Roscosmos	Operational	Geostationary orbit	24 Dec 2019	≥2029	35786		-20009--	10
+475	geotail	GEOTAIL	GEOTAIL	JAXA,NASA	Inactive	Cross-magnetosphere orbit	02 Jul 1992	28 Jun 2022			0-20009-0-	10
+478	iss_sage_iii	ISS SAGE-III	Stratospheric Aerosol and Gas Experiment III on the ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Operational	Drifting orbit	19 Feb 2017	≥2026	407		-20009--	2
+479	sentinel_6a	Sentinel-6A	Sentinel-6A	EUMETSAT,CNES,EC,ESA,NASA,NOAA	Operational	Drifting orbit	21 Nov 2020	≥2027	1336		0-20009-0-066	10
+480	sentinel_6b	Sentinel-6B	Sentinel-6B	EUMETSAT,CNES,EC,ESA,NASA,NOAA	Operational	Drifting orbit	17 Nov 2025	≥2032	1336		0-20009-0-067	10
+481	kompsat_3a	KOMPSAT-3A	Korea Multi-Purpose Satellite - 3A	KARI	Operational	Sunsynchronous orbit	26 Mar 2015	≥2026	528	13:30 asc	0-20009-0-	2
+482	meteor_m_n2_1	Meteor-M N2-1	Meteor-M Number 2-1	RosHydroMet,Roscosmos	Inactive	Sunsynchronous orbit	28 Nov 2017	28 Nov 2017	816.4	15:09 asc		12
+483	meteor_m_n2_2	Meteor-M N2-2	Meteor-M Number 2-2	RosHydroMet,Roscosmos	Inactive	Sunsynchronous orbit	05 Jul 2019	Jan 2025	821	15:15 asc	0-20009-0-325	11
+486	picard	Picard	Picard	CNES	Inactive	Sunsynchronous orbit	15 Jun 2010	04 Apr 2014	725	06:00 asc		4
+487	polar	Polar	Polar	NASA	Inactive	Cross-magnetosphere orbit	24 Feb 1996	15 Apr 2008				11
+488	wind	WIND	WIND	NASA	Operational	Lagrange libration point 1	01 Nov 1994	≥2026	1.5e+06		0-20009-0-	8
+489	zy_3_01	ZY-3-01	Zi Yuan - 3-01	CAST,CRESDA	Inactive	Sunsynchronous orbit	09 Jan 2012	≥2022	506	10:30 desc	0-20009-0-	2
+490	proba_2	PROBA-2	Project for On-Board Autonomy - 2	ESA	Operational	Sunsynchronous orbit	02 Nov 2009	≥2026	730	06:00 asc	0-20009-0-	6
+491	vap_2_sat	VAP (2 sat)	Van Allen Probes (2 sats)	NASA	Inactive	Cross-magnetosphere orbit	30 Aug 2012	18 Oct 2019				7
+492	zy_1_2c	ZY-1-2C	Zi Yuan 1-2	CAST,CRESDA	Presumably inactive	Sunsynchronous orbit	22 Dec 2011	≥2019	781	10:30 desc		2
+493	ssot	SSOT	Sistema Satellital para Observation de la Tierra	ACE	Unclear	Sunsynchronous orbit	17 Dec 2011	≥2022	630	10:30 desc		1
+494	geoeye_1	GeoEye-1	GeoEye-1	Maxar,GeoEye	Unclear	Sunsynchronous orbit	06 Sep 2008	≥2026	681	10:30 desc	0-20009-0-	1
+497	quickbird	QuickBird	QuickBird	Maxar,DigitalGlobe	Inactive	Sunsynchronous orbit	18 Oct 2001	27 Jan 2015	482	10:30 desc		1
+498	worldview_1	WorldView-1	WorldView-1	Maxar,DigitalGlobe	Operational	Sunsynchronous orbit	18 Sep 2007	≥2026	499	13:30 desc	0-20009-0-	1
+499	worldview_2	WorldView-2	WorldView-2	Maxar,DigitalGlobe	Operational	Sunsynchronous orbit	01 Oct 2009	≥2026	770	10:30:00 desc	0-20009-0-	2
+500	worldview_3	WorldView-3	WorldView-3	Maxar,DigitalGlobe	Operational	Sunsynchronous orbit	13 Aug 2014	≥2026	770	10:30:00 desc	0-20009-0-	2
+501	orbview_3	OrbView-3	OrbView-3	Maxar,GeoEye	Inactive	Sunsynchronous orbit	26 Jun 2003	23 Apr 2007	470	10:30:00 desc		1
+502	ikonos	Ikonos	Ikonos	Maxar,GeoEye	Inactive	Sunsynchronous orbit	24 Sep 1999	31 Mar 2015	686	10:30 desc		1
+506	ace_aer_clo_eco	ACE (Aer.Clo.Eco.)	Aerosol-Cloud-Ecosystems	NASA	Mission concept	Sunsynchronous orbit	TBD	TBD				4
+508	biomass	BIOMASS	BIOMASS	ESA	Operational	Sunsynchronous orbit	29 Apr 2025	≥2030	660	06:00 desc	0-20009-0-	2
+509	carbonsat	CarbonSat	Satellite for the Carbon Cycle	ESA	Mission concept	Sunsynchronous orbit	TBD	TBD			0-20009-0-	0
+511	flex	FLEX	FLuorescence EXplorer	ESA	Commissioning	Sunsynchronous orbit	15 Sep 2026	Jun 2030	800	10:00 desc	0-20009-0-	1
+512	gacm	GACM	Global Atmospheric Composition Mission	NASA	Mission concept	Sunsynchronous orbit	TBD	TBD				1
+513	geo_cape	GEO-CAPE	Geostationary Coastal and Air Pollution Events	NASA	Mission concept	Geostationary orbit	TBD	TBD	35786			0
+514	hyspiri	HyspIRI	Hyperspectral Infra-Red Imager	NASA	Mission concept	Sunsynchronous orbit	TBD	TBD	TBD			0
+515	list	LIST	Lidar Surface Topography	NASA	Mission concept	Sunsynchronous orbit	TBD	TBD				0
+516	path	PATH	Precipitation and All-weather Temperature and Humidity	NASA	Mission concept	Geostationary orbit	TBD	TBD	35786			1
+518	sclp	SCLP	Snow and Cold Land Processes	NASA	Mission concept	Sunsynchronous orbit	TBD	TBD	TBD	TBD		1
+519	xovwm	XOVWM	Extended Ocean Vector Winds Mission	NOAA	Mission concept	Sunsynchronous orbit	TBD	TBD	TBD	TBD		0
+520	fy_3g	FY-3G	Feng Yun 3G	CMA,NRSCC	Operational	Drifting orbit	16 Apr 2023	≥2029	407		0-20009-0-526	7
+521	fy_3i	FY-3I	Feng Yun 3I	CMA,NRSCC	Planned	Drifting orbit	≥2027	≥2033	407		0-20009-0-	7
+522	ionosfera_m_n1_n2	Ionosfera-M N1 & N2	Ionosfera-M N1 and N2	Roscosmos	Operational	Sunsynchronous orbit	04 Nov 2024	≥2032	820	09:30 asc	-20009--	12
+523	ionosfera_m_n3_n4	Ionosfera-M N3 & N4	Ionosfera-M N3 and N4	Roscosmos	Operational	Sunsynchronous orbit	25 Jul 2025	≥2033	820	16:00 asc	0-20009-0-	12
+524	zond_m	Zond-M	Zond-M	Roscosmos	Considered	Sunsynchronous orbit	≥2027	≥2030	600	TBD	0-20009-0-	24
+525	dscovr	DSCOVR	Deep Space Climate Observatory	NOAA,NASA	Operational	Lagrange libration point 1	11 Feb 2015	≥2029	1.5e+06	N/A	0-20009-0-	5
+526	eos_03_gisat_1	EOS 03 (GISAT-1)	Earth Observation Satellite - 03	ISRO	Lost at launch	Geostationary orbit	11 Aug 2021	11 Aug 2021	35786		0-20009-0-	4
+527	th_1a	TH-1A	Tian Hui - 1A	PLA,CAST	Presumably inactive	Sunsynchronous orbit	24 Aug 2010	≥2018	503	13:30 desc		2
+528	th_1b	TH-1B	Tian Hui - 1B	PLA,CAST	Unclear	Sunsynchronous orbit	06 May 2012	≥2023	498	13:30 desc		2
+529	iss_tsis_1	ISS TSIS-1	Total and Spectral Solar Irradiance Sensor - 1	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Operational	Drifting orbit	15 Dec 2017	≥2026	407		-20009--	1
+531	meteosat_3_adc	Meteosat-3 (ADC)	Meteosat-3 (Atlantic Data Coverage)	EUMETSAT,ESA	Inactive	Geostationary orbit	01 Aug 1991	01 Feb 1993	35786		-20009--	2
+532	meteosat_3_x_adc	Meteosat-3 (X-ADC)	Meteosat-3 (Extended Atlantic Data Coverage)	EUMETSAT,ESA	Inactive	Geostationary orbit	01 Feb 1993	22 Nov 1995	35786		-20009--	2
+533	meteosat_5_iodc	Meteosat-5 (IODC)	Meteosat-5 (Indian Ocean Data Coverage)	EUMETSAT,ESA	Inactive	Geostationary orbit	01 Jun 1998	26 Apr 2007	35786		-20009--	2
+534	meteosat_6_iodc	Meteosat-6 (IODC)	Meteosat-6 (Indian Ocean Data Coverage)	EUMETSAT,ESA	Inactive	Geostationary orbit	27 Apr 2007	15 Apr 2011	35786		-20009--	2
+535	meteosat_7	Meteosat-7	Meteosat-7	EUMETSAT,ESA	Inactive	Geostationary orbit	02 Sep 1997	05 Dec 2006	35786		0-20009-0-054	2
+536	goes_9_gms_backup	GOES-9 (GMS backup)	Geostationary Operational Environmental Satellite - 9 (GMS backup)	NOAA,NASA	Inactive	Geostationary orbit	22 May 2003	24 Jul 2006	35786			10
+537	goes_10_s_america	GOES-10 (S-America)	Geostationary Operational Environmental Satellite - 10 (South America)	NOAA,NASA	Inactive	Geostationary orbit	01 Dec 2006	02 Dec 2009	35786			10
+538	goes_12_s_america	GOES-12 (S-America)	Geostationary Operational Environmental Satellite - 12 (South America)	NOAA,NASA	Inactive	Geostationary orbit	10 May 2010	16 Aug 2013	35786			7
+539	c_nofs	C/NOFS	Communication/Navigation Outage Forecasting System	DoD,NASA,UCAR,USAF	Inactive	Drifting orbit	16 Apr 2008	28 Nov 2015	588		0-20009-0-786	6
+540	vrss_1	VRSS-1	Venezuelan Remote Sensing Satellite - 1 (Francisco de Miranda)	ABAE,CAST	Unclear	Sunsynchronous orbit	29 Sep 2012	≥2022	645	10:30 desc		2
+541	stpsat_3	STPSat-3	Space Test Program Satellite - 3	DoD	Unclear	Drifting orbit	20 Nov 2013	≥2022	500			3
+542	stpsat_1	STPSat-1	Space Test Program Satellite - 1	DoD	Inactive	Drifting orbit	09 Mar 2007	07 Oct 2009	550			2
+543	stpsat_2	STPSat-2	Space Test Program Satellite - 2	DoD	Presumably inactive	Drifting orbit	20 Nov 2010	≥2019	647			1
+545	cfosat	CFOSAT	Chinese-French Oceanography Satellite	NSOAS,CNES	Operational	Sunsynchronous orbit	29 Oct 2018	≥2026	500	06:00 desc	0-20009-0-802	3
+547	cygnss_8_sats	CYGNSS (8 sats)	Cyclone Global Navigation Satellite System (8 sats)	NASA	Operational	Drifting orbit	15 Dec 2016	≥2026	500			1
+548	solar_orbiter	Solar Orbiter	Solar Orbiter	ESA,NASA	Operational	Solar orbit	10 Feb 2020	≥2030	N/A		0-20009-0-	14
+550	gokturk_2	Göktürk-2	Göktürk-2	TÜBITAK-UZAY	Unclear	Sunsynchronous orbit	18 Dec 2012	≥2023	679	10:30 asc	0-20009-0-	1
+555	hy_2b	HY-2B	Hai Yang 2B	NSOAS,CAST	Operational	Sunsynchronous orbit	25 Oct 2018	≥2026	973	06:00 desc	0-20009-0-503	6
+556	hy_2c	HY-2C	Hai Yang 2C	NSOAS,CAST	Operational	Drifting orbit	21 Sep 2020	≥2026	1336		0-20009-0-504	6
+557	hy_2d	HY-2D	Hai Yang 2D	NSOAS,CAST	Operational	Drifting orbit	19 May 2021	≥2026	973		0-20009-0-505	6
+558	resurs_p2	Resurs-P2	Resurs-P2	Roscosmos	Inactive	Sunsynchronous orbit	26 Dec 2014	10 Oct 2018	475	10:30 desc		6
+559	clarreo_2a	CLARREO-2A	Climate Absolute Radiance and Refractivity Observatory - 2A	NASA	Mission concept	Drifting orbit	TBD	TBD	609			3
+560	clarreo_1b	CLARREO-1B	Climate Absolute Radiance and Refractivity Observatory - 1B	NASA	Mission concept	Drifting orbit	TBD	TBD	609			1
+561	clarreo_2b	CLARREO-2B	Climate Absolute Radiance and Refractivity Observatory - 2B	NASA	Mission concept	Drifting orbit	TBD	TBD	609			1
+562	proba_v	PROBA-V	Project for On-Board Autonomy - Végétation	ESA	Unclear	Sunsynchronous orbit	07 May 2013	31 Oct 2021	820	11:00 asc	-20009--	2
+563	orbview_4	OrbView-4	OrbView-4	Maxar,GeoEye	Lost at launch	Sunsynchronous orbit	21 Sep 2001	21 Sep 2001	470	10:30 desc		2
+564	nigeriasat_x	NigeriaSat-X	NigeriaSat-X	NASRDA	Unclear	Sunsynchronous orbit	17 Aug 2011	≥2023	681	10:15 asc		1
+565	dubaisat_2	DubaiSat-2	DubaiSat-2	EIAST	Inactive	Sunsynchronous orbit	21 Nov 2013	≥2022	600	10:30 desc	0-20009-0-	1
+566	solar_a_yohkoh	Solar-A (Yohkoh)	Solar-A (Yohkoh)	JAXA	Inactive	Drifting orbit	30 Aug 1991	15 Dec 2001	645			4
+567	coronas_i	Coronas-I	Complex Orbital Observations Near-Earth of Activity of the Sun - I	Roscosmos	Inactive	Drifting orbit	02 Mar 1994	15 Jul 1994	550			12
+568	coronas_f	Coronas-F	Complex Orbital Observations Near-Earth of Activity of the Sun - F	Roscosmos	Inactive	Drifting orbit	31 Jul 2001	06 Dec 2005	550			16
+569	stsat_1	STSat-1	Science and Technology Satellite - 1	KARI	Inactive	Sunsynchronous orbit	27 Sep 2003	15 Oct 2005	690	10:30 asc		4
+570	stsat_2	STSat-2	Science and Technology Satellite - 2	KARI	Lost at launch	Cross-magnetosphere orbit	25 Aug 2009	25 Aug 2009	670			2
+571	stsat_3	STSat-3	Science and Technology Satellite - 3	KARI	Unclear	Sunsynchronous orbit	21 Nov 2013	≥2023	700	17:30 asc		3
+572	iris	IRIS	Interface Region Imaging Spectrograph	NASA	Operational	Sunsynchronous orbit	28 Jun 2013	≥2026	649	06:00 asc	0-20009-0-	2
+573	rhessi	RHESSI	Reuven Ramaty High Energy Solar Spectroscopic Imager	NASA	Inactive	Drifting orbit	05 Feb 2002	16 Aug 2018	600			2
+574	twins_2_sats	TWINS (2 sats)	Two Wide-angle Imaging Neutral-atom Spectrometers (2 sats)	NASA,USAF	Inactive	Molniya orbit	28 Jun 2006	≥2020				2
+575	ibex	IBEX	Interstellar Boundary Explorer	NASA	Unclear	Cross-magnetosphere orbit	19 Oct 2008	≥2023			0-20009-0-	1
+576	artemis_p1	ARTEMIS-P1	Acceleration, Reconnection, Turbulence, and Electrodynamics of the Moon's Interaction with the Sun - P1	NASA	Operational	Lunar orbit	15 Jul 2011	≥2026			0-20009-0-	7
+577	parker_solar_probe	Parker Solar Probe	Parker Solar Probe	NASA	Operational	Solar orbit	12 Aug 2018	≥2026			0-20009-0-	7
+578	stsat_2c	STSat-2C	Science and Technology Satellite - 2C	KARI	Inactive	Cross-magnetosphere orbit	30 Jan 2013	15 Sep 2014	670			4
+580	meteor_p1	Meteor-P1	Meteor-Priroda - 1	Roscosmos,RosHydroMet	Inactive	Drifting orbit	09 Jul 1974	09 Jul 1976	890			5
+581	meteor_p2	Meteor-P2	Meteor-Priroda - 2	Roscosmos,RosHydroMet	Inactive	Drifting orbit	15 May 1976	15 May 1978	890			6
+582	meteor_p3	Meteor-P3	Meteor-Priroda - 3	Roscosmos,RosHydroMet	Inactive	Sunsynchronous orbit	29 Jul 1977	29 Jul 1979	640	10:15 asc		5
+583	meteor_p4	Meteor-P4	Meteor-Priroda - 4	Roscosmos,RosHydroMet	Inactive	Sunsynchronous orbit	25 Jan 1979	25 Jan 1981	640	10:15 asc		4
+584	meteor_p5	Meteor-P5	Meteor-Priroda - 5	Roscosmos,RosHydroMet	Inactive	Sunsynchronous orbit	18 Jun 1980	18 Jun 1982	630	10:15 asc		6
+585	meteor_p6	Meteor-P6	Meteor-Priroda - 6	Roscosmos,RosHydroMet	Inactive	Sunsynchronous orbit	10 Jul 1981	10 Jul 1983	650	10:15 asc		4
+586	hcmm	HCMM	Heat Capacity Mapping Mission	NASA	Inactive	Sunsynchronous orbit	26 Apr 1978	30 Sep 1980	620	14:00 asc		1
+587	vnredsat_1	VNREDSat-1	Vietnam Natural Resources, Environment and Disaster-monitoring Satellite - 1	STI-VAST	Unclear	Sunsynchronous orbit	07 May 2013	≥2022	704	10:30 desc		1
+588	gf_1	GF-1	Gao Fen - 1	CNSA,CGSTL	Unclear	Sunsynchronous orbit	26 Apr 2013	≥2023	640	10:30 desc		2
+589	gf_2	GF-2	Gao Fen - 2	CNSA,CGSTL	Operational	Sunsynchronous orbit	19 Aug 2014	≥2026	631	10:30 desc	0-20009-0-	1
+590	tempo	TEMPO	Tropospheric Emissions: Monitoring of Pollution	NASA	Operational	Geostationary orbit	07 Apr 2023	≥2026	35786		0-20009-0-790	2
+591	gfz_1	GFZ-1	GeoForschungsZentrum-1 Geodesy Satellite	DLR	Inactive	Drifting orbit	19 Apr 1995	23 Jun 1999	398			1
+592	merlin	MERLIN	Methane Remote Sensing Mission	CNES,DLR	Planned	Sunsynchronous orbit	≥2028	≥2031	506	06:00 asc		1
+593	cartosat_2c	CartoSat-2C	CartoSat-2C	ISRO	Operational	Sunsynchronous orbit	22 Jun 2016	≥2026	505	09:28 desc	0-20009-0-	3
+594	cartosat_2d	CartoSat-2D	CartoSat-2D	ISRO	Operational	Sunsynchronous orbit	15 Feb 2017	≥2026	515	09:30 desc	0-20009-0-	3
+595	compira	COMPIRA	Coastal and Ocean measurement Mission with Precise and Innovative Radar Altimeter	JAXA	Planned	Drifting orbit	≥2026	≥2029	TBD		0-20009-0-	5
+596	egyptsat_1	EgyptSat-1	EgyptSat-1	NARSS	Inactive	Sunsynchronous orbit	17 Apr 2007	19 Jul 2010	668	10:30 desc		2
+597	egyptsat_2	EgyptSat-2	EgyptSat-2	NARSS	Inactive	Drifting orbit	16 Apr 2014	09 Jun 2015	634	10:30 desc		1
+598	sampex	SAMPEX	Solar Anomalous and Magnetospheric Particle Explorer	NASA	Inactive	Drifting orbit	03 Jul 1992	13 Nov 2012	590			4
+599	image	IMAGE	Imager for Magnetopause-to-Aurora Global Exploration	NASA	Inactive	Cross-magnetosphere orbit	25 Mar 2000	15 Dec 2005	6782			8
+600	kazeosat_1	KazEOSat-1	High Resolution Earth Observation Satellite, Kazakhstan	Kazcosmos	Unclear	Sunsynchronous orbit	30 Apr 2014	≥2022	759	10:15 desc		1
+601	kazeosat_2	KazEOSat-2	Medium Resolution Earth Observation Satellite, Kazakhstan	Kazcosmos	Unclear	Sunsynchronous orbit	19 Jun 2014	≥2022	630	10:30 asc		1
+602	resourcesat_2a	ResourceSat-2A	Satellite for Earth Resources - 2A	ISRO	Operational	Sunsynchronous orbit	07 Dec 2016	≥2026	817	10:20 desc	0-20009-0-	3
+603	insat_3ds	INSAT-3DS	Indian National Satellite - 3D second repeat	IMD,ISRO	Operational	Geostationary orbit	17 Feb 2024	≥2034	35786		0-20009-0-474	4
+604	eos_04	EOS-04	Earth Observation Satellite - 04 (also known as RISAT-1A)	ISRO	Operational	Sunsynchronous orbit	14 Feb 2022	≥2027	529	06:00 desc		1
+605	scatsat_1	ScatSat-1	ScatSat-1	ISRO	Inactive	Sunsynchronous orbit	26 Sep 2016	28 Feb 2021	732	08:45 desc	0-20009-0-422	1
+606	gosat_2	GOSAT-2	Green-house gas Observing Satellite - 2	JAXA,MOE	Operational	Sunsynchronous orbit	29 Oct 2018	≥2026	613	13:00 desc	0-20009-0-141	2
+607	gf_3	GF-3	Gao Fen - 3	CNSA,CGSTL	Operational	Sunsynchronous orbit	09 Aug 2016	≥2026	758	06:00 desc		1
+608	gf_4	GF-4	Gao Fen - 4	CNSA,CGSTL	Operational	Geostationary orbit	28 Dec 2015	≥2026	35786			1
+609	gf_5	GF-5	Gao Fen - 5	CNSA,CGSTL	Inactive	Sunsynchronous orbit	08 May 2018	≥2020	705	13:30 asc		6
+613	electro_l_n4	Electro-L N4	Electro-L Number 4	RosHydroMet,Roscosmos	Operational	Geostationary orbit	05 Feb 2023	≥2033	35786		-20009--	13
+615	meteor_m_n2_3	Meteor-M N2-3	Meteor-M Number 2-3	RosHydroMet,Roscosmos	Operational	Sunsynchronous orbit	27 Jun 2023	≥2028	820	15:00 asc	-20009--	10
+616	meteor_m_n2_4	Meteor-M N2-4	Meteor-M Number 2-4	RosHydroMet,Roscosmos	Operational	Sunsynchronous orbit	29 Feb 2024	≥2029	820.7	09:00 desc	-20009--	12
+617	meteor_m_n2_5	Meteor-M N2-5	Meteor-M Number 2-5	RosHydroMet,Roscosmos	Planned	Sunsynchronous orbit	≥2027	≥2032	820.7	15:00 desc	-20009--	12
+621	iss_rapidscat	ISS RapidScat	Rapid Scatterometer on the ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Inactive	Drifting orbit	21 Sep 2014	19 Aug 2016	407		0-20009-0-801	1
+622	iss_cats	ISS CATS	Cloud-Aerosol Transport System on the ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Inactive	Drifting orbit	10 Jan 2015	≥2017	407			1
+623	iss_lis	ISS LIS	Lightning Imaging Sensor on the ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Inactive	Drifting orbit	19 Feb 2017	16 Nov 2023	407		-20009--	1
+624	iss_oco_3	ISS OCO-3	Orbiting Carbon Observatory 3 on the ISS	NASA	Operational	Drifting orbit	04 May 2019	≥2026	407		-20009--	3
+625	iss_hico	ISS HICO	Hyperspectral Imager for the Coastal Ocean on the ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Inactive	Drifting orbit	25 Sep 2009	24 Sep 2014	407			1
+626	sac_e_sabia_mar_a	SAC-E/SABIA-MAR A	Satélite de Aplicaciones Cientificas - E / Satélite Argentino-Brasileño de Información en Alimento, Agua y Ambiente - A	CONAE,AEB,INPE,NASA	Planned	Sunsynchronous orbit	≥2026	≥2029	645	10:30 desc	0-20009-0-	3
+627	sac_e_sabia_mar_b	SAC-E/SABIA-MAR B	Satélite de Aplicaciones Cientificas - E / Satélite Argentino-Brasileño de Información en Alimento, Agua y Ambiente - B	CONAE,AEB,INPE,NASA	Planned	Sunsynchronous orbit	≥2026	≥2029	645	10:30 desc	0-20009-0-	3
+628	iss_desis	ISS DESIS	DLR Earth Sensing Imaging Spectrometer on the ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Operational	Drifting orbit	29 Jun 2018	≥2026			0-20009-0-	1
+629	deimos_2	Deimos-2	Deimos-2	Elecnor-Deimos	Operational	Sunsynchronous orbit	19 Jun 2014	≥2026	620	10:30 asc	0-20009-0-	1
+630	skysat_1	SkySat-1	Sky Satellite - 1	Planet	Unclear	Sunsynchronous orbit	21 Nov 2013	≥2023	587	10:30 desc		1
+631	skysat_2	SkySat-2	Sky Satellite - 2	Planet	Operational	Sunsynchronous orbit	08 Jul 2014	≥2026	600	10:30 desc		1
+632	icon	ICON	Ionospheric Connection Explorer	NASA	Operational	Drifting orbit	11 Oct 2019	≥2026	575		0-20009-0-	7
+633	iss_gedi	ISS GEDI	Global Ecosystem Dynamics Investigation on ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Operational	Drifting orbit	05 Dec 2018	≥2030	407		-20009--	2
+634	iss_ecostress	ISS ECOSTRESS	ECOsystem Spaceborne Thermal Radiometer Experiment on Space Station	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Operational	Drifting orbit	29 Jun 2018	≥2026	407		-20009--	1
+635	kondor_e1	Kondor-E1	Kondor-Experimental SAR Spacecraft No. 1	NPOMash	Presumably inactive	Drifting orbit	19 Dec 2014	≥2019	500			1
+636	diademe_1	Diadéme-1	Diadéme-1	CNES	Operational	Drifting orbit	08 Feb 1967	≥2050	698			1
+637	diademe_2	Diadéme-2	Diadéme-2	CNES	Operational	Drifting orbit	15 Feb 1967	≥2050	990			1
+639	nisar	NISAR	NASA-ISRO Synthetic Aperture Radar	NASA,ISRO	Operational	Sunsynchronous orbit	30 Jul 2025	≥2029	747	06:00 desc	-20009--	4
+640	resurs_p3	Resurs-P3	Resurs-P3	Roscosmos	Inactive	Sunsynchronous orbit	13 Mar 2016	16 May 2017	477	10:30 desc		4
+643	hy_3c	HY-3C	Hai Yang 3C	NSOAS,CAST	Planned	Geostationary orbit	≥2028	≥2038	35786		0-20009-0-	0
+644	obzor_r_n1	Obzor-R N1	Operative Monitoring Satellite - Radar - number 1	Roscosmos	Commissioning	Sunsynchronous orbit	25 Dec 2025	≥2029	650	06:00 desc	-20009--	1
+645	obzor_r_n2	Obzor-R N2	Operative Monitoring Satellite - Radar - number 2	Roscosmos	Planned	Sunsynchronous orbit	≥2026	≥2029	650	TBD	0-20009-0-	1
+646	obzor_r_n3	Obzor-R N3	Operative Monitoring Satellite - Radar - number 3	Roscosmos	Planned	Sunsynchronous orbit	≥2026	≥2030	650	TBD	0-20009-0-	1
+647	obzor_r_n4	Obzor-R N4	Operative Monitoring Satellite - Radar - number 4	Roscosmos	Planned	Sunsynchronous orbit	≥2027	≥2034	650	TBD		1
+648	obzor_o_n1	Obzor-O N1	Operative Monitoring Satellite - Optical - number 1	Roscosmos	Planned	Sunsynchronous orbit	≥2026	≥2031	700	10:30 desc	0-20009-0-	0
+649	obzor_o_n2	Obzor-O N2	Operative Monitoring Satellite - Optical - number 2	Roscosmos	Planned	Sunsynchronous orbit	≥2026	≥2032	700	10:30 desc	0-20009-0-	0
+650	obzor_o_n3	Obzor-O N3	Operative Monitoring Satellite - Optical - number 3	Roscosmos	Planned	Sunsynchronous orbit	≥2026	≥2033	700	10:30 desc		0
+651	obzor_o_n4	Obzor-O N4	Operative Monitoring Satellite - Optical - number 4	Roscosmos	Planned	Sunsynchronous orbit	≥2027	≥2034	700	10:30 desc		0
+652	sj_9a	SJ-9A	Shijian 9A	CRESDA,CAST	Unclear	Sunsynchronous orbit	14 Oct 2012	≥2022	645	10:30 desc		2
+653	sj_9b	SJ-9B	Shijian 9B	CRESDA,CAST	Unclear	Sunsynchronous orbit	14 Oct 2012	≥2022	645	10:30 desc		1
+658	swarm_a	SWARM-A	The Earth’s Magnetic Field and Environment Explorers - A	ESA,CNES,CSA	Operational	Drifting orbit	22 Nov 2013	≥2026	460		0-20009-0-	9
+660	cartosat_2e	CartoSat-2E	CartoSat-2E	ISRO	Operational	Sunsynchronous orbit	23 Jun 2017	≥2026	505	09:29 desc	0-20009-0-	3
+662	jpss_3	JPSS-3	Joint Polar Satellite System - 3	NOAA,NASA	Planned	Sunsynchronous orbit	≥2033	≥2041	824	13:30 asc	-20009--	6
+663	jpss_4	JPSS-4	Joint Polar Satellite System - 4	NOAA,NASA	Planned	Sunsynchronous orbit	≥2028	≥2036	824	13:30 asc	-20009--	7
+664	goes_17	GOES-17	Geostationary Operational Environmental Satellite - 17	NOAA,NASA	Stand-by	Geostationary orbit	01 Mar 2018	≥2029	35786		0-20009-0-271	13
+665	goes_18	GOES-18	Geostationary Operational Environmental Satellite - 18	NOAA,NASA	Operational	Geostationary orbit	01 Mar 2022	≥2041	35786		0-20009-0-272	13
+666	goes_19	GOES-19	Geostationary Operational Environmental Satellite - 19	NOAA,NASA	Operational	Geostationary orbit	25 Jun 2024	≥2043	35786		0-20009-0-273	15
+667	gf_8	GF-8	Gao Fen - 8	CNSA,CGSTL	Operational	Sunsynchronous orbit	26 Jun 2015	≥2026	475	10:30 desc		1
+668	sstl_s1_1	SSTL-S1 1	Surrey Satellite Technology Ltd - S1 1	SSTL,21AT,UKSA	Operational	Sunsynchronous orbit	10 Jul 2015	≥2026	630	10:30 asc	0-20009-0-	2
+669	sstl_s1_2	SSTL-S1 2	Surrey Satellite Technology Ltd - S1 2	SSTL,21AT,UKSA	Operational	Sunsynchronous orbit	10 Jul 2015	≥2026	630	10:30 asc	0-20009-0-	2
+670	sstl_s1_3	SSTL-S1 3	Surrey Satellite Technology Ltd - S1 3	SSTL,21AT,UKSA	Operational	Sunsynchronous orbit	10 Jul 2015	≥2026	630	10:30 asc	0-20009-0-	2
+671	himawari_9	Himawari-9	Himawari-9	JMA	Operational	Geostationary orbit	02 Nov 2016	≥2034	35786		0-20009-0-174	2
+672	kondor_e	Kondor-E	Kondor-Experimental SAR Spacecraft	NPOMash	Inactive	Drifting orbit	27 Jun 2013	≥2014	500			1
+673	th_1c	TH-1C	Tian Hui - 1C	PLA,CAST	Operational	Sunsynchronous orbit	26 Oct 2015	≥2026	498	13:30 desc	0-20009-0-	2
+674	jilin_1	Jilin-1	Jilin-1	CGSTL	Operational	Sunsynchronous orbit	05 Jun 2019	≥2030	528	10:30 asc	-20009--	1
+675	worldview_4	WorldView-4	WorldView-4	Maxar,DigitalGlobe	Inactive	Sunsynchronous orbit	11 Nov 2016	07 Jan 2019	617	10:30 desc		2
+676	tansat	TANSAT	Exploratory Satellite for Atmospheric CO2	MOST,CAS,CMA	Inactive	Sunsynchronous orbit	21 Dec 2016	01 Feb 2022	712	13:30 asc	-20009--	2
+677	zy_3_02	ZY-3-02	Zi Yuan - 3-02	CAST,CRESDA	Operational	Sunsynchronous orbit	30 May 2016	≥2026	506	10:30 desc	0-20009-0-	2
+678	fy_3j	FY-3J	Feng-Yun 3J	CMA,NRSCC	Planned	Sunsynchronous orbit	≥2026	≥2034	836	05:20 desc	-20009--	18
+679	skysat_3	SkySat-3	Sky Satellite - 3	Planet	Operational	Sunsynchronous orbit	22 Jun 2016	≥2026	500	10:30 desc		1
+680	hy_3a_hy_1e	HY-3A (HY-1E)	Hai Yang 3A	NSOAS,CAST	Operational	Sunsynchronous orbit	16 Nov 2023	≥2031	781	10:30 desc	-20009--	4
+681	hy_1f	HY-1F	Hai Yang 1F	NSOAS,CAST	Planned	Sunsynchronous orbit	≥2028	≥2036	798	13:30 asc	0-20009-0-	4
+682	hy_2e	HY-2E	Hai Yang 2E	NSOAS,CAST	Commissioning	Sunsynchronous orbit	01 Jul 2026	≥2031	973	06:00 desc	0-20009-0-506	6
+683	hy_2f	HY-2F	Hai Yang 2F	NSOAS,CAST	Planned	Drifting orbit	≥2027	≥2031	1336		0-20009-0-	6
+684	meteosat_8_iodc	Meteosat-8 (IODC)	Meteosat-8 (Indian Ocean Data Coverage)	EUMETSAT,ESA	Inactive	Geostationary orbit	15 Sep 2016	Jun 2022	35786		-20009--	4
+685	hy_2n	HY-2N	Hai Yang 2N	NSOAS,CAST	Planned	Drifting orbit	≥2028	≥2033	1336		0-20009-0-	0
+686	hy_4a_or_hy_2s	HY-4A (or HY-2S)	Hai Yang 4A	NSOAS	Operational	Sunsynchronous orbit	13 Nov 2024	≥2033	654	06:00 desc	0-20009-0-	2
+687	hy_3d	HY-3D	Hai Yang 3D	NSOAS,CAST	Planned	Geostationary orbit	≥2028	≥2036	35786		0-20009-0-	0
+688	hy_2l_cfosat_fo	HY-2L (CFOSAT-FO)	HY-2L Chinese-French Oceanography Satellite - follow-on	NSOAS,CNES	Planned	Sunsynchronous orbit	≥2030	≥2038	500	07:00 desc	0-20009-0-	3
+689	iss_clarreo_pf	ISS CLARREO-PF	Climate Absolute Radiance and Refractivity Observatory Pathfinder on the ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Commissioning	Drifting orbit	15 May 2026	≥2028	407		-20009--	2
+690	maia	MAIA	Multi-Angle Imager for Aerosols	NASA	Planned	Sunsynchronous orbit	≥2026	≥2029	740	TBD	-20009--	1
+692	mistic_winds	MISTiC Winds	Midwave Infrared Sounding of Temperature and humidity in a Constellation for Winds	NASA	Mission concept	Sunsynchronous orbit	TBD	TBD	705	13:30 asc		0
+696	gf_9	GF-9	Gao Fen - 9	CNSA,CGSTL	Operational	Sunsynchronous orbit	14 Sep 2015	≥2026	650	10:30 desc		1
+697	skysat_4	SkySat-4	Sky Satellite - 4	Planet	Operational	Sunsynchronous orbit	16 Sep 2016	≥2026	507	10:30 desc		1
+698	skysat_5	SkySat-5	Sky Satellite - 5	Planet	Operational	Sunsynchronous orbit	16 Sep 2016	≥2026	507	10:30 desc		1
+699	skysat_6	SkySat-6	Sky Satellite - 6	Planet	Operational	Sunsynchronous orbit	16 Sep 2016	≥2026	507	10:30 desc		1
+700	skysat_7	SkySat-7	Sky Satellite - 7	Planet	Operational	Sunsynchronous orbit	16 Sep 2016	≥2026	509	10:30 desc		1
+701	skysat_8	SkySat-8	Sky Satellite - 8	Planet	Operational	Sunsynchronous orbit	31 Oct 2017	≥2026	500	13:30 asc		1
+702	skysat_9	SkySat-9	Sky Satellite - 9	Planet	Operational	Sunsynchronous orbit	31 Oct 2017	≥2026	500	13:30 asc		1
+703	skysat_10	SkySat-10	Sky Satellite - 10	Planet	Operational	Sunsynchronous orbit	31 Oct 2017	≥2026	500	13:30 asc		1
+704	skysat_11	SkySat-11	Sky Satellite - 11	Planet	Operational	Sunsynchronous orbit	31 Oct 2017	≥2026	500	13:30 asc		1
+705	skysat_12	SkySat-12	Sky Satellite - 12	Planet	Operational	Sunsynchronous orbit	31 Oct 2017	≥2026	500	13:30 asc		1
+706	skysat_13	SkySat-13	Sky Satellite - 13	Planet	Operational	Sunsynchronous orbit	31 Oct 2017	≥2026	500	13:30 asc		1
+707	perusat_1	PeruSat-1	PeruSat-1	CONIDA	Operational	Sunsynchronous orbit	16 Sep 2016	≥2026	705	10:30 desc		1
+708	alsat_1b	AlSat-1B	Algeria Satellite - 1B	ASAL	Operational	Sunsynchronous orbit	26 Sep 2016	≥2026	690	10:30 asc	0-20009-0-	1
+709	xmm_newton	XMM-Newton	X-ray Multi-Mirror Mission Observatory - Newton	ESA	Operational	Drifting orbit	10 Dec 1999	≥2026	40000			3
+710	crres	CRRES	Combined Release and Radiation Effects Satellite	NASA,DoD	Inactive	Drifting orbit	25 Jul 1990	12 Oct 1991	3400			1
+711	galileo	Galileo	Galileo	ESA,EC	Operational	Drifting orbit	21 Oct 2011	≥2031	23222			1
+712	ses_14	SES-14	SES-14	SES	Presumably inactive	Geostationary orbit	25 Jan 2018	≥2022	35786			1
+713	explorer_vii	Explorer-VII	Explorer-VII	NASA	Inactive	Drifting orbit	13 Oct 1959	24 Aug 1961	722			1
+714	gokturk_1a	Göktürk-1A	Göktürk-1A	TÜBITAK-UZAY	Operational	Sunsynchronous orbit	05 Dec 2016	≥2026	700	10:30 asc	0-20009-0-	1
+715	arase_erg	Arase (ERG)	Exploration of energization and Radiation in Geospace	JAXA	Operational	Cross-magnetosphere orbit	20 Dec 2016	≥2033	3000			10
+716	superview_1	SuperView-1	SuperView-1	CAST,SpacEyes	Operational	Sunsynchronous orbit	28 Dec 2016	≥2026	534	10:30 desc	0-20009-0-	1
+717	superview_2	SuperView-2	SuperView-2	CAST,SpacEyes	Operational	Sunsynchronous orbit	28 Dec 2016	≥2026	534	10:30 desc	0-20009-0-	1
+718	superview_3	SuperView-3	SuperView-3	CAST,SpacEyes	Operational	Sunsynchronous orbit	09 Jan 2018	≥2026	500	10:30 desc	0-20009-0-	1
+719	superview_4	SuperView-4	SuperView-4	CAST,SpacEyes	Operational	Sunsynchronous orbit	09 Jan 2018	≥2026	500	10:30 desc	0-20009-0-	1
+720	resourcesat_3	ResourceSat-3	Satellite for Earth Resources - 3	ISRO	Planned	Sunsynchronous orbit	≥2026	≥2030	795	10:30 desc	0-20009-0-	2
+721	resourcesat_3a	ResourceSat-3A	Satellite for Earth Resources - 3A	ISRO	Planned	Sunsynchronous orbit	≥2026	≥2030	795	10:30 desc		2
+722	oceansat_3a	OceanSat-3A	OceanSat-3A	ISRO	Planned	Sunsynchronous orbit	Sep 2026	≥2030	723	12:00 desc	-20009--	4
+724	landsat_9	Landsat-9	Landsat-9	USGS,NASA	Operational	Sunsynchronous orbit	27 Sep 2021	≥2031	705	10:00 desc	-20009--	2
+725	tsis_2	TSIS-2	Total and Spectral Solar Irradiance Sensor - 2	NASA	Planned	Drifting orbit	≥2026	≥2028	407		-20009--	1
+726	csim	CSIM	Compact Spectral Irradiance Monitor	NASA	Inactive	Drifting orbit	03 Dec 2018	Feb 2022	587			1
+728	amazonia_2	Amazônia-2	Amazônia-2	INPE,AEB	Planned	Sunsynchronous orbit	≥2026	≥2029	778	10:30 desc	0-20009-0-	1
+730	kanopus_v3	KANOPUS-V3	KANOPUS-V3	Roscosmos,RosHydroMet	Operational	Sunsynchronous orbit	01 Feb 2018	≥2026	510	10:30 asc	0-20009-0-	3
+732	kanopus_v4	KANOPUS-V4	KANOPUS-V4	Roscosmos,RosHydroMet	Operational	Sunsynchronous orbit	01 Feb 2018	≥2026	510	10:30 asc	0-20009-0-	3
+733	formosat_1	FORMOSAT-1	FORMOSAT-1	NSPO,UCAR	Inactive	Drifting orbit	26 Jan 1999	17 Jun 2004	600			2
+734	formosat_5	FORMOSAT-5	FORMOSAT-5	NSPO,UCAR	Operational	Sunsynchronous orbit	24 Aug 2017	≥2026	720	10:00 desc	0-20009-0-	3
+735	vrss_2	VRSS-2	Venezuelan Remote Sensing Satellite - 2 (Antonio José de Sucre)	ABAE,CAST	Unclear	Sunsynchronous orbit	09 Oct 2017	≥2023	636	10:30 desc		0
+736	mohammed_vi_a	Mohammed VI-A	Mohammed VI-A	CRTS	Operational	Sunsynchronous orbit	08 Nov 2017	≥2026	620	10:30 desc	0-20009-0-	1
+737	mohammed_vi_b	Mohammed VI-B	Mohammed VI-B	CRTS	Operational	Sunsynchronous orbit	21 Nov 2018	≥2026	620	10:30 desc	0-20009-0-	1
+738	cartosat_2f	CartoSat-2F	CartoSat-2F	ISRO	Operational	Sunsynchronous orbit	12 Jan 2018	≥2026	505	09:37 desc	0-20009-0-	3
+739	skysat_14	SkySat-14	Sky Satellite - 14	Planet	Operational	Sunsynchronous orbit	03 Dec 2018	≥2026	500	13:30 asc		1
+740	skysat_15	SkySat-15	Sky Satellite - 15	Planet	Operational	Sunsynchronous orbit	03 Dec 2018	≥2026	500	13:30 asc		1
+741	gf_1_02	GF-1-02	Gao Fen - 1 - 02	CNSA,CGSTL	Operational	Sunsynchronous orbit	31 Mar 2018	≥2026	640	10:30 desc		1
+742	gf_1_03	GF-1-03	Gao Fen - 1 - 03	CNSA,CGSTL	Operational	Sunsynchronous orbit	31 Mar 2018	≥2026	640	10:30 desc		1
+743	gf_1_04	GF-1-04	Gao Fen - 1 - 04	CNSA,CGSTL	Operational	Sunsynchronous orbit	31 Mar 2018	≥2026	640	10:30 desc		1
+745	iss_asim	ISS ASIM	Atmosphere-Space Interactions Monitor on the ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Operational	Drifting orbit	02 Apr 2018	≥2026	407		0-20009-0-	2
+746	gf_6	GF-6	Gao Fen - 6	CNSA,CGSTL	Operational	Sunsynchronous orbit	02 Jun 2018	≥2026	640	10:30 desc		2
+747	resourcesat_3s	ResourceSat-3S	Satellite for Earth Resources - 3 Sampler	ISRO	Planned	Sunsynchronous orbit	≥2026	≥2029	633	10:30 desc	0-20009-0-	2
+748	resourcesat_3sa	ResourceSat-3SA	Satellite for Earth Resources - 3 Sampler A	ISRO	Planned	Sunsynchronous orbit	≥2026	≥2031	633	10:30 desc		2
+749	hrsat_1a	HRSAT-1A	High Resolution Satellite -1A	ISRO	Planned	Sunsynchronous orbit	≥2027	≥2029	660	09:30 desc	0-20009-0-	1
+750	trishna	TRISHNA	TRISHNA	ISRO,CNES	Planned	Sunsynchronous orbit	≥2028	≥2031	761	12:30 asc	0-20009-0-	1
+751	alos_4_daichi_4	ALOS-4 (DAICHI-4)	Advanced Land Observing Satellite  - 4	JAXA	Operational	Sunsynchronous orbit	01 Jul 2024	≥2031	628	12:00 desc	-20009--	3
+752	gosat_gw	GOSAT-GW	Global Observation SATellite for Greenhouse gases and Water cycle	JAXA,MOE	Operational	Sunsynchronous orbit	28 Jun 2025	≥2032	666	13:30 asc	0-20009-0-142	2
+754	sentinel_1c	Sentinel-1C	Sentinel-1C	ESA,EC	Operational	Sunsynchronous orbit	05 Dec 2024	≥2034	693	06:00 desc	0-20009-0-068	2
+755	sentinel_1d	Sentinel-1D	Sentinel-1D	ESA,EC	Operational	Sunsynchronous orbit	04 Nov 2025	≥2035	693	06:00 desc	0-20009-0-069	1
+756	sentinel_2c	Sentinel-2C	Sentinel-2C	ESA,EC	Operational	Sunsynchronous orbit	04 Sep 2024	≥2034	786	10:30 desc	-20009--	1
+757	sentinel_2d	Sentinel-2D	Sentinel-2D	ESA,EC	Planned	Sunsynchronous orbit	≥2028	≥2038	786	10:30 desc	-20009--	1
+764	mats	MATS	Mesospheric Airglow/Aerosol Tomography and Spectroscopy	SNSA	Operational	Sunsynchronous orbit	04 Nov 2022	≥2026	585	06:00 desc	0-20009-0-	1
+765	gf_11	GF-11	Gao Fen - 9	CNSA,CGSTL	Operational	Sunsynchronous orbit	31 Jul 2018	≥2026	412	10:30 desc		1
+766	sstl_s1_4	SSTL-S1 4	Surrey Satellite Technology Ltd - S1 4	SSTL,21AT,UKSA	Operational	Sunsynchronous orbit	16 Sep 2018	≥2026	630	10:30 asc	0-20009-0-	2
+767	novasar_s	NovaSAR-S	NovaSAR-S	SSTL,UKSA	Operational	Sunsynchronous orbit	16 Sep 2018	≥2026	580	10:30 asc	0-20009-0-	2
+768	egyptsat_a	EgyptSat-A	EgyptSat-A	NARSS	Operational	Sunsynchronous orbit	21 Feb 2019	≥2026	668	10:30 desc	0-20009-0-	1
+769	hysis	HySIS	Hyper Spectral Imaging Spectrometer	ISRO	Operational	Sunsynchronous orbit	29 Nov 2018	≥2026	630	10:34 desc	0-20009-0-	1
+770	kanopus_v5	KANOPUS-V5	KANOPUS-V5	Roscosmos,RosHydroMet	Operational	Sunsynchronous orbit	27 Dec 2018	≥2026	510	10:30 asc	0-20009-0-	3
+771	kanopus_v6	KANOPUS-V6	KANOPUS-V6	Roscosmos,RosHydroMet	Operational	Sunsynchronous orbit	27 Dec 2018	≥2026	510	10:30 asc	0-20009-0-	3
+772	iss_moli	ISS MOLI	Multi-footprint Observation Lidar and Imager on the ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Planned	Drifting orbit	≥2027	≥2028	407		0-20009-0-	3
+773	dubaisat_3	DubaiSat-3	DubaiSat-3	EIAST	Operational	Sunsynchronous orbit	29 Oct 2018	≥2026	613	10:30 desc	0-20009-0-	1
+774	cbers_4b	CBERS-4B	China-Brazil Earth Resources Satellite - 4B (ZY-1 FM4B)	CAST,AEB,CRESDA,INPE	Operational	Sunsynchronous orbit	20 Dec 2019	≥2026	778	10:30 asc	0-20009-0-	5
+775	gf_7	GF-7	Gao Fen - 7	CNSA,CGSTL	Operational	Sunsynchronous orbit	03 Nov 2019	≥2027	500	10:30 desc		1
+776	blacksky_1	BlackSky-1	BlackSky 1	BSG	Operational	Sunsynchronous orbit	29 Nov 2018	≥2026	500	10:30 desc		1
+777	blacksky_2	BlackSky-2	BlackSky 2	BSG	Operational	Sunsynchronous orbit	03 Dec 2018	≥2026	500	10:30 desc		1
+778	risat_2b	RISAT-2B	Radar Imaging Satellite - 2B	ISRO	Operational	Drifting orbit	22 May 2019	≥2026	555		0-20009-0-	1
+780	falcon_eye_1	Falcon-Eye 1	Falcon-Eye 1	EIAST	Inactive	Sunsynchronous orbit	11 Jul 2019	11 Jul 2019	610	10:30 desc		1
+781	falcon_eye_2	Falcon-Eye 2	Falcon-Eye 2	EIAST	Operational	Sunsynchronous orbit	02 Dec 2020	≥2026	610	10:30 desc	0-20009-0-	1
+783	risat_2br1	RISAT-2BR1	Radar Imaging Satellite - 2BR-1	ISRO	Operational	Drifting orbit	11 Dec 2019	≥2026	555		0-20009-0-	1
+784	solar_l1	SOLAR-L1	Space Weather Follow-On at L1	NOAA,ESA,NASA	Operational	Lagrange libration point 1	24 Sep 2025	≥2030	1.5e+06		-20009--	5
+785	blacksky_3	BlackSky-3	BlackSky-3	BSG	Operational	Sunsynchronous orbit	28 Jun 2019	≥2026	500	10:30 desc		1
+786	resurs_p4	Resurs-P4	Resurs-P4	Roscosmos	Operational	Sunsynchronous orbit	31 Mar 2024	≥2029	477	10:30 desc	-20009--	4
+787	resurs_p5	Resurs-P5	Resurs-P5	Roscosmos	Operational	Sunsynchronous orbit	25 Dec 2024	≥2029	477	10:30 desc	-20009--	3
+788	blacksky_4	BlackSky-4	BlackSky-4	BSG	Operational	Sunsynchronous orbit	19 Aug 2019	≥2026	500	10:30 desc		1
+789	iss_raincube	ISS RainCube	Radar in a CubeSat	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Inactive	Drifting orbit	21 May 2018	22 Dec 2020	407			1
+790	zy_1_2d	ZY-1-2D	Zi Yuan 1-2D	CAST,CRESDA	Operational	Sunsynchronous orbit	12 Sep 2019	≥2026	781	10:30 desc	0-20009-0-	0
+792	hrsat_1b	HRSAT-1B	High Resolution Satellite -1B	ISRO	Planned	Sunsynchronous orbit	≥2027	≥2029	660	09:30 desc	0-20009-0-	1
+794	blacksky_9	BlackSky-9	BlackSky-9	BSG	Lost at launch	Sunsynchronous orbit	15 May 2021	15 May 2021	500	10:30 desc		1
+795	blacksky_8	BlackSky-8	BlackSky-8	BSG	Lost at launch	Sunsynchronous orbit	15 May 2021	15 May 2021	500	10:30 desc		1
+796	blacksky_7	BlackSky-7	BlackSky-7	BSG	Operational	Sunsynchronous orbit	22 Mar 2021	≥2026	500	10:30 desc		1
+797	blacksky_5	BlackSky-5	BlackSky-5	BSG	Operational	Sunsynchronous orbit	07 Aug 2020	≥2026	500	10:30 desc		1
+798	gf_10	GF-10	Gao Fen - 10	CNSA,CGSTL	Operational	Sunsynchronous orbit	04 Oct 2019	≥2027	613	10:30 desc		1
+800	electro_l_n5	Electro-L N5	Electro-L Number 5	RosHydroMet,Roscosmos	Commissioning	Geostationary orbit	12 Feb 2026	≥2035	35786		-20009--	13
+801	meteor_m_n2_6	Meteor-M N2-6	Meteor-M Number 2-6	RosHydroMet,Roscosmos	Planned	Sunsynchronous orbit	≥2028	≥2033	820.7	09:00 asc	0-20009-0-	12
+802	sentinel_3b	Sentinel-3B	Sentinel-3B	ESA,EC,EUMETSAT	Operational	Sunsynchronous orbit	25 Apr 2018	≥2028	814.5	10:00 desc	0-20009-0-065	7
+803	sentinel_3c	Sentinel-3C	Sentinel-3C	ESA,EC,EUMETSAT	Commissioning	Sunsynchronous orbit	15 Sep 2026	≥2035	810	10:00 desc	-20009--	7
+804	sentinel_3d	Sentinel-3D	Sentinel-3D	ESA,EC,EUMETSAT	Planned	Sunsynchronous orbit	≥2028	≥2037	810	10:00 desc	-20009--	7
+805	eos_01	EOS-01	Earth Observation Satellite - 01	ISRO	Operational	Drifting orbit	07 Nov 2020	≥2026	555		0-20009-0-	1
+806	iss_cowvr	ISS COWVR	Compact Ocean Wind Vector Radiometer on the ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Operational	Drifting orbit	21 Dec 2021	≥2026	407		0-20009-0-801	1
+807	iss_hisui	ISS HISUI	Hyperspectral Imager Suite	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Operational	Drifting orbit	05 Dec 2019	≥2026	407		0-20009-0-	1
+808	gf_12	GF-12	Gao Fen - 12	CNSA,CGSTL	Operational	Sunsynchronous orbit	27 Nov 2019	≥2027	635	06:00 desc		1
+809	lares_2	LARES-2	Laser RElativity Satellite - 2	ASI,NASA	Operational	Drifting orbit	13 Jul 2022	≥2050	5899		-20009--	1
+810	kompsat_6	KOMPSAT-6	Korea Multi-Purpose Satellite - 6	KARI	Planned	Sunsynchronous orbit	Dec 2026	≥2031	505	06:00 asc	-20009--	1
+811	kompsat_7	KOMPSAT-7	Korea Multi-Purpose Satellite - 7	KARI	Commissioning	Sunsynchronous orbit	01 Dec 2025	≥2029	685	10:50 asc	0-20009-0-	1
+812	cas_500_1	CAS 500-1	Compact Advanced Satellite 500-1	KARI	Operational	Sunsynchronous orbit	22 Mar 2021	≥2026	528	10:50 asc	0-20009-0-	1
+813	cas_500_2	CAS 500-2	Compact Advanced Satellite 500-2	KARI	Commissioning	Sunsynchronous orbit	03 May 2026	≥2030	528	10:50 asc	0-20009-0-	1
+814	artemis_p2	ARTEMIS-P2	Acceleration, Reconnection, Turbulence, and Electrodynamics of the Moon's Interaction with the Sun - P2	NASA	Operational	Lunar orbit	15 Jul 2011	≥2026			0-20009-0-	7
+815	mms_b	MMS-B	Magnetospheric MultiScale mission - B	NASA	Operational	Cross-magnetosphere orbit	13 Mar 2015	≥2026			0-20009-0-	14
+816	mms_c	MMS-C	Magnetospheric MultiScale mission - C	NASA	Operational	Cross-magnetosphere orbit	13 Mar 2015	≥2026			0-20009-0-	14
+817	mms_d	MMS-D	Magnetospheric MultiScale mission - D	NASA	Operational	Cross-magnetosphere orbit	13 Mar 2015	≥2026			0-20009-0-	14
+818	stereo_a	STEREO-A	Solar-TErrestrial RElations Observatory - B	NASA	Operational	Ecliptic orbit	26 Oct 2006	≥2026			0-20009-0-	16
+819	themis_a	THEMIS-A	Time History of Events and Macroscale Interactions during Substorms - A	NASA	Operational	Cross-magnetosphere orbit	17 Feb 2007	≥2026			-20009--	7
+820	themis_e	THEMIS-E	Time History of Events and Macroscale Interactions during Substorms - E	NASA	Operational	Cross-magnetosphere orbit	17 Feb 2007	≥2026			-20009--	7
+821	pleiades_neo_3	Pléiades-Neo 3	Pléiades-Neo 3	Airbus	Operational	Sunsynchronous orbit	29 Apr 2021	≥2031	620	10:30 desc		2
+822	pleiades_neo_4	Pléiades-Neo 4	Pléiades-Neo 4	Airbus	Operational	Sunsynchronous orbit	17 Aug 2021	≥2031	620	10:30 desc		2
+823	pleiades_neo_5	Pléiades-Neo 5	Pléiades-Neo 5	Airbus	Lost at launch	Sunsynchronous orbit	21 Dec 2022	21 Dec 2022	620	10:30 desc		2
+824	pleiades_neo_6	Pléiades-Neo 6	Pléiades-Neo 6	Airbus	Lost at launch	Sunsynchronous orbit	21 Dec 2022	21 Dec 2022	620	10:30 desc		2
+825	microcarb	MicroCarb	MicroCarb	CNES,EUMETSAT,UKSA	Operational	Sunsynchronous orbit	26 Jul 2025	≥2030	650	10:30 desc	0-20009-0-009	2
+827	lemur_2	Lemur-2	Low Earth Multi-Use Receiver - 2	SPIRE	Operational	Sunsynchronous orbit	28 Sep 2015	≥2040	550		0-20009-0-269	2
+828	cicero	CICERO	Community Initiative for Continuing Earth Radio Occultation	GeoOptics	Operational	Sunsynchronous orbit	23 Jun 2017	≥2026	550		0-20009-0-265	1
+829	iceye	ICEYE	ICEYE	ICEYE,ESA	Operational	Sunsynchronous orbit	03 Dec 2018	≥2040	600	TBD	-20009--	1
+832	3d_winds	3D-Winds	Three-Dimensional Tropospheric Winds from Space-Based Lidar	NASA	Mission concept	Sunsynchronous orbit	TBD	TBD	TBD		-20009--	1
+833	gf_9_02	GF-9-02	Gao Fen - 9-02	CNSA,CGSTL	Operational	Sunsynchronous orbit	31 May 2020	≥2028	650	10:30 desc		1
+834	gf_9_03	GF-9-03	Gao Fen - 9-03	CNSA,CGSTL	Operational	Sunsynchronous orbit	17 Jun 2020	≥2028	650	10:30 desc		1
+835	skysat_16	SkySat-16	Sky Satellite - 16	Planet	Operational	Sunsynchronous orbit	13 Jun 2020	≥2026	500	13:30 asc		1
+837	skysat_17	SkySat-17	Sky Satellite - 17	Planet	Operational	Sunsynchronous orbit	13 Jun 2020	≥2026	500	13:30 asc		1
+838	skysat_18	SkySat-18	Sky Satellite - 18	Planet	Operational	Sunsynchronous orbit	13 Jun 2020	≥2026	500	13:30 asc	0-20009-0-	1
+840	metop_sg_a1	Metop-SG-A1	Meteorological operational satellite Second Generation A1	EUMETSAT,ESA	Commissioning	Sunsynchronous orbit	13 Aug 2025	≥2034	835	09:30 desc	0-20009-0-024	10
+863	zy_3_03	ZY-3-03	Zi Yuan - 3-03	CAST,CRESDA	Operational	Sunsynchronous orbit	25 Jul 2020	≥2026	506	10:30 desc	0-20009-0-	2
+865	skysat_19	SkySat-19	Sky Satellite - 19	Planet	Operational	Sunsynchronous orbit	18 Aug 2020	≥2026	500	13:30 asc	0-20009-0-	1
+866	skysat_20	SkySat-20	Sky Satellite - 20	Planet	Operational	Sunsynchronous orbit	18 Aug 2020	≥2026	500	13:30 asc	0-20009-0-	1
+867	skysat_21	SkySat-21	Sky Satellite - 21	Planet	Operational	Sunsynchronous orbit	18 Aug 2020	≥2026	500	13:30 asc	0-20009-0-	1
+869	gf_9_04	GF-9-04	Gao Fen - 9-04	CNSA,CGSTL	Operational	Sunsynchronous orbit	06 Aug 2020	≥2028	640	10:30 desc		1
+874	iss_emit	ISS EMIT	Earth Surface Mineral Dust Source Investigation on the ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Operational	Drifting orbit	15 Jul 2022	≥2026	407		-20009--	1
+875	prefire_1	PREFIRE-1	Polar Radiant Energy in the Far Infrared Experiment-1	NASA	Operational	Sunsynchronous orbit	05 Jun 2024	≥2026	544	15:45 desc	-20009--	1
+876	forum	FORUM	Far-infrared Outgoing Radiation Understanding and Monitoring	ESA	Planned	Sunsynchronous orbit	≥2028	≥2033	835	09:30 desc	0-20009-0-	1
+877	gf_9_05	GF-9-05	Gao Fen - 9-05	CNSA,CGSTL	Operational	Sunsynchronous orbit	23 Aug 2020	≥2028	640	10:30 desc		1
+879	gf_11_02	GF-11-02	Gao Fen - 11-02	CNSA,CGSTL	Operational	Sunsynchronous orbit	07 Sep 2020	≥2028	415	10:30 desc		1
+880	hj_2a	HJ-2A	Huan Jing 2A	CRESDA,CAST	Operational	Sunsynchronous orbit	27 Sep 2020	≥2026	650	10:30 desc	0-20009-0-	3
+882	hj_2b	HJ-2B	Huan Jing 2B	CRESDA,CAST	Operational	Sunsynchronous orbit	27 Sep 2020	≥2026	650	10:30 desc	0-20009-0-	3
+884	gf_13	GF-13	Gao Fen - 13	CNSA,CGSTL	Operational	Geostationary orbit	11 Oct 2020	≥2028	35786			1
+885	gf_14	GF-14	Gao Fen - 14	CNSA,CGSTL	Operational	Sunsynchronous orbit	06 Dec 2020	≥2028	488	10:30 desc		1
+886	cimr_a	CIMR-A	Copernicus Imaging Microwave Radiometer-A	ESA,EC,EUMETSAT	Planned	Sunsynchronous orbit	≥2029	≥2036	832	06:00 desc	0-20009-0-	1
+887	cluster_2	CLUSTER-2	CLUSTER-2	ESA,NASA	Inactive	Cross-magnetosphere orbit	16 Jul 2000	08 Sep 2024			0-20009-0-	12
+888	cluster_4	CLUSTER-4	CLUSTER-4	ESA,NASA	Inactive	Cross-magnetosphere orbit	09 Aug 2000	08 Sep 2024			0-20009-0-	12
+889	theos_2_main	THEOS-2 Main	Thailand Earth Observation System - 2 Main VHR Satellite	GISTDA	Operational	Sunsynchronous orbit	09 Oct 2023	≥2033	621	22:15 asc	-20009--	2
+890	theos_2a_small	THEOS-2A Small	Thailand Earth Observation System - 2 Small Satellite	GISTDA	Lost at launch	Sunsynchronous orbit	12 Jan 2026	≥2026	590	10:30 asc	-20009--	1
+891	blacksky_6	BlackSky-6	BlackSky-6	BSG	Operational	Sunsynchronous orbit	07 Aug 2020	≥2026	490	10:30 desc		1
+892	gf_12_02	GF-12-02	Gao Fen - 12-02	CNSA,CGSTL	Operational	Sunsynchronous orbit	30 Mar 2021	≥2029	635	06:00 desc		1
+893	capella	Capella	Capella	Capella	Operational	Sunsynchronous orbit	03 Dec 2018	≥2040	500	10:30 desc	-20009--	1
+894	fy_4m1	FY-4M1	FY-4 Microwave1	CMA,NRSCC	Planned	Geostationary orbit	≥2026	≥2033	35786		0-20009-0-	2
+895	tropics_02	TROPICS-02	Time-Resolved Observations of Precipitation structure and storm Intensity with a Constellation of Smallsats - 02	NASA	Lost at launch	Drifting orbit	12 Jun 2022	12 Jun 2022	550		0-20009-0-227	1
+896	tropics_03	TROPICS-03	Time-Resolved Observations of Precipitation structure and storm Intensity with a Constellation of Smallsats - 03	NASA	Inactive	Drifting orbit	08 May 2023	12 Nov 2025	550		0-20009-0-228	1
+901	gnomes_1	GNOMES-1	GNSS Navigation and Occultation Measurement Satellites	PlanetiQ,LOFT	Inactive	Sunsynchronous orbit	30 Aug 2020	≥2021	600	TBD		2
+902	gf_11_03	GF-11-03	Gao Fen - 11-03	CNSA,CGSTL	Operational	Sunsynchronous orbit	20 Nov 2021	≥2028	450	10:30 desc		1
+903	blacksky_10	BlackSky-10	BlackSky-10	BSG	Operational	Sunsynchronous orbit	18 Nov 2021	≥2026	500	10:30 desc		1
+904	blacksky_11	BlackSky-11	BlackSky-11	BSG	Operational	Sunsynchronous orbit	18 Nov 2021	≥2026	500	10:30 desc		1
+905	blacksky_12	BlackSky-12	BlackSky-12	BSG	Operational	Sunsynchronous orbit	02 Dec 2021	≥2026	500	10:30 desc		1
+906	blacksky_13	BlackSky-13	BlackSky-13	BSG	Operational	Sunsynchronous orbit	02 Dec 2021	≥2026	500	10:30 desc		1
+907	blacksky_14	BlackSky-14	BlackSky-14	BSG	Operational	Drifting orbit	09 Dec 2021	≥2026	430			1
+908	blacksky_15	BlackSky-15	BlackSky-15	BSG	Operational	Drifting orbit	09 Dec 2021	≥2026	430			1
+910	gf_5_02	GF-5-02	Gao Fen - 5-02	CNSA,CGSTL	Operational	Sunsynchronous orbit	07 Sep 2021	≥2028	705	13:30 asc		6
+911	flock	FLOCK	FLOCK (Dove)	Planet	Operational	Sunsynchronous orbit	09 Jan 2014	≥2040	475	10:30 desc	-20009--	1
+912	chime_a	CHIME-A	Copernicus Hyperspectral Imaging Mission for the Environment-A	ESA,EC,EUMETSAT	Planned	Sunsynchronous orbit	≥2029	≥2034	786	10:30 desc		1
+913	co2m_a	CO2M-A	Carbon Dioxide Monitoring mission-A	ESA,EC,EUMETSAT	Planned	Sunsynchronous orbit	≥2027	≥2034	735	11:30 desc	0-20009-0-006	4
+914	cristal_a	CRISTAL-A	Copernicus polaR Ice and Snow Topography ALtimeter-A	ESA,EC,EUMETSAT	Planned	Drifting orbit	≥2028	≥2034	717			6
+915	lstm_a	LSTM-A	Land Surface Temperature Monitoring-A	ESA,EC,EUMETSAT	Planned	Sunsynchronous orbit	≥2029	≥2034	640	13:30 asc	0-20009-0-	1
+916	rose_l_a	ROSE-L A	Copernicus Observation System for Europe in L-band A	ESA,EC,EUMETSAT	Planned	Sunsynchronous orbit	≥2030	≥2035	693	06:00 desc		2
+917	altius	ALTIUS	Atmospheric Limb Tracker for Investigation of the Upcoming Stratosphere	ESA,BIRA	Planned	Sunsynchronous orbit	≥2027	≥2030	668	10:00 desc	0-20009-0-045	2
+918	meteosat_9_iodc	Meteosat-9 (IODC)	Meteosat-9 (IODC)	EUMETSAT,ESA	Operational	Geostationary orbit	01 Jul 2022	≥2027	35786		0-20009-0-056	4
+920	gf_3_02_or_csar_01	GF-3(02) or CSAR-01	GF-3(02)	CNSA,CGSTL	Operational	Sunsynchronous orbit	22 Nov 2021	≥2029	740	06:00 desc	0-20009-0-	2
+921	truths	TRUTHS	Traceable Radiometry Underpinning Terrestrial- and Helio- Studies	ESA,UKSA	Mission concept	Drifting orbit	TBD	TBD	610		0-20009-0-	2
+922	iss_tempest_d	ISS TEMPEST-D	Temporal Experiment for Storms and Tropical Systems Technology - Demonstration on the ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Inactive	Drifting orbit	21 May 2018	22 Jun 2021	400			1
+923	iss_tempest_1	ISS TEMPEST-1	Temporal Experiment for Storms and Tropical Systems Technology - 1 on the ISS	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Inactive	Drifting orbit	21 Dec 2021	Jun 2024	400		-20009--	1
+924	iss_gari	ISS GARI	The GAGG Radiation Instruments (GARI)	NASA,CSA,DLR,ESA,JAXA,Roscosmos	Inactive	Drifting orbit	21 Dec 2021	10 Jan 2023	407		0-20009-0-	1
+925	blacksky_16	BlackSky-16	BlackSky-16	BSG	Operational	Drifting orbit	02 Apr 2022	≥2026	430			1
+926	blacksky_17	BlackSky-17	BlackSky-17	BSG	Operational	Drifting orbit	02 Apr 2022	≥2026	430			1
+927	sich_2_30	SICH-2-30	SICH-2-30 (originally SICH-2-1)	NSAU	Operational	Sunsynchronous orbit	13 Jan 2022	≥2027	700	10:50 desc		3
+928	punch	PUNCH	Polarimeter to UNify the Corona and Heliosphere	NASA,NRL	Operational	Sunsynchronous orbit	12 Mar 2025	≥2028	570	06:00 asc	0-20009-0-	3
+929	strix_a	StriX-α	StriX-α	Synspective	Inactive	Sunsynchronous orbit	15 Dec 2020	≥2024	500	10:00 asc	-20009--	1
+930	strix_b	StriX-β	StriX-β	Synspective	Operational	Sunsynchronous orbit	28 Feb 2022	≥2032	500	10:00 desc		1
+931	edrs_c	EDRS-C	European Data Relay Satellite - C	ESA,Airbus	Operational	Geostationary orbit	06 Aug 2019	≥2034	35786			1
+932	vigil_l5	Vigil-L5	Vigil-L5 (previously known as Lagrange-L5)	ESA	Planned	L4-L5	≥2031	≥2038			-20009--	9
+933	tropics_01_pathfinder	TROPICS-01 (Pathfinder)	Time-Resolved Observations of Precipitation structure and storm Intensity with a Constellation of Smallsats - 01	NASA	Inactive	Sunsynchronous orbit	30 Jun 2021	≥2023	550	13:30 asc	0-20009-0-709	1
+934	aws_pfm	AWS PFM	Arctic Weather Satellite Proto-Flight Model	ESA	Operational	Sunsynchronous orbit	16 Aug 2024	≥2029	600	10:00 desc	0-20009-0-080	1
+935	Nusat	ÑuSat	ÑuSat Earth Observation (also referred to as Aleph)	Satellogic	Operational	Drifting orbit	30 May 2016	≥2040	500		-20009--	1
+936	gf_3_03_or_csar_02	GF-3(03) or CSAR-02	GF-3(03)	CNSA,CGSTL	Operational	Sunsynchronous orbit	06 Apr 2022	≥2030	740	06:00 desc	0-20009-0-	2
+937	dq_1	DQ-1	DQ-1 also AEMS (Atmospheric Environment Monitoring Satellite) or Daqi-1	CNSA,CGSTL	Operational	Sunsynchronous orbit	15 Apr 2022	≥2030	705	13:00 asc		5
+938	superview_neo_1_01	SuperView Neo-1 01	SuperView Neo-1 01	CAST,SpacEyes	Operational	Sunsynchronous orbit	29 Apr 2022	≥2028	495			1
+939	superview_neo_1_02	SuperView Neo-1 02	SuperView Neo-1 02	CAST,SpacEyes	Operational	Sunsynchronous orbit	29 Apr 2022	≥2028	495			1
+940	csg_3	CSG-3	COSMO-SkyMed Second Generation - 3	ASI	Operational	Sunsynchronous orbit	03 Jan 2026	≥2032	619		-20009--	1
+941	csg_4	CSG-4	COSMO-SkyMed Second Generation - 4	ASI	Planned	Sunsynchronous orbit	≥2026	≥2033				1
+946	dq_2	DQ-2	DQ-2 also AEMS (Atmospheric Environment Monitoring Satellite) or Daqi-1	CNSA,CGSTL	Commissioning	Sunsynchronous orbit	17 Apr 2026	≥2033	705	13:00 asc	0-20009-0-	5
+947	gnomes_2	GNOMES-2	GNSS Navigation and Occultation Measurement Satellites	PlanetiQ,LOFT	Presumably inactive	Sunsynchronous orbit	30 Jun 2021	≥2026	525	TBD	0-20009-0-	2
+948	gnomes_3	GNOMES-3	GNSS Navigation and Occultation Measurement Satellites	PlanetiQ,LOFT	Presumably inactive	Sunsynchronous orbit	01 Apr 2022	≥2027	645	TBD	0-20009-0-	2
+949	quicksounder	QuickSounder	QuickSounder	NOAA,NASA	Planned	Sunsynchronous orbit	Sep 2026	≥2029	824	17:30 asc	0-20009-0-807	1
+950	cicero_2	CICERO-2	Community Initiative for Continuing Earth Radio Occultation	GeoOptics	Operational	Sunsynchronous orbit	25 May 2022	≥2035			0-20009-0-266	1
+951	umbra	UMBRA	UMBRA	UMBRA	Operational	Sunsynchronous orbit	≥2021	≥2035	500		-20009--	1
+952	ghgsat	GHGSat	Greenhouse Gas Satellite	GHGSat	Operational	Sunsynchronous orbit	22 Jun 2016	≥2030	500		0-20009-0-	2
+953	wsf_m1	WSF-M1	Weather System Follow-on Microwave	DoD	Operational	Sunsynchronous orbit	11 Apr 2024	≥2030	854	06:00 desc	0-20009-0-760	2
+954	miman	MIMAN	Monochrome Imaging for Monitoring Aerosol by Nanosatellite	KARI	Operational	Sunsynchronous orbit	21 Jun 2022	≥2026	710	04:00 asc	0-20009-0-	1
+956	gf_12_03	GF-12-03	Gao Fen - 12-03	CNSA,CGSTL	Operational	Sunsynchronous orbit	27 Jun 2022	30 Nov 2028	635	06:00 desc		1
+957	nachos_1	NACHOS-1	Nano-satellite Atmospheric Chemistry Hyperspectral Observation System-1	LANL,NASA	Inactive	Drifting orbit	19 Feb 2022	Jul 2024	400		-20009--	1
+958	nachos_2	NACHOS-2	Nano-satellite Atmospheric Chemistry Hyperspectral Observation System-1	LANL,NASA	Operational	Drifting orbit	02 Jul 2022	≥2026	500			1
+959	ludi_tance_1_01a	Ludi-Tance 1 01A	L-band differential interferometric synthetic aperture radar satellite A	CNSA,CASC	Operational	Sunsynchronous orbit	26 Jan 2022	≥2032	600			1
+960	ludi_tance_1_01b	Ludi-Tance 1 01B	L-band differential interferometric synthetic aperture radar satellite A	CNSA,CASC	Operational	Sunsynchronous orbit	26 Feb 2022	≥2032	600			1
+961	ctim_fd	CTIM-FD	Compact Total Irradiance Monitor-Flight Demonstration	NASA	Inactive	Drifting orbit	02 Jul 2022	Jul 2024	500		-20009--	1
+962	superview_neo_2_01	SuperView Neo-2 01	SuperView Neo-2 01	CAST,SpacEyes	Operational	Sunsynchronous orbit	15 Jul 2022	≥2027	495	07:00 desc		1
+963	superview_neo_2_02	SuperView Neo-2 02	SuperView Neo-2 02	CAST,SpacEyes	Operational	Sunsynchronous orbit	15 Jul 2022	≥2027	495	07:00 desc		1
+964	strix_1	StriX-1	StriX-1	Synspective	Operational	Sunsynchronous orbit	15 Sep 2022	30 Nov 2031	574	10:00 desc	-20009--	1
+965	argos_4_gazelle	Argos-4 (GAzelle)	Argos-4 also referred to as GAzelle	NOAA,CNES	Operational	Sunsynchronous orbit	07 Oct 2022	≥2027	750	06:00 desc	0-20009-0-	1
+966	tropics_04	TROPICS-04	Time-Resolved Observations of Precipitation structure and storm Intensity with a Constellation of Smallsats - 04	NASA	Lost at launch	Drifting orbit	12 Jun 2022	12 Jun 2022	550		0-20009-0-229	1
+967	tropics_05	TROPICS-05	Time-Resolved Observations of Precipitation structure and storm Intensity with a Constellation of Smallsats - 05	NASA	Inactive	Drifting orbit	08 May 2023	12 Nov 2025	550		0-20009-0-263	1
+968	tropics_06	TROPICS-06	Time-Resolved Observations of Precipitation structure and storm Intensity with a Constellation of Smallsats - 06	NASA	Inactive	Drifting orbit	26 May 2023	Jul 2025	550		0-20009-0-264	1
+969	tropics_07	TROPICS-07	Time-Resolved Observations of Precipitation structure and storm Intensity with a Constellation of Smallsats - 07	NASA	Inactive	Drifting orbit	26 May 2023	≥2023	550		0-20009-0-284	1
+972	aso_s_kuafu_1	ASO-S (Kuafu-1)	Advanced Space-based Solar Observatory	CAS	Operational	Sunsynchronous orbit	08 Oct 2022	≥2026	744	06:00 desc		3
+973	hj_2e	HJ-2E	Huan Jing 2E (also known as S-SAR01)	CRESDA,CAST	Operational	Sunsynchronous orbit	13 Oct 2022	≥2030	500	07:00 desc		2
+974	hj_2f	HJ-2F	Huan Jing 2F (also known as S-SAR02)	CRESDA,CAST	Operational	Sunsynchronous orbit	08 Aug 2023	≥2031	506	06:00 desc	-20009--	2
+975	co2image	CO2Image	CO2Image	DLR	Considered	Sunsynchronous orbit	≥2030	≥2033	500	11:00 asc	0-20009-0-	1
+976	worldview_legion_1	WorldView Legion-1	WorldView Legion-1	Maxar,DigitalGlobe	Operational	Sunsynchronous orbit	02 May 2024	≥2030	524	10:30 desc	-20009--	1
+977	worldview_legion_2	WorldView Legion-2	WorldView Legion-2	Maxar,DigitalGlobe	Operational	Sunsynchronous orbit	02 May 2024	≥2030	540	10:30 desc	-20009--	1
+978	circe	CIRCE	Coordinated Ionospheric Reconstruction CubeSat Experiment	UKSA,NRL	Lost at launch	Drifting orbit	09 Jan 2023	09 Jan 2023	555		0-20009-0-	4
+979	co2m_b	CO2M-B	Carbon Dioxide Monitoring mission-B	ESA,EC,EUMETSAT	Planned	Sunsynchronous orbit	≥2028	≥2035	735	11:30 desc	0-20009-0-007	4
+980	gf_5_01a	GF-5-01A	Gao Fen - 5-01A	CNSA,CGSTL	Operational	Sunsynchronous orbit	08 Dec 2022	≥2030	705	13:30 asc		6
+981	gf_11_04	GF-11-04	Gao Fen - 11-04	CNSA,CGSTL	Operational	Sunsynchronous orbit	27 Dec 2022	30 Nov 2027	450	10:30 desc		1
+983	wsf_m2	WSF-M2	Weather System Follow-on Microwave 2	DoD	Planned	Sunsynchronous orbit	≥2028	≥2035	833			2
+984	imap	IMAP	Interstellar Mapping and Acceleration Probe	NASA	Commissioning	Lagrange libration point 1	24 Sep 2025	≥2029	1.5e+06	N/A	0-20009-0-	10
+985	eps_aeolus_2	EPS-Aeolus 2	EPS-Aeolus 2	EUMETSAT,ESA	Considered	Sunsynchronous orbit	≥2034	≥2039		06:00 desc	-20009--	0
+986	gf_13_02	GF-13-02	Gao Fen - 13	CNSA,CGSTL	Operational	Geostationary orbit	17 Mar 2023	≥2030	35786			1
+987	geoxo_2	GeoXO 2	GeoXO 2	NOAA,NASA	Planned	Geostationary orbit	≥2034	≥2042	35786		0-20009-0-	3
+988	geoxo_1	GeoXO 1	GeoXO 1	NOAA,NASA	Planned	Geostationary orbit	≥2032	≥2045	35786		0-20009-0-	3
+989	geoxo_3	GeoXO 3	GeoXO 3	NOAA,NASA	Planned	Geostationary orbit	≥2039	≥2050	35786		0-20009-0-	3
+990	blacksky_18	BlackSky-18	BlackSky-18	BSG	Operational	Drifting orbit	24 Mar 2023	≥2026	450			1
+991	blacksky_19	BlackSky-19	BlackSky-19	BSG	Operational	Drifting orbit	24 Mar 2023	≥2026	450			1
+992	himawari_10	Himawari-10	Himawari-10	JMA	Planned	Geostationary orbit	≥2030	≥2046	35786		-20009--	4
+993	hyms_iod	HYMS IOD	Hyperspectral Microwave Sounder In Orbit Demonstrator	SPIRE	Commissioning	Sunsynchronous orbit	11 Jan 2026	≥2028	550		0-20009-0-	1
+994	ghost_1	GHOSt-1	Global Hyperspectral Observation Satellite 1	OSK	Operational	Sunsynchronous orbit	15 Apr 2023	≥2028	525			1
+995	ghost_2	GHOSt-2	Global Hyperspectral Observation Satellite 2	OSK	Operational	Sunsynchronous orbit	15 Apr 2023	≥2028	525			1
+996	eos_07	EOS-07	EOS-07 also known as Microsat-2B	ISRO	Operational	Drifting orbit	10 Feb 2023	≥2026	450		-20009--	1
+997	sme	SME	Solar Mesosphere Explorer	NASA	Inactive	Sunsynchronous orbit	06 Oct 1981	04 Apr 1989	540	03:00		5
+998	tomorrow_r1	Tomorrow-R1	Tomorrow-R1	Tomorrow.io	Inactive	Sunsynchronous orbit	15 Apr 2023	Apr 2023	550	08:00 asc	-20009--	1
+999	hydrognss_1	HydroGNSS-1	Hydro Global Navigation Satellite System-1	ESA,SSTL,UKSA	Commissioning	Sunsynchronous orbit	28 Nov 2025	≥2029	550	10:30	-20009--	1
+1000	hydrognss_2	HydroGNSS-2	Hydro Global Navigation Satellite System-2	ESA,SSTL,UKSA	Commissioning	Sunsynchronous orbit	28 Nov 2025	≥2029	550	10:30	-20009--	1
+1001	pretty	PRETTY	Passive Reflectometry and Dosimetry	ESA	Operational	Sunsynchronous orbit	06 Oct 2023	≥2026	579	11:00 desc	-20009--	2
+1002	harmony_1	Harmony-1	Harmony-1	ESA	Planned	Sunsynchronous orbit	≥2029	≥2034	693	06:00 desc	0-20009-0-	0
+1003	harmony_2	Harmony-2	Harmony-2	ESA	Planned	Sunsynchronous orbit	≥2029	≥2034	693	06:00 desc	0-20009-0-	0
+1004	ghost_3	GHOSt-3	Global Hyperspectral Observation Satellite 3	OSK	Operational	Sunsynchronous orbit	12 Jun 2023	≥2028	525			1
+1005	tomorrow_r2	Tomorrow-R2	Tomorrow-R2	Tomorrow.io	Inactive	Sunsynchronous orbit	12 Jun 2023	Jun 2026	550	12:00 desc	-20009--	1
+1006	kondor_fka_1	Kondor-FKA 1	Kondor-Experimental SAR Spacecraft FKA 1	NPOMash	Operational	Sunsynchronous orbit	26 May 2023	≥2028	510			1
+1007	kondor_fka_2	Kondor-FKA 2	Kondor-Experimental SAR Spacecraft FKA 2	NPOMash	Operational	Sunsynchronous orbit	29 Nov 2024	≥2029	510		-20009--	1
+1008	eps_sterna_1	EPS-Sterna-1	EPS-Sterna-1	EUMETSAT,ESA	Planned	Sunsynchronous orbit	≥2029	≥2042	595	03:30 desc	-20009--	1
+1009	eps_sterna_2	EPS-Sterna-2	EPS-Sterna-2	EUMETSAT,ESA	Planned	Sunsynchronous orbit	≥2029	≥2042	595	07:30 desc	-20009--	1
+1010	eps_sterna_3	EPS-Sterna-3	EPS-Sterna-3	EUMETSAT,ESA	Planned	Sunsynchronous orbit	≥2029	≥2042	595	11:30 desc	-20009--	1
+1011	sdgsat_1	SDGSAT-1	Sustainable Development Science Satellite 1	CAS	Operational	Sunsynchronous orbit	05 Nov 2021	≥2026	505	10:00 desc	0-20009-0-	3
+1012	risat_1b_eos_09	RISAT-1B (EOS-09)	RISAT-1B (EOS-09)	ISRO	Lost at launch	Sunsynchronous orbit	18 May 2025	≥2029	529	06:00 desc	-20009--	1
+1013	co2m_c	CO2M-C	Carbon Dioxide Monitoring mission-C	ESA,EC,EUMETSAT	Planned	Sunsynchronous orbit	≥2029	≥2036	735	11:30 desc	0-20009-0-008	4
+1014	tianmu_1	Tianmu-1	Tianmu-1	CASIC	Operational	Sunsynchronous orbit	09 Jan 2023	≥2040	520		0-20009-0-540	2
+1015	piesat_1	PIESAT-1	PIESAT-1 (also known as Hongtu-1)	CASC	Operational	Sunsynchronous orbit	30 Mar 2023	≥2033	530	06:00 asc	0-20009-0-	1
+1016	ludi_tance_4_01a	Ludi-Tance 4 01A	L-band differential interferometric synthetic aperture radar satellite 4 01A	CNSA,CASC	Operational	Geosynchronous orbit	12 Aug 2023	≥2040	36000		0-20009-0-	1
+1017	gf_12_04	GF-12-04	Gao Fen - 12-04	CNSA,CGSTL	Operational	Sunsynchronous orbit	20 Aug 2023	≥2029	635	06:00 desc		1
+1018	tanager_1	Tanager-1	Tanager-1	Planet	Operational	Sunsynchronous orbit	16 Aug 2024	≥2029	520	12:00 desc	-20009--	1
+1019	tanager_2	Tanager-2	Tanager-2	Planet	Planned	Sunsynchronous orbit	≥2026	≥2029	405		0-20009-0-	1
+1020	hotsat_1	HOTSAT-1	HOTSAT-1	SSTL,UKSA	Inactive	Sunsynchronous orbit	12 Jun 2023	Dec 2023	536	12:00 desc	0-20009-0-	1
+1021	proba_v_cc	PROBA-V-CC	Project for On-Board Autonomy - Végétation Companion Cubesat	ESA	Operational	Sunsynchronous orbit	09 Oct 2023	≥2026	574	11:00 desc	-20009--	1
+1022	alouette_1	Alouette-1	Alouette-1	CSA	Inactive	Drifting orbit	29 Sep 1962	30 Sep 1972	1000			4
+1023	alouette_2	Alouette-2	Alouette-2 (also known as ISIS-X)	CSA	Inactive	Drifting orbit	29 Nov 1965	01 Aug 1975	1000			4
+1024	swnext_sol_a	SWNext SOL-A	Space Weather Next at L1 A	NOAA,ESA,NASA	Planned	Lagrange libration point 1	≥2029	≥2033	1.5e+06		-20009--	6
+1025	swnext_sol_b	SWNext SOL-B	Space Weather Next at L1 B	NOAA,ESA,NASA	Planned	Lagrange libration point 1	≥2033	≥2038	1.5e+06		-20009--	6
+1026	prisma2gen	PRISMA2GEN	PRecursore IperSpettrale della Missione Applicativa 2nd Generation	ASI	Planned	Sunsynchronous orbit	≥2028	≥2035	515	10:30 desc		2
+1027	magic_1	MAGIC-1	MAGIC-1	NASA,ESA	Planned	Drifting orbit	≥2028	≥2040	397			2
+1028	magic_2	MAGIC-2	MAGIC-2	NASA,ESA	Planned	Drifting orbit	≥2028	≥2040	397			2
+1029	aos_storm	AOS-Storm	Atmosphere Observing System - Storm	NASA,ASI,CNES,CSA,JAXA	Considered	Drifting orbit	Mar 2029	≥2031	430		-20009--	1
+1030	aos_pmm	AOS-PMM	Atmosphere Observing System - Precipitation Measuring Mission	JAXA,CNES,NASA	Planned	Drifting orbit	Mar 2029	≥2034	430		-20009--	2
+1031	aos_sky	AOS-Sky	Atmosphere Observing System - Sky	NASA,ASI,CNES,CSA,JAXA	Considered	Sunsynchronous orbit	Dec 2031	≥2036	450	13:30	-20009--	5
+1032	aos_hawcsat	AOS-HAWCSat	Atmosphere Observing System - High-altitude Aerosols, Water vapour and Clouds Sat	JAXA,CSA,NASA	Planned	Sunsynchronous orbit	≥2031	≥2036	430	13:30		2
+1033	polsir_1	PolSIR-1	Polarized Submillimeter Ice-cloud Radiometer-1	NASA	Planned	Drifting orbit	≥2027	≥2030	475		-20009--	1
+1034	polsir_2	PolSIR-2	Polarized Submillimeter Ice-cloud Radiometer-1	NASA	Planned	Drifting orbit	≥2027	≥2030	475		-20009--	1
+1035	pelican	Pelican	Pelican	Planet	Operational	Sunsynchronous orbit	11 Nov 2023	≥2039	475		-20009--	1
+1036	sentinel_6c	Sentinel-6C	Sentinel-6C	EUMETSAT,CNES,EC,ESA,NASA,NOAA	Considered	Drifting orbit	TBD	TBD	1336		-20009--	10
+1037	chime_b	CHIME-B	Copernicus Hyperspectral Imaging Mission for the Environment-B	ESA,EC,EUMETSAT	Planned	Sunsynchronous orbit	≥2031	≥2037	786	10:30 desc		1
+1038	cristal_b	CRISTAL-B	Copernicus polaR Ice and Snow Topography ALtimeter-B	ESA,EC,EUMETSAT	Planned	Drifting orbit	≥2031	≥2036	717			6
+1039	lstm_b	LSTM-B	Land Surface Temperature Monitoring-B	ESA,EC,EUMETSAT	Planned	Sunsynchronous orbit	≥2031	≥2038	640	13:30 asc	0-20009-0-	1
+1040	rose_l_b	ROSE-L B	Copernicus Observation System for Europe in L-band B	ESA,EC,EUMETSAT	Planned	Sunsynchronous orbit	≥2032	≥2037	693	06:00 desc		2
+1041	cimr_b	CIMR-B	Copernicus Imaging Microwave Radiometer-B	ESA,EC,EUMETSAT	Planned	Sunsynchronous orbit	≥2035	≥2042	820	06:00 desc	0-20009-0-	1
+1042	gnomes_4	GNOMES-4	GNSS Navigation and Occultation Measurement Satellites	PlanetiQ,LOFT	Operational	Sunsynchronous orbit	01 Dec 2023	≥2028	645	TBD	0-20009-0-	2
+1043	hrmis	HRMIS	High Resolution Multi-mode Imaging Satellite	CAST	Operational	Sunsynchronous orbit	03 Jul 2020	≥2030		10:30 desc		2
+1044	arctica_m_n3	Arctica-M N3	Arctica-M N3	RosHydroMet,Roscosmos	Planned	Molniya orbit	≥2028	≥2034			-20009--	6
+1045	arctica_m_n4	Arctica-M N4	Arctica-M N4	RosHydroMet,Roscosmos	Planned	Molniya orbit	≥2029	≥2034			-20009--	6
+1046	proba_3c	PROBA-3C	PROBA-3 Coronograph	ESA	Operational	Molniya orbit	05 Dec 2024	≥2030			-20009--	1
+1047	proba_3o	PROBA-3O	PROBA-3 Occulter	ESA	Operational	Molniya orbit	05 Dec 2024	≥2030			-20009--	1
+1048	incus_1	INCUS-1	INCUS-1	NASA	Planned	Drifting orbit	≥2027	≥2029			-20009--	1
+1049	incus_2	INCUS-2	INCUS-2	NASA	Planned	Drifting orbit	≥2027	≥2029			-20009--	2
+1050	incus_3	INCUS-3	INCUS-3	NASA	Planned	Drifting orbit	≥2027	≥2029			-20009--	1
+1051	yunyao_1	YunYao-1	YunYao-1 constellation	CASC	Operational	Sunsynchronous orbit	11 Jan 2024	≥2030	535		-20009--	1
+1052	ghost_4	GHOSt-4	Global Hyperspectral Observation Satellite 3	OSK	Operational	Sunsynchronous orbit	04 Mar 2024	≥2029	525		-20009--	1
+1054	ghost_5	GHOSt-5	Global Hyperspectral Observation Satellite 3	OSK	Operational	Sunsynchronous orbit	04 Mar 2024	≥2029	525		-20009--	1
+1055	methanesat	MethaneSAT	MethaneSAT	NZSA	Inactive	Sunsynchronous orbit	04 Mar 2024	20 Jun 2025	600	13:00 desc	-20009--	2
+1056	strix_3	StriX-3	StriX-3	Synspective	Operational	Sunsynchronous orbit	12 Mar 2024	≥2029	580	16:00 asc	-20009--	1
+1057	musat_1	MuSat-1	MuSat-1	MUON SPACE	Inactive	Sunsynchronous orbit	12 Jun 2023	Dec 2024			-20009--	0
+1058	musat_2	MuSat-2	MuSat-2	MUON SPACE	Operational	Sunsynchronous orbit	04 Mar 2024	≥2031	622	12:00 desc	-20009--	2
+1059	superview_neo_3_01	SuperView Neo-3-01	SuperView Neo-3-01	CAST,SpacEyes	Operational	Sunsynchronous orbit	15 Apr 2024	≥2029	500	10:30 desc	-20009--	1
+1060	yunhai_2	Yunhai-2	Yunhai-2	CNSA,CASC	Operational	Drifting orbit	29 Dec 2018	≥2028	800		-20009--	0
+1061	yunhai_3	Yunhai-3	Yunhai-3	CNSA,CASC	Operational	Sunsynchronous orbit	11 Nov 2022	≥2028	870		-20009--	0
+1062	yunhai_1	Yunhai-1	Yunhai-1	CNSA,CASC	Operational	Sunsynchronous orbit	11 Nov 2016	≥2028	780		-20009--	0
+1063	prefire_2	PREFIRE-2	Polar Radiant Energy in the Far Infrared Experiment-2	NASA	Operational	Sunsynchronous orbit	25 May 2024	≥2026	530	08:03 asc	-20009--	1
+1065	electro_l_n6	Electro-L N6	Electro-L Number 6	RosHydroMet,Roscosmos	Planned	Geostationary orbit	≥2031	≥2039	35786		-20009--	13
+1066	electro_l_n7	Electro-L N7	Electro-L Number 7	RosHydroMet,Roscosmos	Planned	Geostationary orbit	≥2033	≥2041	35786		-20009--	13
+1067	glimr	GLIMR	Geosynchronous Littoral Imaging and Monitoring Radiometer	NASA	Planned	Geostationary orbit	≥2027	≥2029			-20009--	1
+1068	gf_11_05	GF-11-05	Gao Fen - 11-05	CNSA,CGSTL	Operational	Sunsynchronous orbit	19 Jul 2024	≥2029		10:30 desc	-20009--	1
+1069	strix_4	StriX-4	StriX-4	Synspective	Operational	Drifting orbit	02 Aug 2024	≥2028	545		-20009--	1
+1070	eos_08	EOS-08	EOS-08  (also Microsat-2C)	ISRO	Operational	Drifting orbit	16 Aug 2024	≥2027	475		-20009--	3
+1071	worldview_legion_3	WorldView Legion-3	WorldView Legion-3	Maxar,DigitalGlobe	Operational	Drifting orbit	15 Aug 2024	≥2030	540		-20009--	1
+1072	worldview_legion_4	WorldView Legion-4	WorldView Legion-4	Maxar,DigitalGlobe	Operational	Drifting orbit	15 Aug 2024	≥2030	528		-20009--	1
+1073	gnomes_5	GNOMES-5	GNSS Navigation and Occultation Measurement Satellites	PlanetiQ,LOFT	Operational	Sunsynchronous orbit	16 Aug 2024	≥2028	645	TBD	-20009--	2
+1074	tomorrow_s1	Tomorrow-S1	Tomorrow Microwave Sounder 1	Tomorrow.io	Operational	Sunsynchronous orbit	16 Aug 2024	≥2027	487	22:47 asc	0-20009-0-769	1
+1076	Phsat_2	Φsat-2	Φsat-2	ESA	Operational	Sunsynchronous orbit	16 Aug 2024	≥2028	510		-20009--	1
+1077	tomorrow_s2	Tomorrow-S2	Tomorrow Microwave Sounder 2	Tomorrow.io	Operational	Sunsynchronous orbit	16 Aug 2024	≥2027	487	22:47 asc	0-20009-0-769	1
+1078	aurora	Aurora	Aurora	OSK	Operational	Sunsynchronous orbit	30 Jun 2021	30 Nov 2026	454	15:30 desc	-20009--	1
+1079	landsat_next_a	Landsat Next-A	Landsat Next-A	NASA	Planned	Sunsynchronous orbit	≥2031	≥2036	653	10:10 desc	-20009--	1
+1080	landsat_next_b	Landsat Next-B	Landsat Next-B	NASA	Planned	Sunsynchronous orbit	≥2031	≥2036	653	18:10 desc	-20009--	1
+1081	landsat_next_c	Landsat Next-C	Landsat Next-C	NASA	Planned	Sunsynchronous orbit	≥2031	≥2036	653	02:10 desc	-20009--	1
+1083	c3iel_a	C3IEL-A	Cluster for Cloud Evolution, ClimatE and Lightning	CNES	Planned	Sunsynchronous orbit	≥2028	≥2031	650	13:30	-20009--	3
+1084	c3iel_b	C3IEL-B	Cluster for Cloud Evolution, ClimatE and Lightning	CNES	Planned	Sunsynchronous orbit	≥2028	≥2031	650	13:30	-20009--	3
+1085	rcm_2	RCM-2	RadarSat Constellation Mission - 1	CSA	Operational	Sunsynchronous orbit	12 Jun 2019	≥2031	592	06:01 desc	-20009--	2
+1086	rcm_3	RCM-3	RadarSat Constellation Mission - 1	CSA	Operational	Sunsynchronous orbit	12 Jun 2019	≥2031	592	06:01 desc	-20009--	2
+1087	gf_12_05	GF-12-05	Gao Fen - 12-05	CNSA,CGSTL	Operational	Sunsynchronous orbit	15 Oct 2024	30 Nov 2029	635	06:00 desc	-20009--	1
+1088	lotusat_1	LOTUSat-1	LOTUSat-1	STI-VAST	Planned	Sunsynchronous orbit	≥2026	≥2030	505	06:00 desc	-20009--	1
+1089	piesat_2	PIESAT-2	PIESAT-2	CASC	Operational	Sunsynchronous orbit	09 Nov 2024	≥2034	530	10:00 desc	0-20009-0-	1
+1091	superview_neo_2_03	SuperView Neo-2 03	SuperView Neo-2 03	CAST,SpacEyes	Operational	Sunsynchronous orbit	24 Nov 2024	≥2029	495	07:00 desc	0-20009-0-	1
+1092	superview_neo_2_04	SuperView Neo-2 04	SuperView Neo-2 04	CAST,SpacEyes	Operational	Sunsynchronous orbit	24 Nov 2024	≥2029	495	07:00 desc	0-20009-0-	1
+1093	strix_6	StriX-6	StriX-6	Synspective	Commissioning	Drifting orbit	20 Mar 2026	≥2029	545		-20009--	2
+1094	strix_2	StriX-2	StriX-2	Synspective	Operational	Sunsynchronous orbit	21 Dec 2024	30 Nov 2031	570		-20009--	1
+1095	tomorrow_s3	Tomorrow-S3	Tomorrow Microwave Sounder 3	Tomorrow.io	Operational	Drifting orbit	21 Dec 2024	≥2028	495		0-20009-0-769	1
+1096	tomorrow_s4	Tomorrow-S4	Tomorrow Microwave Sounder 4	Tomorrow.io	Operational	Drifting orbit	21 Dec 2024	≥2028	495		0-20009-0-769	1
+1098	hotbird_13f	HOTBIRD 13F	HOTBIRD 13F	ESA,Airbus	Operational	Geostationary orbit	15 Oct 2022	≥2037	35786		0-20009-0-	1
+1099	hotbird_13g	HOTBIRD 13G	HOTBIRD 13G	ESA,Airbus	Operational	Geostationary orbit	03 Nov 2022	≥2037	35786		0-20009-0-	1
+1100	firesat_pathfinder	FireSat-Pathfinder	FireSat- Pathfinder	MUON SPACE	Operational	Sunsynchronous orbit	15 Mar 2025	≥2028			0-20009-0-0	1
+1101	uvsq_ng	UVSQ-NG	UVSQ Next Generation	LASP,LATMOS	Operational	Sunsynchronous orbit	15 Mar 2025	≥2030	550	10:30	0-20009-0-0	2
+1102	fy_4f	FY-4F	Feng-Yun - 4F	CMA,NRSCC	Planned	Geostationary orbit	≥2029	≥2037	35786		-20009--	5
+1103	worldview_legion_5	WorldView Legion-5	WorldView Legion-5	Maxar,DigitalGlobe	Operational	Drifting orbit	04 Feb 2025	≥2030	710		-20009--	1
+1104	worldview_legion_6	WorldView Legion-6	WorldView Legion-6	Maxar,DigitalGlobe	Operational	Drifting orbit	04 Feb 2025	≥2030	455		-20009--	1
+1105	tomorrow_s5	Tomorrow-S5	Tomorrow Microwave Sounder 5	Tomorrow.io	Operational	Sunsynchronous orbit	15 Mar 2025	≥2028	514	10:23 asc	0-20009-0-769	1
+1106	tomorrow_s6	Tomorrow-S6	Tomorrow Microwave Sounder 6	Tomorrow.io	Operational	Sunsynchronous orbit	15 Mar 2025	≥2028	514	10:23 asc	0-20009-0-769	1
+1107	tomorrow_s7	Tomorrow-S7	Tomorrow Microwave Sounder 7	Tomorrow.io	Operational	Drifting orbit	22 Apr 2025	≥2028	577		0-20009-0-769	1
+1108	tomorrow_s8	Tomorrow-S8	Tomorrow Microwave Sounder 8	Tomorrow.io	Operational	Drifting orbit	02 Nov 2025	≥2028	517		0-20009-0-769	1
+1109	tomorrow_s9	Tomorrow-S9	Tomorrow Microwave Sounder 9	Tomorrow.io	Operational	Drifting orbit	02 Nov 2025	≥2028	517		0-20009-0-769	1
+1110	tomorrow_s10	Tomorrow-S10	Tomorrow Microwave Sounder 10	Tomorrow.io	Operational	Sunsynchronous orbit	11 Jan 2026	≥2029	510	17:27 asc	0-20009-0-769	1
+1111	nemo_am	NEMO-AM	Nano satellite for Earth Monitoring and Observation-Aerosol Monitoring	ISRO	Planned	Sunsynchronous orbit	≥2026	≥2030	650	09:30 desc	0-20009-0-0	1
+1112	blacksky_20_gen3_1	BlackSky-20 (Gen3-1)	BlackSky 3rd Generation 1	BSG	Operational	Drifting orbit	18 Feb 2025	≥2030	470		0-20009-0-	1
+1113	ews_g2	EWS-G2	Electro-optical Infrared Weather System-Geostationary mission-2	DoD,NOAA,USAF	Operational	Geostationary orbit	Dec 2023	≥2027	35786		0-20009-0-	13
+1114	ews_g1	EWS-G1	Electro-optical Infrared Weather System-Geostationary-1	DoD,NOAA,USAF	Inactive	Geostationary orbit	Oct 2019	≥2024	35786		-20009--	13
+1116	tansat_2	TANSAT-2	Exploratory Satellite for Atmospheric CO2-2	MOST,CAS,CMA	Planned	Molniya orbit	≥2026	≥2032	702	13:05	-20009--	4
+1117	grace_continuity	GRACE-Continuity	Gravity Recovery and Climate Experiment - Continuity	NASA,DLR	Planned	Drifting orbit	≥2028	≥2033	490		-20009--	5
+1118	s3ng_topo_a	S3NG-TOPO A	Sentinel-3 Next Generation Topographhy Mission	ESA,EC,EUMETSAT	Considered	Sunsynchronous orbit	≥2032	≥2040	810	18:00 asc	-20009--	1
+1119	s3ng_topo_b	S3NG-TOPO B	Sentinel-3 Next Generation Topographhy Mission	ESA,EC,EUMETSAT	Considered	Sunsynchronous orbit	≥2032	≥2040	810	18:00 asc	-20009--	1
+1120	gems2_amethyst	GEMS2- Amethyst	Global Environmental Monitoring System - Amethyst	Weather Stream	Commissioning	Sunsynchronous orbit	30 Mar 2026	≥2029	599	15:30 asc	0-20009-0-0	1
+1121	gems2_beryl	GEMS2- Beryl	Global Environmental Monitoring System - Amethyst	Weather Stream	Planned	Sunsynchronous orbit	≥2027	≥2030			0-20009-0-0	1
+1122	hy_3b	HY-3B	Hai Yang 3B	NSOAS,CAST	Planned	Sunsynchronous orbit	≥2027	≥2035			-20009--	4
+1124	blacksky_21_gen3_2	BlackSky-21 (Gen3-2)	BlackSky-21	BSG	Operational	Drifting orbit	02 Jun 2025	≥2028	450		0-20009-0-	1
+1125	meteor_m_n2_7	Meteor-M N2-7	Meteor-M Number 2-7	RosHydroMet,Roscosmos	Planned	Sunsynchronous orbit	≥2034	≥2039	820.7		0-20009-0-	12
+1126	meteor_m_n2_8	Meteor-M N2-8	Meteor-M Number 2-8	RosHydroMet,Roscosmos	Planned	Sunsynchronous orbit	≥2035	≥2040	820.7		0-20009-0-	12
+1127	arctica_m_n5	Arctica-M N5	Arctica-M N5	RosHydroMet,Roscosmos	Planned	Molniya orbit	≥2030	≥2035			-20009--	6
+1128	arctica_m_n6	Arctica-M N6	Arctica-M N6	RosHydroMet,Roscosmos	Planned	Molniya orbit	≥2030	≥2035			-20009--	6
+1129	arctica_m_n7	Arctica-M N7	Arctica-M N7	RosHydroMet,Roscosmos	Planned	Molniya orbit	≥2035	≥2040			-20009--	6
+1130	arctica_m_n8	Arctica-M N8	Arctica-M N8	RosHydroMet,Roscosmos	Planned	Molniya orbit	≥2035	≥2040			-20009--	6
+1131	geo_kompsat_5	GEO-KOMPSAT-5	Geostationary Korea Multi-Purpose Satellite - 5	KMA,KARI,ME (NIER),MLTM	Planned	Geostationary orbit	≥2031	≥2041	35786		-20009--	6
+1132	qps_sar_5	QPS-SAR 5	QPS-SAR 5 (Tsukuyomi 1)	iQPS	Operational	Drifting orbit	15 Dec 2023	≥2028	580		0-20009-0-0	1
+1133	qps_sar_6	QPS-SAR 6	QPS-SAR 6 (Amateru 3)	iQPS	Operational	Sunsynchronous orbit	12 Jun 2023	≥2028	500		0-20009-0-0	1
+1134	qps_sar_7	QPS-SAR 7	QPS-SAR 7 (Tsukuyomi 2)	iQPS	Operational	Drifting orbit	08 Apr 2024	≥2029	590		0-20009-0-0	1
+1135	qps_sar_8	QPS-SAR 8	QPS-SAR 8 (Amateru 4)	iQPS	Operational	Sunsynchronous orbit	16 Aug 2024	≥2029	550		0-20009-0-0	1
+1136	qps_sar_9	QPS-SAR 9	QPS-SAR 9 (Susanoo-1)	iQPS	Operational	Drifting orbit	15 Mar 2025	≥2029	573		0-20009-0-0	1
+1137	qps_sar_10	QPS-SAR 10	QPS-SAR 10 (Wadatsumi 1)	iQPS	Operational	Drifting orbit	17 May 2025	≥2029	580		0-20009-0-0	1
+1138	qps_sar_11	QPS-SAR 11	QPS-SAR 11 (Yamatsumi 1)	iQPS	Operational	Drifting orbit	11 Jun 2025	≥2029	580		0-20009-0-0	1
+1139	tracers	TRACERS	Tandem Reconnection and Cusp Electrodynamics Reconnaissance Satellites	NASA	Operational	Sunsynchronous orbit	23 Jul 2025	≥2026	500	10:00 desc	0-20009-0-0	6
+1140	qps_sar_12	QPS-SAR 12	QPS-SAR 12 (Kushinada 1)	iQPS	Operational	Drifting orbit	05 Aug 2025	≥2029	580		0-20009-0-0	1
+1141	xcube_1	XCUBE-1	XCUBE-1	XPLORE	Operational	Drifting orbit	21 Dec 2024	≥2029	508		0-20009-0-0	1
+1142	platino_2	PLATiNO-2	PLATiNO-2	ASI	Planned	Sunsynchronous orbit	≥2026	≥2029	740		0-20009-0-0	2
+1143	platino_1	PLATiNO-1	PLATiNO-1	ASI	Planned	Sunsynchronous orbit	≥2026	≥2029	740	05:45 asc	0-20009-0-0	1
+1144	carruthers	Carruthers	Carruthers Geocorona Observatory	NASA	Commissioning	Lagrange libration point 1	24 Sep 2025	≥2028			0-20009-0-0	1
+1145	wivern	WIVERN	Wind Velocity Radar Nephoscope	ESA	Planned	Sunsynchronous orbit	≥2034	≥2042	500		0-20009-0-0	2
+1146	grace_b	GRACE B	Gravity Recovery and Climate Experiment B	NASA,DLR	Inactive	Drifting orbit	17 Mar 2002	27 Oct 2017	337		0-20009-0-723	5
+1147	grace_d_grace_fo	GRACE D (GRACE-FO)	Gravity Recovery and Climate Experiment D - Follow-on	NASA,DLR	Operational	Drifting orbit	22 May 2018	≥2029	490		0-20009-0-804	5
+1148	strix_5	StriX-5	StriX-5	Synspective	Operational	Drifting orbit	14 Oct 2025	≥2028	583		-20009--	1
+1149	geoxo_4	GeoXO 4	GeoXO 4	NOAA,NASA	Planned	Geostationary orbit	≥2043	≥2051	35786		0-20009-0-	3
+1150	gf_14_02	GF-14-02	Gao Fen - 14-02	CNSA,CGSTL	Operational	Sunsynchronous orbit	26 Oct 2025	≥2030	488	10:30 desc	0-20009-0-	1
+1151	qps_sar_14	QPS-SAR 14	QPS-SAR 14 (Yachihoko)	iQPS	Operational	Drifting orbit	05 Nov 2025	≥2030	580		0-20009-0-0	1
+1152	g20	G20	G20	ISRO	Planned	Sunsynchronous orbit	≥2028	≥2032	720	11:35 desc	0-20009-0-0	4
+1153	wfs_1	WFS-1	WildFireSat-1	CSA	Considered	Sunsynchronous orbit	≥2029	≥2034	480	18:00 asc	0-20009-0-0	1
+1154	blacksky_22_gen3_3	BlackSky-22 (Gen3-3)	BlackSky-22	BSG	Operational	Drifting orbit	20 Nov 2025	≥2030	450		0-20009-0-	1
+1155	smile	SMILE	Solar wind Magnetosphere Ionosphere Link Explorer	ESA,CAS	Commissioning	Cross-magnetosphere orbit	19 May 2026	≥2029	121000		0-20009-0-0	4
+1157	qps_sar_15	QPS-SAR 15	QPS-SAR 15 (Sukunami 1)	iQPS	Operational	Drifting orbit	21 Dec 2025	≥2030	580		0-20009-0-0	1
+1158	tomorrow_s11	Tomorrow-S11	Tomorrow Microwave Sounder 11	Tomorrow.io	Operational	Sunsynchronous orbit	11 Jan 2026	≥2029	510	17:27 asc	0-20009-0-769	1
+1159	alsat_3a	AlSat-3A	Algeria Satellite - 3A	ASAL	Commissioning	Sunsynchronous orbit	15 Jan 2026	≥2032	495		0-20009-0-	1
+1160	alsat_3b	AlSat-3B	Algeria Satellite - 3B	ASAL	Commissioning	Sunsynchronous orbit	31 Jan 2026	≥2032	495		0-20009-0-	1
+1161	strive	STRIVE	Stratosphere Troposphere Response using Infrared Vertically-resolved light Explorer	NASA	Planned	Sunsynchronous orbit	≥2030	≥2033			0-20009-0-0	3
+1162	edge	EDGE	Earth Dynamics Geodetic Explorer	NASA	Planned	Sunsynchronous orbit	≥2030	≥2033	390	06:00	0-20009-0-0	1
+1163	blacksky_23_gen3_4	BlackSky-23 (Gen3-4)	BlackSky-23	BSG	Operational	Drifting orbit	05 Mar 2026	≥2030	450		0-20009-0-	1
+1164	eaglet_ii	EAGLET-II	EAGLET-II	ASI	Commissioning	Sunsynchronous orbit	28 Nov 2025	≥2030			0-20009-0-0	1
+1165	heo	HEO	Hawk for Earth Observation	ASI	Operational	Sunsynchronous orbit	14 Jan 2025	≥2030			0-20009-0-0	1
+1166	cas_500_4	CAS 500-4	Compact Advanced Satellite 500-4	KARI	Commissioning	Sunsynchronous orbit	07 Jul 2026	≥2031	890		0-20009-0-	1
+1167	insat_4	INSAT-4	Indian National Satellite - 4th generation	ISRO,IMD	Planned	Geostationary orbit	≥2030	≥2040	35786		0-20009-0-	3
+1168	swing	SWING	Space Weather Ionosphere Nanosat Generation	ESA	Planned	Sunsynchronous orbit	≥2027	≥2030	530		0-20009-0-0	4
+1169	aem_2_sage	AEM-2 (SAGE)	Applications Explorer Mission-2	NASA	Inactive	Drifting orbit	18 Feb 1979	19 Nov 1981	600		0-20009-0-0	1
+1170	yam_8	YAM-8	Yet Another Mission-8	PlanetiQ,LOFT	Operational	Sunsynchronous orbit	15 Mar 2025	≥2028	540	12:00 asc	0-20009-0-768	2
+1171	strix_7	StriX-7	StriX-7	Synspective	Commissioning	Drifting orbit	22 May 2026	≥2029	545		-20009--	1
+1172	gf_3d_55	GF-3D-55	GF-3D-55	CGSTL	Commissioning	Sunsynchronous orbit	15 May 2026	≥2029	740		0-20009-0-	1
+1174	strix_8	StriX-8	StriX-8	Synspective	Commissioning	Drifting orbit	26 Jun 2026	≥2029	545		-20009--	1
+1175	hotsat_2	HOTSAT-2	HOTSAT-2	SSTL,UKSA	Operational	Sunsynchronous orbit	30 Mar 2026	≥2031	512	12:00 asc	0-20009-0-	1
+1176	firesat_1	FireSat-1	FireSat-1	MUON SPACE	Commissioning	Sunsynchronous orbit	07 Jul 2026	30 Nov 2027			0-20009-0-0	1
+1177	firesat_2	FireSat-2	FireSat-2	MUON SPACE	Commissioning	Sunsynchronous orbit	07 Jul 2026	30 Nov 2027			0-20009-0-0	1
+1178	firesat_3	FireSat-3	FireSat-3	MUON SPACE	Commissioning	Sunsynchronous orbit	07 Jul 2026	30 Nov 2027			0-20009-0-0	1
+1179	edc	EDC	Earth Daily Constellation	EarthDaily	Commissioning	Sunsynchronous orbit	23 Jun 2025	≥2035	590		0-20009-0-0	1
+1180	qps_sar_13	QPS-SAR 13	QPS-SAR 13 (Mikura 1)	iQPS	Commissioning	Drifting orbit	06 Aug 2026	≥2030	580		0-20009-0-0	1
+1181	qps_sar_16	QPS-SAR 16	QPS-SAR 16	iQPS	Planned	Drifting orbit	Sep 2026	≥2030	580		0-20009-0-0	1
+1182	qps_sar_18	QPS-SAR 18	QPS-SAR 18 (Susanoo 2)	iQPS	Commissioning	Drifting orbit	20 Aug 2026	≥2031	575		0-20009-0-0	1
+1183	strix_9	StriX-9	StriX-9	Synspective	Commissioning	Drifting orbit	02 Sep 2026	≥2030	545		-20009--	1
+1184	eos_05_gisat_1a	EOS 05 (GISAT-1A)	Earth Observation Satellite - 05	ISRO	Commissioning	Geostationary orbit	03 Sep 2026	≥2033	35786		0-20009-0-	4
+1185	blacksky_24_gen3_5	BlackSky-24 (Gen3-5)	BlackSky-24	BSG	Commissioning	Drifting orbit	11 Sep 2026	≥2031	450		0-20009-0-	1

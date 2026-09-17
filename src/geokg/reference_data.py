@@ -3,7 +3,7 @@
 数据来源（逐项标注，见 PROVENANCE）：
 - SDG 框架：联合国官方编号体系
 - 国家：ISO 3166-1
-- 卫星目录：**来源待核实**（见 PROVENANCE）
+- 卫星目录：已改由 WMO OSCAR/Space 提供（见 geokg.satellites）
 - 概念/术语表：**来源待核实**（见 PROVENANCE）
 
 ⚠️ 一级行政区（原 ADMIN1_REGIONS）已于 2026-09 **移出本包**：
@@ -137,85 +137,6 @@ COUNTRIES: list[tuple[str, str, str, str]] = [
 ]
 
 
-# --------------------------------------------------------------------------- #
-# 对地观测卫星目录（2026 目标 ≥100 颗）
-# 格式: (标识, 名称, 机构, 类型, 传感器, 分辨率m, 波段列表)
-# --------------------------------------------------------------------------- #
-def _satellites() -> list[tuple[str, str, str, str, str, float, list[str]]]:
-    sats: list[tuple[str, str, str, str, str, float, list[str]]] = []
-
-    # Sentinel 系列 (ESA/Copernicus)
-    s2_bands = ["B01", "B02", "B03", "B04", "B05", "B06", "B07", "B08", "B8A", "B09", "B10", "B11", "B12"]
-    for i in range(1, 5):
-        sats.append((f"SENTINEL-2{'ABCD'[i-1]}", f"Sentinel-2{'ABCD'[i-1]}", "ESA", "optical", "MSI", 10.0, s2_bands))
-    for i in range(1, 4):
-        sats.append((f"SENTINEL-1{'ABC'[i-1]}", f"Sentinel-1{'ABC'[i-1]}", "ESA", "sar", "C-SAR", 5.0, ["VV", "VH"]))
-    for i in range(1, 4):
-        sats.append((f"SENTINEL-3{'AB'[i-1] if i < 3 else 'B'}", f"Sentinel-3{'AB'[i-1] if i < 3 else 'B'}", "ESA", "optical", "OLCI/SLSTR/SRAL", 300.0,
-                     ["Oa01","Oa02","Oa03","Oa04","Oa05","Oa06","Oa07","Oa08","Oa09","Oa10","Oa11","Oa12","Oa13","Oa14","Oa15","Oa16","Oa17","Oa18","Oa19","Oa20","Oa21","S1","S2","S3","S4","S5","S6"]))
-    sats.append(("SENTINEL-5P", "Sentinel-5P", "ESA", "atmospheric", "TROPOMI", 3500.0, ["NO2", "SO2", "CO", "CH4", "O3", "AER_AI"]))
-    sats.append(("SENTINEL-6A", "Sentinel-6A", "ESA/EUMETSAT", "altimetry", "Poseidon-4", 1300.0, ["SLA", "SWH", "SIG0"]))
-
-    # Landsat 系列 (NASA/USGS)
-    landsat_bands = ["B1","B2","B3","B4","B5","B6","B7","B8","B9","B10","B11"]
-    for n in (7, 8, 9):
-        res = 15.0 if n >= 8 else 15.0
-        sats.append((f"LANDSAT-{n}", f"Landsat {n}", "NASA/USGS", "optical", "OLI/TIRS" if n >= 8 else "ETM+", res, landsat_bands))
-
-    # MODIS / VIIRS
-    sats.append(("TERRA", "Terra", "NASA", "optical", "MODIS", 250.0, ["B01","B02","B03","B04","B05","B06","B07"]))
-    sats.append(("AQUA", "Aqua", "NASA", "optical", "MODIS", 250.0, ["B01","B02","B03","B04","B05","B06","B07"]))
-    for name in ("SNPP", "NOAA-20", "NOAA-21"):
-        sats.append((name, name, "NOAA/NASA", "optical", "VIIRS", 375.0, ["I1","I2","I3","I4","I5","M1","M2","M3","M4","M5","M6","M7"]))
-
-    # 中国高分/资源系列
-    for n in range(1, 15):
-        sats.append((f"GF-{n}", f"Gaofen-{n}", "CNSA", "optical", f"GF{n}-PMC", 2.0, ["PAN", "MSS"]))
-    for n in (1, 2, 3):
-        sats.append((f"ZY-3{n:02d}", f"Ziyuan-3 {n:02d}", "MNR China", "optical", "TLC", 2.1, ["NAD", "FWD", "BWD"]))
-    sats.append(("ZY-1-02D", "Ziyuan-1 02D", "MNR China", "hyperspectral", "AHSI", 30.0, [f"B{i:03d}" for i in range(1, 167)]))
-    for n in range(1, 5):
-        sats.append((f"CBERS-{n}", f"CBERS-{n}", "China/Brazil", "optical", "MUX/WFI/IRS", 5.0, ["B5","B6","B7","B8","B13","B14","B15","B16"]))
-    sats.append(("HJ-2A", "Huanjing-2A", "CNSA", "optical", "CCD", 16.0, ["B1","B2","B3","B4"]))
-    sats.append(("HJ-2B", "Huanjing-2B", "CNSA", "optical", "CCD", 16.0, ["B1","B2","B3","B4"]))
-
-    # 商业高分辨率星座
-    for n in range(1, 5):
-        sats.append((f"WORLDVIEW-{n}", f"WorldView-{n}", "Maxar", "optical", "WV110", 0.31, ["PAN","MS1","MS2","MS3","MS4","MS5","MS6","MS7","MS8"]))
-    for n in range(1, 5):
-        sats.append((f"GEOEYE-{n}", f"GeoEye-{n}", "Maxar", "optical", "GIS", 0.41, ["PAN","MS1","MS2","MS3","MS4"]))
-    for n in range(1, 5):
-        sats.append((f"PLEIADES-{n}{'AB'[n-1] if n <= 2 else ''}", f"Pléiades-{n}", "Airbus", "optical", "HiRI", 0.5, ["PAN","B0","B1","B2","B3"]))
-    for n in range(1, 5):
-        sats.append((f"SPOT-{n}", f"SPOT-{n}", "Airbus", "optical", "HRG/NAOMI", 1.5, ["PAN","B1","B2","B3","B4"]))
-    for n in range(1, 8):
-        sats.append((f"SKYSAT-{n}", f"SkySat-{n}", "Planet", "optical", "SkySat-C", 0.5, ["PAN","B","G","R","NIR"]))
-    for n in range(1, 5):
-        sats.append((f"SUPERVIEW-{n}", f"SuperView-{n}", "SpaceWill", "optical", "PMC", 0.5, ["PAN","B1","B2","B3","B4"]))
-    # Planet Dove 星座（抽样代表）
-    for n in range(1, 21):
-        sats.append((f"DOVE-{n:04d}", f"Dove-{n:04d}", "Planet", "optical", "PS2", 3.0, ["B","G","R","NIR"]))
-
-    # SAR 系列
-    for n in range(1, 5):
-        sats.append((f"RADARSAT-{n}", f"RADARSAT-{n}", "CSA", "sar", "SAR", 3.0, ["HH","HV","VH","VV"]))
-    for n in range(1, 5):
-        sats.append((f"TERRASAR-X{n}", f"TerraSAR-X{n}" if n > 1 else "TerraSAR-X", "DLR/Airbus", "sar", "X-SAR", 0.25, ["HH","HV","VH","VV"]))
-    for n in range(1, 5):
-        sats.append((f"ALOS-{n}", f"ALOS-{n}", "JAXA", "sar", "PALSAR", 3.0, ["HH","HV","VH","VV"]))
-    for n in range(1, 5):
-        sats.append((f"ICEYE-X{n}", f"ICEYE-X{n}", "ICEYE", "sar", "X-SAR", 0.25, ["HH","VV"]))
-    for n in range(1, 5):
-        sats.append((f"CAPELLA-{n}", f"Capella-{n}", "Capella", "sar", "X-SAR", 0.5, ["HH","VV"]))
-    for n in range(1, 4):
-        sats.append((f"GAOFEN-3-{n:02d}", f"Gaofen-3 {n:02d}", "CNSA", "sar", "C-SAR", 1.0, ["HH","HV","VH","VV"]))
-
-    return sats
-
-
-SATELLITES: list[tuple[str, str, str, str, str, float, list[str]]] = _satellites()
-
-
 # 概念/术语表（GeoNexus 领域本体）
 # --------------------------------------------------------------------------- #
 CONCEPTS: dict[str, list[str]] = {
@@ -267,7 +188,5 @@ def reference_data_stats() -> dict[str, int]:
         "sdg_indicators": sum(SDG_INDICATOR_COUNTS.values()),
         "geospatial_indicators": len(GEOSPATIAL_INDICATORS),
         "countries": len(COUNTRIES),
-        "satellites": len(SATELLITES),
-        "satellite_bands": sum(len(s[6]) for s in SATELLITES),
         "concepts": sum(len(v) for v in CONCEPTS.values()),
     }

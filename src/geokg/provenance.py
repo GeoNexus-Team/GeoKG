@@ -165,6 +165,18 @@ SOURCES: dict[str, DataSource] = {
              "署名：GeoNames, https://www.geonames.org/",
     ),
     # ── T2 官方机构 ──
+    "wmo-oscar-satellites": DataSource(
+        id="wmo-oscar-satellites",
+        name="WMO OSCAR/Space 对地观测卫星目录",
+        version="OSCAR/Space v2.7（官方 REST API）",
+        license="可自由使用与再分发，须致谢 WMO；WMO 不对准确性作担保",
+        url="https://space.oscar.wmo.int/apidoc/",
+        retrieved="2026-09-16",
+        tier="T2",
+        note="1,044 颗卫星（406 在轨/381 退役/131 规划）；由 "
+             "scripts/fetch_oscar_satellites.py 抓取。署名：WMO OSCAR/Space",
+    ),
+
     "esa-worldcover": DataSource(
         id="esa-worldcover",
         name="ESA WorldCover 土地覆盖分类（遵循 FAO LCCS 方案）",
@@ -223,7 +235,6 @@ SOURCES: dict[str, DataSource] = {
 
 # 逐个登记"来源待核实"的存量数据（审计发现的债务，保留各自的可读 id）
 _UNVERIFIED_NOTES = {
-    "unverified-satellites": "卫星目录 114 条：无出处、无版本、无检索日期",
     "unverified-satellite-constellations": "星座展开：无出处",
     "unverified-concepts": "概念/术语表 117 条：无出处",
     "unverified-extended-concepts": "扩充词汇：无出处",
