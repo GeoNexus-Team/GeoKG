@@ -23,7 +23,6 @@ from typing import Any
 from geonexus.kg import KGEntity, KnowledgeGraph
 
 from .reference_data import (
-    ADMIN1_REGIONS,
     CONCEPTS,
     COUNTRIES,
     GEOSPATIAL_INDICATORS,
@@ -36,40 +35,49 @@ from .reference_data import (
 logger = logging.getLogger(__name__)
 
 # --------------------------------------------------------------------------- #
-# 实体来源标记（计数口径的工程基础）
+# 溯源标记
 #
-# 考核口径争议的根源是"实体数"没有定义。这里把来源**写进实体本身**，
-# 使任何口径都能从数据复现，而不是靠文档解释：
-#
-#   curated   人工整理的参考表（SDG 框架、国家、卫星目录、概念…）
-#   expanded  由策展表**系统性展开**（星座成员、扩展行政区、扩展词汇）
-#   derived   由交叉积/规则**派生**（MonitoringUnit、DataRequirement）
+# 来源分层（origin）与来源标识（source/license/retrieved）的定义与登记表
+# 在 geokg.provenance 中；这里只负责在摄入时把它们**盖到每个实体上**。
 # --------------------------------------------------------------------------- #
-ORIGIN_CURATED = "curated"
-ORIGIN_EXPANDED = "expanded"
-ORIGIN_DERIVED = "derived"
+from .provenance import (  # noqa: E402
+    ORIGIN_CURATED,
+    ORIGIN_DERIVED,
+    ORIGIN_EXPANDED,
+    SOURCES,
+    DataSource,
+)
 
-ORIGINS = (ORIGIN_CURATED, ORIGIN_EXPANDED, ORIGIN_DERIVED)
 
-
-class _OriginTaggingKG:
-    """把摄入阶段的来源写进每个新增实体的 ``properties["origin"]``。
+class _ProvenanceKG:
+    """把摄入阶段的来源与许可写进每个新增实体的 properties。
 
     只重写 ``add_entity``，其余属性转发给真实图谱对象，因此摄入函数无需改动。
+    未提供 ``source`` 时按 ``UNVERIFIED`` 记录——绝不静默当作已核实。
     """
 
-    __slots__ = ("_kg", "_origin")
+    __slots__ = ("_kg", "_origin", "_src")
 
-    def __init__(self, kg: KnowledgeGraph, origin: str) -> None:
+    def __init__(self, kg: KnowledgeGraph, origin: str, source: str | DataSource) -> None:
         self._kg = kg
         self._origin = origin
+        ds = SOURCES.get(source) if isinstance(source, str) else source
+        if ds is None:
+            raise KeyError(f"未登记的来源: {source!r}——请先在 geokg.provenance.SOURCES 中登记")
+        self._src = ds
 
     def add_entity(self, entity: Any) -> Any:
-        entity.properties.setdefault("origin", self._origin)
+        pr = entity.properties
+        pr.setdefault("origin", self._origin)
+        pr.setdefault("source", self._src.id)
+        pr.setdefault("source_tier", self._src.tier)
+        pr.setdefault("license", self._src.license)
+        pr.setdefault("retrieved", self._src.retrieved)
         return self._kg.add_entity(entity)
 
     def __getattr__(self, name: str) -> Any:
         return getattr(self._kg, name)
+
 
 
 @dataclass
@@ -215,30 +223,6 @@ def ingest_countries(kg: KnowledgeGraph, report: IngestReport) -> None:
         relations += 1
 
     report.record("countries", entities, relations)
-
-
-def ingest_admin1(kg: KnowledgeGraph, report: IngestReport) -> None:
-    """导入一级行政区（GADM level-1）。"""
-    entities = 0
-    relations = 0
-
-    for iso3, regions in ADMIN1_REGIONS.items():
-        country_id = f"country.{iso3}"
-        if kg.get_entity(country_id) is None:
-            continue
-        for name in regions:
-            slug = name.lower().replace(" ", "-").replace("'", "").replace(".", "").replace("(", "").replace(")", "")
-            admin_id = f"admin1.{iso3}.{slug}"
-            kg.add_entity(KGEntity(
-                id=admin_id, type="AdminRegion",
-                properties={"name": name, "country": iso3, "level": 1},
-                labels=["admin", "admin1"],
-            ))
-            kg.add_relation(admin_id, country_id, "LOCATED_IN")
-            entities += 1
-            relations += 1
-
-    report.record("admin1_regions", entities, relations)
 
 
 # --------------------------------------------------------------------------- #
@@ -642,22 +626,26 @@ def run_full_ingestion(
         monitor_levels = ["country", "admin1"]
 
     if include_reference:
-        ref = _OriginTaggingKG(kg, ORIGIN_CURATED)
-        ingest_sdg_framework(ref, report)
-        ingest_countries(ref, report)
-        ingest_admin1(ref, report)
-        ingest_satellites(ref, report)
-        ingest_concepts(ref, report)
+        ingest_sdg_framework(_ProvenanceKG(kg, ORIGIN_CURATED, "un-sdg-framework"), report)
+        ingest_countries(_ProvenanceKG(kg, ORIGIN_CURATED, "iso-3166-1"), report)
+        # ⚠️ 以下两项来源待核实（审计债务），显式标注而非默认放行
+        ingest_satellites(
+            _ProvenanceKG(kg, ORIGIN_CURATED, "unverified-satellites"), report)
+        ingest_concepts(
+            _ProvenanceKG(kg, ORIGIN_CURATED, "unverified-concepts"), report)
 
     if include_expansion:
-        exp = _OriginTaggingKG(kg, ORIGIN_EXPANDED)
-        ingest_satellite_constellations(exp, report)
-        ingest_extended_admin1(exp, report)
-        ingest_extended_concepts(exp, report)
+        ingest_satellite_constellations(
+            _ProvenanceKG(kg, ORIGIN_EXPANDED, "unverified-satellite-constellations"), report)
+        ingest_extended_admin1(
+            _ProvenanceKG(kg, ORIGIN_EXPANDED, "unverified-extended-admin1"), report)
+        ingest_extended_concepts(
+            _ProvenanceKG(kg, ORIGIN_EXPANDED, "unverified-extended-concepts"), report)
 
     if include_monitoring:
         ingest_monitoring_units(
-            _OriginTaggingKG(kg, ORIGIN_DERIVED), report, levels=monitor_levels
+            _ProvenanceKG(kg, ORIGIN_DERIVED, "geokg-derived"), report,
+            levels=monitor_levels,
         )
 
     if include_skills:
@@ -666,10 +654,11 @@ def run_full_ingestion(
             "ndvi-change", "terrain-slope", "terrain-aspect", "buffer-analysis",
             "zonal-stats", "reproject", "clip-crop", "composite-bands",
         ]
-        ingest_skills(_OriginTaggingKG(kg, ORIGIN_CURATED), names, report)
+        ingest_skills(_ProvenanceKG(kg, ORIGIN_CURATED, "geokg-authored"), names, report)
 
     if include_gaag and gaag_registry is not None:
-        ingest_gaag_contracts(_OriginTaggingKG(kg, ORIGIN_CURATED), gaag_registry, report)
+        ingest_gaag_contracts(
+            _ProvenanceKG(kg, ORIGIN_CURATED, "geokg-authored"), gaag_registry, report)
 
     report.total_entities = kg.entity_count()
     logger.info("GeoKG ingestion complete: %d entities", report.total_entities)

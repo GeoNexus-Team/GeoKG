@@ -30,7 +30,6 @@ from __future__ import annotations
 
 from .ingest import (
     IngestReport,
-    ingest_admin1,
     ingest_concepts,
     ingest_countries,
     ingest_extended_admin1,
@@ -44,8 +43,18 @@ from .ingest import (
     ingest_skills,
     run_full_ingestion,
 )
+from .provenance import (
+    ORIGIN_CURATED,
+    ORIGIN_DERIVED,
+    ORIGIN_EXPANDED,
+    ORIGINS,
+    SOURCES,
+    UNVERIFIED,
+    counting_basis,
+    format_provenance_report,
+    provenance_report,
+)
 from .reference_data import (
-    ADMIN1_REGIONS,
     CONCEPTS,
     COUNTRIES,
     SATELLITES,
@@ -58,9 +67,13 @@ from .reference_data import (
 __version__ = "0.1.0"
 
 __all__ = [
+    # 溯源（来源/许可/口径）
+    "ORIGINS", "ORIGIN_CURATED", "ORIGIN_EXPANDED", "ORIGIN_DERIVED",
+    "SOURCES", "UNVERIFIED",
+    "counting_basis", "provenance_report", "format_provenance_report",
+
     # 摄入管道
     "IngestReport",
-    "ingest_admin1",
     "ingest_concepts",
     "ingest_countries",
     "ingest_extended_admin1",
@@ -74,7 +87,6 @@ __all__ = [
     "ingest_skills",
     "run_full_ingestion",
     # 参考数据
-    "ADMIN1_REGIONS",
     "CONCEPTS",
     "COUNTRIES",
     "SATELLITES",

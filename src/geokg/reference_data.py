@@ -1,10 +1,15 @@
 """GeoKG 参考数据集 — 权威结构化数据，用于知识图谱批量灌数。
 
-数据来源：
-- UN SDG 框架：17 目标 / 169 具体目标 / 231 唯一指标（联合国官方编号体系）
-- ISO 3166-1：249 个国家与地区（含 ISO3 / 大区 / 次区域）
-- 对地观测卫星目录：主要光学与 SAR 卫星（含载荷与波段）
-- 行政区划：主要国家一级行政区（GADM level-1 结构）
+数据来源（逐项标注，见 PROVENANCE）：
+- SDG 框架：联合国官方编号体系
+- 国家：ISO 3166-1
+- 卫星目录：**来源待核实**（见 PROVENANCE）
+- 概念/术语表：**来源待核实**（见 PROVENANCE）
+
+⚠️ 一级行政区（原 ADMIN1_REGIONS）已于 2026-09 **移出本包**：
+其数据自述来自 GADM，而 GADM 许可禁止再分发，提交进公开仓库即构成
+再分发。数据已隔离在仓库之外待重新获取来源。详见 PROVENANCE 与
+GeoKG/docs/。
 
 说明：本模块只收录结构性事实数据（框架、编号、名称、层级），不含
 任何观测值。观测数据必须来自真实数据源（Sentinel Hub / OSM / 统计库）。
@@ -384,132 +389,6 @@ def _satellites() -> list[tuple[str, str, str, str, str, float, list[str]]]:
 SATELLITES: list[tuple[str, str, str, str, str, float, list[str]]] = _satellites()
 
 
-# --------------------------------------------------------------------------- #
-# 主要国家一级行政区（GADM level-1 抽样，用于区域层级实体）
-# --------------------------------------------------------------------------- #
-ADMIN1_REGIONS: dict[str, list[str]] = {
-    "CHN": ["Beijing","Tianjin","Hebei","Shanxi","Inner Mongolia","Liaoning","Jilin","Heilongjiang",
-            "Shanghai","Jiangsu","Zhejiang","Anhui","Fujian","Jiangxi","Shandong","Henan","Hubei",
-            "Hunan","Guangdong","Guangxi","Hainan","Chongqing","Sichuan","Guizhou","Yunnan","Tibet",
-            "Shaanxi","Gansu","Qinghai","Ningxia","Xinjiang","Hong Kong","Macao","Taiwan"],
-    "USA": ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut","Delaware",
-            "Florida","Georgia","Hawaii","Idaho","Illinois","Indiana","Iowa","Kansas","Kentucky",
-            "Louisiana","Maine","Maryland","Massachusetts","Michigan","Minnesota","Mississippi",
-            "Missouri","Montana","Nebraska","Nevada","New Hampshire","New Jersey","New Mexico",
-            "New York","North Carolina","North Dakota","Ohio","Oklahoma","Oregon","Pennsylvania",
-            "Rhode Island","South Carolina","South Dakota","Tennessee","Texas","Utah","Vermont",
-            "Virginia","Washington","West Virginia","Wisconsin","Wyoming","District of Columbia"],
-    "IND": ["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat",
-            "Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh",
-            "Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan",
-            "Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal",
-            "Andaman and Nicobar Islands","Chandigarh","Dadra and Nagar Haveli","Delhi","Jammu and Kashmir",
-            "Ladakh","Lakshadweep","Puducherry"],
-    "BRA": ["Acre","Alagoas","Amapá","Amazonas","Bahia","Ceará","Distrito Federal","Espírito Santo",
-            "Goiás","Maranhão","Mato Grosso","Mato Grosso do Sul","Minas Gerais","Pará","Paraíba",
-            "Paraná","Pernambuco","Piauí","Rio de Janeiro","Rio Grande do Norte","Rio Grande do Sul",
-            "Rondônia","Roraima","Santa Catarina","São Paulo","Sergipe","Tocantins"],
-    "ZAF": ["Eastern Cape","Free State","Gauteng","KwaZulu-Natal","Limpopo","Mpumalanga",
-            "Northern Cape","North West","Western Cape"],
-    "KEN": ["Baringo","Bomet","Bungoma","Busia","Elgeyo-Marakwet","Embu","Garissa","Homa Bay",
-            "Isiolo","Kajiado","Kakamega","Kericho","Kiambu","Kilifi","Kirinyaga","Kisii","Kisumu",
-            "Kitui","Kwale","Laikipia","Lamu","Machakos","Makueni","Mandera","Marsabit","Meru",
-            "Migori","Mombasa","Murang'a","Nairobi","Nakuru","Nandi","Narok","Nyamira","Nyandarua",
-            "Nyeri","Samburu","Siaya","Taita-Taveta","Tana River","Tharaka-Nithi","Trans Nzoia",
-            "Turkana","Uasin Gishu","Vihiga","Wajir","West Pokot"],
-    "NGA": ["Abia","Adamawa","Akwa Ibom","Anambra","Bauchi","Bayelsa","Benue","Borno","Cross River",
-            "Delta","Ebonyi","Edo","Ekiti","Enugu","FCT Abuja","Gombe","Imo","Jigawa","Kaduna",
-            "Kano","Katsina","Kebbi","Kogi","Kwara","Lagos","Nasarawa","Niger","Ogun","Ondo",
-            "Osun","Oyo","Plateau","Rivers","Sokoto","Taraba","Yobe","Zamfara"],
-    "IDN": ["Aceh","Bali","Bangka Belitung","Banten","Bengkulu","DI Yogyakarta","DKI Jakarta",
-            "Gorontalo","Jambi","Jawa Barat","Jawa Tengah","Jawa Timur","Kalimantan Barat",
-            "Kalimantan Selatan","Kalimantan Tengah","Kalimantan Timur","Kalimantan Utara",
-            "Kepulauan Riau","Lampung","Maluku","Maluku Utara","Nusa Tenggara Barat",
-            "Nusa Tenggara Timur","Papua","Papua Barat","Riau","Sulawesi Barat","Sulawesi Selatan",
-            "Sulawesi Tengah","Sulawesi Tenggara","Sulawesi Utara","Sumatera Barat","Sumatera Selatan",
-            "Sumatera Utara"],
-    "VNM": ["An Giang","Bà Rịa-Vũng Tàu","Bắc Giang","Bắc Kạn","Bạc Liêu","Bắc Ninh","Bến Tre",
-            "Bình Định","Bình Dương","Bình Phước","Bình Thuận","Cà Mau","Cao Bằng","Đắk Lắk",
-            "Đắk Nông","Điện Biên","Đồng Nai","Đồng Tháp","Gia Lai","Hà Giang","Hà Nam","Hà Nội",
-            "Hà Tĩnh","Hải Dương","Hải Phòng","Hậu Giang","Hòa Bình","Hưng Yên","Khánh Hòa",
-            "Kiên Giang","Kon Tum","Lai Châu","Lâm Đồng","Lạng Sơn","Lào Cai","Long An","Nam Định",
-            "Nghệ An","Ninh Bình","Ninh Thuận","Phú Thọ","Phú Yên","Quảng Bình","Quảng Nam",
-            "Quảng Ngãi","Quảng Ninh","Quảng Trị","Sóc Trăng","Sơn La","Tây Ninh","Thái Bình",
-            "Thái Nguyên","Thanh Hóa","Thừa Thiên-Huế","Tiền Giang","Trà Vinh","Tuyên Quang",
-            "Vĩnh Long","Vĩnh Phúc","Yên Bái","Cần Thơ","Đà Nẵng","Hồ Chí Minh"],
-    "THA": ["Amnat Charoen","Ang Thong","Bueng Kan","Buriram","Chachoengsao","Chai Nat","Chaiyaphum",
-            "Chanthaburi","Chiang Mai","Chiang Rai","Chonburi","Chumphon","Kalasin","Kamphaeng Phet",
-            "Kanchanaburi","Khon Kaen","Krabi","Lampang","Lamphun","Loei","Lopburi","Mae Hong Son",
-            "Maha Sarakham","Mukdahan","Nakhon Nayok","Nakhon Pathom","Nakhon Phanom",
-            "Nakhon Ratchasima","Nakhon Sawan","Nakhon Si Thammarat","Nan","Narathiwat",
-            "Nong Bua Lamphu","Nong Khai","Nonthaburi","Pathum Thani","Pattani","Phang Nga",
-            "Phatthalung","Phayao","Phetchabun","Phetchaburi","Phichit","Phitsanulok","Phra Nakhon Si Ayutthaya",
-            "Phrae","Phuket","Prachinburi","Prachuap Khiri Khan","Ranong","Ratchaburi","Rayong",
-            "Roi Et","Sa Kaeo","Sakon Nakhon","Samut Prakan","Samut Sakhon","Samut Songkhram",
-            "Saraburi","Satun","Sing Buri","Sisaket","Songkhla","Sukhothai","Suphan Buri",
-            "Surat Thani","Surin","Tak","Trang","Trat","Ubon Ratchathani","Udon Thani",
-            "Uthai Thani","Uttaradit","Yala","Yasothon","Bangkok"],
-    "MMR": ["Ayeyarwady","Bago","Chin","Kachin","Kayah","Kayin","Magway","Mandalay","Mon","Naypyidaw",
-            "Rakhine","Sagaing","Shan","Tanintharyi","Yangon"],
-    "BGD": ["Barisal","Chittagong","Dhaka","Khulna","Mymensingh","Rajshahi","Rangpur","Sylhet"],
-    "PAK": ["Azad Jammu and Kashmir","Balochistan","Gilgit-Baltistan","Islamabad","Khyber Pakhtunkhwa",
-            "Punjab","Sindh"],
-    "EGY": ["Alexandria","Aswan","Asyut","Beheira","Beni Suef","Cairo","Dakahlia","Damietta",
-            "Faiyum","Gharbia","Giza","Ismailia","Kafr El Sheikh","Luxor","Matruh","Minya",
-            "Monufia","New Valley","North Sinai","Port Said","Qalyubia","Qena","Red Sea",
-            "Sharqia","Sohag","South Sinai","Suez"],
-    "ETH": ["Addis Ababa","Afar","Amhara","Benishangul-Gumuz","Dire Dawa","Gambela","Harari",
-            "Oromia","Sidama","Somali","South West Ethiopia","Southern Nations","Tigray"],
-    "TZA": ["Arusha","Dar es Salaam","Dodoma","Geita","Iringa","Kagera","Katavi","Kigoma","Kilimanjaro",
-            "Lindi","Manyara","Mara","Mbeya","Morogoro","Mtwara","Mwanza","Njombe","Pemba North",
-            "Pemba South","Pwani","Rukwa","Ruvuma","Shinyanga","Simiyu","Singida","Songwe","Tabora",
-            "Tanga","Unguja North","Unguja South","Zanzibar Urban"],
-    "GHA": ["Ahafo","Ashanti","Bono","Bono East","Central","Eastern","Greater Accra","North East",
-            "Northern","Oti","Savannah","Upper East","Upper West","Volta","Western","Western North"],
-    "AUS": ["Australian Capital Territory","New South Wales","Northern Territory","Queensland",
-            "South Australia","Tasmania","Victoria","Western Australia"],
-    "CAN": ["Alberta","British Columbia","Manitoba","New Brunswick","Newfoundland and Labrador",
-            "Northwest Territories","Nova Scotia","Nunavut","Ontario","Prince Edward Island",
-            "Quebec","Saskatchewan","Yukon"],
-    "MEX": ["Aguascalientes","Baja California","Baja California Sur","Campeche","Chiapas","Chihuahua",
-            "Ciudad de México","Coahuila","Colima","Durango","Guanajuato","Guerrero","Hidalgo",
-            "Jalisco","México","Michoacán","Morelos","Nayarit","Nuevo León","Oaxaca","Puebla",
-            "Querétaro","Quintana Roo","San Luis Potosí","Sinaloa","Sonora","Tabasco","Tamaulipas",
-            "Tlaxcala","Veracruz","Yucatán","Zacatecas"],
-    "DEU": ["Baden-Württemberg","Bayern","Berlin","Brandenburg","Bremen","Hamburg","Hessen",
-            "Mecklenburg-Vorpommern","Niedersachsen","Nordrhein-Westfalen","Rheinland-Pfalz",
-            "Saarland","Sachsen","Sachsen-Anhalt","Schleswig-Holstein","Thüringen"],
-    "FRA": ["Auvergne-Rhône-Alpes","Bourgogne-Franche-Comté","Bretagne","Centre-Val de Loire",
-            "Corse","Grand Est","Hauts-de-France","Île-de-France","Normandie",
-            "Nouvelle-Aquitaine","Occitanie","Pays de la Loire","Provence-Alpes-Côte d'Azur"],
-    "GBR": ["England","Scotland","Wales","Northern Ireland"],
-    "RUS": ["Central","Far Eastern","North Caucasian","Northwestern","Siberian","Southern","Ural",
-            "Volga"],
-    "UKR": ["Cherkasy","Chernihiv","Chernivtsi","Dnipropetrovsk","Donetsk","Ivano-Frankivsk",
-            "Kharkiv","Kherson","Khmelnytskyi","Kirovohrad","Kyiv","Luhansk","Lviv","Mykolaiv",
-            "Odesa","Poltava","Rivne","Sumy","Ternopil","Vinnytsia","Volyn","Zakarpattia",
-            "Zaporizhzhia","Zhytomyr","Crimea"],
-    "IRN": ["Alborz","Ardabil","Bushehr","Chaharmahal and Bakhtiari","East Azerbaijan","Esfahan",
-            "Fars","Gilan","Golestan","Hamadan","Hormozgan","Ilam","Kerman","Kermanshah",
-            "Khuzestan","Kohgiluyeh and Boyer-Ahmad","Kurdistan","Lorestan","Markazi","Mazandaran",
-            "North Khorasan","Qazvin","Qom","Razavi Khorasan","Semnan","Sistan and Baluchestan",
-            "South Khorasan","Tehran","West Azerbaijan","Yazd","Zanjan"],
-    "SAU": ["Al Bahah","Al Jawf","Al Madinah","Al Qassim","Asir","Eastern Province","Hail",
-            "Jazan","Najran","Northern Borders","Riyadh","Tabuk"],
-    "TUR": ["Adana","Adıyaman","Afyonkarahisar","Ağrı","Aksaray","Amasya","Ankara","Antalya",
-            "Ardahan","Artvin","Aydın","Balıkesir","Bartın","Batman","Bayburt","Bilecik","Bingöl",
-            "Bitlis","Bolu","Burdur","Bursa","Çanakkale","Çankırı","Çorum","Denizli","Diyarbakır",
-            "Düzce","Edirne","Elazığ","Erzincan","Erzurum","Eskişehir","Gaziantep","Giresun",
-            "Gümüşhane","Hakkâri","Hatay","Iğdır","Isparta","İstanbul","İzmir","Kahramanmaraş",
-            "Karabük","Karaman","Kars","Kastamonu","Kayseri","Kırıkkale","Kırklareli","Kırşehir",
-            "Kilis","Kocaeli","Konya","Kütahya","Malatya","Manisa","Mardin","Mersin","Muğla","Muş",
-            "Nevşehir","Niğde","Ordu","Osmaniye","Rize","Sakarya","Samsun","Siirt","Sinop","Sivas",
-            "Şanlıurfa","Şırnak","Tekirdağ","Tokat","Trabzon","Tunceli","Uşak","Van","Yalova",
-            "Yozgat","Zonguldak"],
-}
-
-
-# --------------------------------------------------------------------------- #
 # 概念/术语表（GeoNexus 领域本体）
 # --------------------------------------------------------------------------- #
 CONCEPTS: dict[str, list[str]] = {
@@ -563,6 +442,5 @@ def reference_data_stats() -> dict[str, int]:
         "countries": len(COUNTRIES),
         "satellites": len(SATELLITES),
         "satellite_bands": sum(len(s[6]) for s in SATELLITES),
-        "admin1_regions": sum(len(v) for v in ADMIN1_REGIONS.values()),
         "concepts": sum(len(v) for v in CONCEPTS.values()),
     }

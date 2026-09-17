@@ -8,7 +8,6 @@ from geonexus.kg import KGEntity, KnowledgeGraph
 
 from geokg.ingest import (
     IngestReport,
-    ingest_admin1,
     ingest_concepts,
     ingest_countries,
     ingest_satellites,
@@ -45,8 +44,16 @@ class TestReferenceData:
         assert stats["satellites"] >= 100
         assert stats["satellite_bands"] >= 300
 
-    def test_admin1_present(self):
-        assert reference_data_stats()["admin1_regions"] > 500
+    def test_gadm_admin1_removed(self):
+        """回归护栏：GADM 来源的一级行政区必须不在包内。
+
+        该数据自述来自 GADM，而 GADM 许可禁止再分发（提交公开仓库即构成
+        再分发）。已隔离到仓库之外，此处防止它被无声地加回来。
+        """
+        import geokg.reference_data as rd
+
+        assert not hasattr(rd, "ADMIN1_REGIONS"), "GADM 来源的 ADMIN1_REGIONS 又回到了包里"
+        assert "admin1_regions" not in reference_data_stats()
 
     def test_concepts_present(self):
         assert reference_data_stats()["concepts"] > 50
@@ -105,18 +112,6 @@ class TestIngestCountries:
         neighbors = kg.neighbors("country.KEN", "LOCATED_IN")
         assert len(neighbors) == 1
         assert "eastern-africa" in neighbors[0][0].id
-
-
-class TestIngestAdmin1:
-    def test_admin1_entities(self):
-        kg = KnowledgeGraph("t")
-        report = IngestReport()
-        ingest_countries(kg, report)
-        ingest_admin1(kg, report)
-        admins = kg.search_by_type("AdminRegion")
-        assert len(admins) > 500
-        # 应该有中国的省
-        assert any("beijing" in a.id for a in admins)
 
 
 class TestIngestSatellites:
@@ -215,10 +210,14 @@ class TestFullPipeline:
         )
 
     def test_reference_baseline_a_plus_b(self):
-        """A+B 纯参考数据基线（不含派生任务空间）应达 8k+ 量级。"""
+        """策展 + 展开基线（不含派生任务空间）。
+
+        2026-09 移除 GADM 来源的一级行政区后由 8,327 降至 7,590。
+        该下降是合规处置的结果，不是回归。
+        """
         kg = KnowledgeGraph("t")
         report = run_full_ingestion(kg, include_monitoring=False)
-        assert report.total_entities > 8000, (
+        assert report.total_entities > 7000, (
             f"参考基线 {report.total_entities} 偏低"
         )
         # 基线应全部是策展的结构化事实
@@ -231,7 +230,8 @@ class TestFullPipeline:
         kg = KnowledgeGraph("t")
         run_full_ingestion(kg, include_monitoring=False)
         admins = kg.search_by_type("AdminRegion")
-        assert len(admins) >= 3000, f"行政区数 {len(admins)} < 3000"
+        # 移除 GADM 来源数据后实测 2,763；此处留出余量，避免与新来源数据冲突
+        assert len(admins) >= 2000, f"行政区数 {len(admins)} < 2000"
         countries_with_admin = {a.properties["country"] for a in admins}
         assert len(countries_with_admin) >= 150, (
             f"覆盖国家数 {len(countries_with_admin)} < 150"

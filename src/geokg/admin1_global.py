@@ -1,7 +1,7 @@
 """GeoKG 行政区划数据 — 全球 ISO 3166-2 一级行政区（补充集）。
 
 数据说明：按各国官方一级行政区（省/州/大区/郡）名称整理。
-与 reference_data.ADMIN1_REGIONS 和 gazetteer.ADMIN1_EXTENDED 合并后
+与 gazetteer.ADMIN1_EXTENDED 合并后（原 reference_data.ADMIN1_REGIONS 因 GADM 许可问题已移出）
 覆盖全球主要国家。
 """
 

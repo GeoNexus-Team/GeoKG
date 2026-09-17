@@ -21,7 +21,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 from geonexus.kg import KnowledgeGraph  # noqa: E402
 
 from geokg.ingest import run_full_ingestion  # noqa: E402
-from geokg.provenance import counting_basis, format_report  # noqa: E402
+from geokg.provenance import (
+    counting_basis,
+    format_provenance_report,
+    format_report,
+    provenance_report,
+)  # noqa: E402
 
 
 def main() -> int:
@@ -53,11 +58,27 @@ def main() -> int:
     basis = counting_basis(kg)
     print(format_report(basis, title=title))
 
+    prov = provenance_report(kg)
+    print(format_provenance_report(prov))
+
+    rc = 0
     if basis["unclassified"]:
-        print(f"  ❌ {len(basis['unclassified'])} 个实体缺少来源标记，计数不可信")
-        return 1
-    print("  ✅ 全部实体均已标记来源，口径可从数据复现")
-    return 0
+        print(f"  ❌ {len(basis['unclassified'])} 个实体缺少来源分层标记，计数不可信")
+        rc = 1
+
+    # 硬性门禁（决策："强制每条实体带 source/license/retrieved"）：
+    # 字段缺席即失败。值为 UNVERIFIED 属已登记的债务，报告但不失败。
+    if prov["missing_fields"]:
+        print(f"  ❌ {len(prov['missing_fields'])} 个实体缺少必需溯源字段"
+              "（origin/source/license/retrieved）")
+        rc = 1
+    else:
+        print("  ✅ 全部实体均带 origin/source/license/retrieved")
+
+    if prov["unverified_count"]:
+        print(f"  ⚠️ {prov['unverified_count']:,} 个实体来源未核实"
+              f"（占 {1 - prov['verified_ratio']:.1%}）——不得对外引用，须补齐来源")
+    return rc
 
 
 if __name__ == "__main__":

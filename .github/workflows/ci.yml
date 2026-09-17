@@ -39,4 +39,9 @@ jobs:
         run: pytest tests -q --tb=short
 
       - name: Ruff check
-        run: ruff check src/ tests/ --output-format=github
+        run: ruff check src/ tests/ scripts/ --output-format=github
+
+      - name: Provenance gate
+        # Hard gate: every entity must carry origin/source/license/retrieved.
+        # Unverified sources are reported as debt, not as a failure.
+        run: python scripts/counting_basis.py --no-monitoring
