@@ -22,9 +22,11 @@ from typing import Any
 
 from geonexus.kg import KGEntity, KnowledgeGraph
 
+from .admin1 import ADMIN1_UNITS
+from .admin1 import ATTRIBUTION as ADMIN1_ATTRIBUTION
 from .reference_data import (
     CONCEPTS,
-    COUNTRIES,
+    COUNTRIES_FULL,
     GEOSPATIAL_INDICATORS,
     SATELLITES,
     SDG_GOALS,
@@ -188,41 +190,73 @@ def ingest_sdg_framework(kg: KnowledgeGraph, report: IngestReport) -> None:
 # 2. 国家与区域
 # --------------------------------------------------------------------------- #
 def ingest_countries(kg: KnowledgeGraph, report: IngestReport) -> None:
-    """导入 ISO 3166-1 国家 + 大区/次区域层级。"""
+    """导入 UN M49 国家/地区，并建立**三级**区域层级。
+
+    UN M49 的区域结构是三层：Region（如 Africa）→ Sub-region
+    （如 Sub-Saharan Africa）→ Intermediate Region（如 Eastern Africa）。
+    国家挂到最细的一级。早先的数据把 Sub-region 与 Intermediate Region
+    混为一谈（把 Kenya 直接挂到 Eastern Africa），这里按标准修正。
+
+    数据来自 ``scripts/fetch_un_m49.py`` 生成的 ``data/un_m49_countries.tsv``。
+    同时带入 SDG 相关的三项分组标志（LDC / LLDC / SIDS）与发达/发展中分类。
+
+    Antarctica 在 UN M49 中没有区域，只建国家实体、不建区域关系。
+    """
     entities = 0
     relations = 0
-    regions_seen: set[str] = set()
-    subregions_seen: set[str] = set()
+    seen: set[str] = set()
 
-    for iso3, name, region, subregion in COUNTRIES:
-        # 大区实体
-        region_id = f"region.{region.lower().replace(' ', '-')}"
-        if region_id not in regions_seen:
-            kg.add_entity(KGEntity(region_id, "Region", {"name": region, "level": "macro"}, ["region", "macro"]))
-            regions_seen.add(region_id)
-            entities += 1
+    def _slug(text: str) -> str:
+        return (text.lower().replace(" ", "-").replace(",", "")
+                .replace("(", "").replace(")", ""))
 
-        # 次区域实体
-        sub_id = f"region.{subregion.lower().replace(' ', '-').replace(',', '')}"
-        if sub_id not in subregions_seen:
-            kg.add_entity(KGEntity(sub_id, "Region", {"name": subregion, "level": "sub"}, ["region", "subregion"]))
-            kg.add_relation(sub_id, region_id, "LOCATED_IN")
-            subregions_seen.add(sub_id)
-            entities += 1
-            relations += 1
+    for c in COUNTRIES_FULL:
+        parent_id = ""
+        # 由粗到细建立区域链，国家挂到最细一级
+        for name, level in ((c.region, "macro"), (c.subregion, "sub"),
+                            (c.intermediate, "intermediate")):
+            if not name:
+                continue
+            rid = f"region.{_slug(name)}"
+            if rid not in seen:
+                kg.add_entity(KGEntity(
+                    rid, "Region", {"name": name, "level": level},
+                    ["region", level]))
+                seen.add(rid)
+                entities += 1
+                if parent_id:
+                    kg.add_relation(rid, parent_id, "LOCATED_IN")
+                    relations += 1
+            parent_id = rid
 
-        # 国家实体
-        country_id = f"country.{iso3}"
+        country_id = f"country.{c.iso3}"
+        props: dict[str, Any] = {
+            "iso3": c.iso3, "name": c.name,
+            "region": c.region, "subregion": c.subregion,
+            "intermediate_region": c.intermediate,
+            "m49": c.m49, "iso2": c.iso2,
+            "development": c.development,
+        }
+        if c.ldc:
+            props["ldc"] = True
+        if c.lldc:
+            props["lldc"] = True
+        if c.sids:
+            props["sids"] = True
         kg.add_entity(KGEntity(
-            id=country_id, type="Country",
-            properties={"iso3": iso3, "name": name, "region": region, "subregion": subregion},
+            id=country_id, type="Country", properties=props,
             labels=["country", "region"],
         ))
-        kg.add_relation(country_id, sub_id, "LOCATED_IN")
         entities += 1
-        relations += 1
+        if parent_id:
+            kg.add_relation(country_id, parent_id, "LOCATED_IN")
+            relations += 1
 
-    report.record("countries", entities, relations)
+    report.record("un_m49_countries", entities, relations)
+
+
+
+
 
 
 # --------------------------------------------------------------------------- #
@@ -383,39 +417,45 @@ def ingest_satellite_constellations(kg: KnowledgeGraph, report: IngestReport) ->
     report.record("satellite_constellations", entities, relations)
 
 
-def ingest_extended_admin1(kg: KnowledgeGraph, report: IngestReport) -> None:
-    """导入扩充的一级行政区划（gazetteer + admin1_global）。"""
-    from .admin1_global import ADMIN1_GLOBAL
-    from .gazetteer import ADMIN1_EXTENDED
+def ingest_admin1(kg: KnowledgeGraph, report: IngestReport) -> None:
+    """导入 GeoNames 一级行政区（admin1）。
 
+    取代了原先三个不可审计的来源：GADM 来源的 ``ADMIN1_REGIONS``（已隔离），
+    以及无出处的 ``gazetteer.ADMIN1_EXTENDED`` 与 ``admin1_global``（已隔离）。
+
+    实体 id 用 ``admin1.{iso3}.{geonameid}``：名称在同国内可能重复，
+    用名称生成 id 会静默丢数据。
+    """
     entities = 0
     relations = 0
 
-    merged: dict[str, list[str]] = {}
-    for source in (ADMIN1_EXTENDED, ADMIN1_GLOBAL):
-        for iso3, regions in source.items():
-            merged.setdefault(iso3, []).extend(regions)
-
-    for iso3, regions in merged.items():
-        country_id = f"country.{iso3}"
+    for u in ADMIN1_UNITS:
+        country_id = f"country.{u.iso3}"
         if kg.get_entity(country_id) is None:
+            continue  # 该国家不在 UN M49 表中（脚本已过滤，此处为兜底）
+        admin_id = u.entity_id
+        if kg.get_entity(admin_id) is not None:
             continue
-        for name in regions:
-            slug = (name.lower().replace(" ", "-").replace("'", "")
-                    .replace(".", "").replace("(", "").replace(")", "").replace(",", ""))
-            admin_id = f"admin1.{iso3}.{slug}"
-            if kg.get_entity(admin_id) is not None:
-                continue
-            kg.add_entity(KGEntity(
-                id=admin_id, type="AdminRegion",
-                properties={"name": name, "country": iso3, "level": 1},
-                labels=["admin", "admin1"],
-            ))
-            kg.add_relation(admin_id, country_id, "LOCATED_IN")
-            entities += 1
-            relations += 1
+        kg.add_entity(KGEntity(
+            id=admin_id, type="AdminRegion",
+            properties={
+                "name": u.name,
+                "asciiname": u.asciiname,
+                "country": u.iso3,
+                "level": 1,
+                "geonames_code": u.geonames_code,
+                "geonameid": u.geonameid,
+                "attribution": ADMIN1_ATTRIBUTION,
+            },
+            labels=["admin", "admin1"],
+        ))
+        kg.add_relation(admin_id, country_id, "LOCATED_IN")
+        entities += 1
+        relations += 1
 
-    report.record("admin1_extended", entities, relations)
+    report.record("geonames_admin1", entities, relations)
+
+
 
 
 def ingest_extended_concepts(kg: KnowledgeGraph, report: IngestReport) -> None:
@@ -627,7 +667,7 @@ def run_full_ingestion(
 
     if include_reference:
         ingest_sdg_framework(_ProvenanceKG(kg, ORIGIN_CURATED, "un-sdg-framework"), report)
-        ingest_countries(_ProvenanceKG(kg, ORIGIN_CURATED, "iso-3166-1"), report)
+        ingest_countries(_ProvenanceKG(kg, ORIGIN_CURATED, "un-m49"), report)
         # ⚠️ 以下两项来源待核实（审计债务），显式标注而非默认放行
         ingest_satellites(
             _ProvenanceKG(kg, ORIGIN_CURATED, "unverified-satellites"), report)
@@ -637,8 +677,8 @@ def run_full_ingestion(
     if include_expansion:
         ingest_satellite_constellations(
             _ProvenanceKG(kg, ORIGIN_EXPANDED, "unverified-satellite-constellations"), report)
-        ingest_extended_admin1(
-            _ProvenanceKG(kg, ORIGIN_EXPANDED, "unverified-extended-admin1"), report)
+        ingest_admin1(
+            _ProvenanceKG(kg, ORIGIN_EXPANDED, "geonames-admin1"), report)
         ingest_extended_concepts(
             _ProvenanceKG(kg, ORIGIN_EXPANDED, "unverified-extended-concepts"), report)
 

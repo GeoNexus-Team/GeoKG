@@ -17,6 +17,9 @@ GeoKG/docs/。
 
 from __future__ import annotations
 
+from dataclasses import dataclass
+from pathlib import Path
+
 # --------------------------------------------------------------------------- #
 # UN SDG 框架：17 个目标
 # --------------------------------------------------------------------------- #
@@ -73,241 +76,60 @@ GEOSPATIAL_INDICATORS: dict[str, str] = {
 # ISO 3166-1 国家与地区（249 条）
 # 格式: (ISO3, 英文名, 大区, 次区域)
 # --------------------------------------------------------------------------- #
-def _countries() -> list[tuple[str, str, str, str]]:
-    """返回 ISO 3166-1 国家列表（按大区分组）。"""
-    data: list[tuple[str, str, str, str]] = [
-        # Africa (54)
-        ("DZA", "Algeria", "Africa", "Northern Africa"),
-        ("EGY", "Egypt", "Africa", "Northern Africa"),
-        ("LBY", "Libya", "Africa", "Northern Africa"),
-        ("MAR", "Morocco", "Africa", "Northern Africa"),
-        ("SDN", "Sudan", "Africa", "Northern Africa"),
-        ("TUN", "Tunisia", "Africa", "Northern Africa"),
-        ("ESH", "Western Sahara", "Africa", "Northern Africa"),
-        ("BDI", "Burundi", "Africa", "Eastern Africa"),
-        ("COM", "Comoros", "Africa", "Eastern Africa"),
-        ("DJI", "Djibouti", "Africa", "Eastern Africa"),
-        ("ERI", "Eritrea", "Africa", "Eastern Africa"),
-        ("ETH", "Ethiopia", "Africa", "Eastern Africa"),
-        ("KEN", "Kenya", "Africa", "Eastern Africa"),
-        ("MDG", "Madagascar", "Africa", "Eastern Africa"),
-        ("MWI", "Malawi", "Africa", "Eastern Africa"),
-        ("MUS", "Mauritius", "Africa", "Eastern Africa"),
-        ("MYT", "Mayotte", "Africa", "Eastern Africa"),
-        ("MOZ", "Mozambique", "Africa", "Eastern Africa"),
-        ("REU", "Réunion", "Africa", "Eastern Africa"),
-        ("RWA", "Rwanda", "Africa", "Eastern Africa"),
-        ("SYC", "Seychelles", "Africa", "Eastern Africa"),
-        ("SOM", "Somalia", "Africa", "Eastern Africa"),
-        ("SSD", "South Sudan", "Africa", "Eastern Africa"),
-        ("UGA", "Uganda", "Africa", "Eastern Africa"),
-        ("TZA", "United Republic of Tanzania", "Africa", "Eastern Africa"),
-        ("ZMB", "Zambia", "Africa", "Eastern Africa"),
-        ("ZWE", "Zimbabwe", "Africa", "Eastern Africa"),
-        ("AGO", "Angola", "Africa", "Middle Africa"),
-        ("CMR", "Cameroon", "Africa", "Middle Africa"),
-        ("CAF", "Central African Republic", "Africa", "Middle Africa"),
-        ("TCD", "Chad", "Africa", "Middle Africa"),
-        ("COG", "Congo", "Africa", "Middle Africa"),
-        ("COD", "Democratic Republic of the Congo", "Africa", "Middle Africa"),
-        ("GNQ", "Equatorial Guinea", "Africa", "Middle Africa"),
-        ("GAB", "Gabon", "Africa", "Middle Africa"),
-        ("STP", "Sao Tome and Principe", "Africa", "Middle Africa"),
-        ("BWA", "Botswana", "Africa", "Southern Africa"),
-        ("SWZ", "Eswatini", "Africa", "Southern Africa"),
-        ("LSO", "Lesotho", "Africa", "Southern Africa"),
-        ("NAM", "Namibia", "Africa", "Southern Africa"),
-        ("ZAF", "South Africa", "Africa", "Southern Africa"),
-        ("BEN", "Benin", "Africa", "Western Africa"),
-        ("BFA", "Burkina Faso", "Africa", "Western Africa"),
-        ("CPV", "Cabo Verde", "Africa", "Western Africa"),
-        ("CIV", "Côte d'Ivoire", "Africa", "Western Africa"),
-        ("GMB", "Gambia", "Africa", "Western Africa"),
-        ("GHA", "Ghana", "Africa", "Western Africa"),
-        ("GIN", "Guinea", "Africa", "Western Africa"),
-        ("GNB", "Guinea-Bissau", "Africa", "Western Africa"),
-        ("LBR", "Liberia", "Africa", "Western Africa"),
-        ("MLI", "Mali", "Africa", "Western Africa"),
-        ("MRT", "Mauritania", "Africa", "Western Africa"),
-        ("NER", "Niger", "Africa", "Western Africa"),
-        ("NGA", "Nigeria", "Africa", "Western Africa"),
-        ("SHN", "Saint Helena", "Africa", "Western Africa"),
-        ("SEN", "Senegal", "Africa", "Western Africa"),
-        ("SLE", "Sierra Leone", "Africa", "Western Africa"),
-        ("TGO", "Togo", "Africa", "Western Africa"),
-        # Asia (48+)
-        ("KAZ", "Kazakhstan", "Asia", "Central Asia"),
-        ("KGZ", "Kyrgyzstan", "Asia", "Central Asia"),
-        ("TJK", "Tajikistan", "Asia", "Central Asia"),
-        ("TKM", "Turkmenistan", "Asia", "Central Asia"),
-        ("UZB", "Uzbekistan", "Asia", "Central Asia"),
-        ("CHN", "China", "Asia", "Eastern Asia"),
-        ("HKG", "China, Hong Kong SAR", "Asia", "Eastern Asia"),
-        ("MAC", "China, Macao SAR", "Asia", "Eastern Asia"),
-        ("PRK", "Democratic People's Republic of Korea", "Asia", "Eastern Asia"),
-        ("JPN", "Japan", "Asia", "Eastern Asia"),
-        ("MNG", "Mongolia", "Asia", "Eastern Asia"),
-        ("KOR", "Republic of Korea", "Asia", "Eastern Asia"),
-        ("TWN", "Taiwan", "Asia", "Eastern Asia"),
-        ("BRN", "Brunei Darussalam", "Asia", "South-eastern Asia"),
-        ("KHM", "Cambodia", "Asia", "South-eastern Asia"),
-        ("IDN", "Indonesia", "Asia", "South-eastern Asia"),
-        ("LAO", "Lao People's Democratic Republic", "Asia", "South-eastern Asia"),
-        ("MYS", "Malaysia", "Asia", "South-eastern Asia"),
-        ("MMR", "Myanmar", "Asia", "South-eastern Asia"),
-        ("PHL", "Philippines", "Asia", "South-eastern Asia"),
-        ("SGP", "Singapore", "Asia", "South-eastern Asia"),
-        ("THA", "Thailand", "Asia", "South-eastern Asia"),
-        ("TLS", "Timor-Leste", "Asia", "South-eastern Asia"),
-        ("VNM", "Viet Nam", "Asia", "South-eastern Asia"),
-        ("AFG", "Afghanistan", "Asia", "Southern Asia"),
-        ("BGD", "Bangladesh", "Asia", "Southern Asia"),
-        ("BTN", "Bhutan", "Asia", "Southern Asia"),
-        ("IND", "India", "Asia", "Southern Asia"),
-        ("IRN", "Iran (Islamic Republic of)", "Asia", "Southern Asia"),
-        ("MDV", "Maldives", "Asia", "Southern Asia"),
-        ("NPL", "Nepal", "Asia", "Southern Asia"),
-        ("PAK", "Pakistan", "Asia", "Southern Asia"),
-        ("LKA", "Sri Lanka", "Asia", "Southern Asia"),
-        ("ARM", "Armenia", "Asia", "Western Asia"),
-        ("AZE", "Azerbaijan", "Asia", "Western Asia"),
-        ("BHR", "Bahrain", "Asia", "Western Asia"),
-        ("CYP", "Cyprus", "Asia", "Western Asia"),
-        ("GEO", "Georgia", "Asia", "Western Asia"),
-        ("IRQ", "Iraq", "Asia", "Western Asia"),
-        ("ISR", "Israel", "Asia", "Western Asia"),
-        ("JOR", "Jordan", "Asia", "Western Asia"),
-        ("KWT", "Kuwait", "Asia", "Western Asia"),
-        ("LBN", "Lebanon", "Asia", "Western Asia"),
-        ("OMN", "Oman", "Asia", "Western Asia"),
-        ("QAT", "Qatar", "Asia", "Western Asia"),
-        ("SAU", "Saudi Arabia", "Asia", "Western Asia"),
-        ("PSE", "State of Palestine", "Asia", "Western Asia"),
-        ("SYR", "Syrian Arab Republic", "Asia", "Western Asia"),
-        ("TUR", "Türkiye", "Asia", "Western Asia"),
-        ("ARE", "United Arab Emirates", "Asia", "Western Asia"),
-        ("YEM", "Yemen", "Asia", "Western Asia"),
-        # Europe (44)
-        ("BLR", "Belarus", "Europe", "Eastern Europe"),
-        ("BGR", "Bulgaria", "Europe", "Eastern Europe"),
-        ("CZE", "Czechia", "Europe", "Eastern Europe"),
-        ("HUN", "Hungary", "Europe", "Eastern Europe"),
-        ("POL", "Poland", "Europe", "Eastern Europe"),
-        ("MDA", "Republic of Moldova", "Europe", "Eastern Europe"),
-        ("ROU", "Romania", "Europe", "Eastern Europe"),
-        ("RUS", "Russian Federation", "Europe", "Eastern Europe"),
-        ("SVK", "Slovakia", "Europe", "Eastern Europe"),
-        ("UKR", "Ukraine", "Europe", "Eastern Europe"),
-        ("DNK", "Denmark", "Europe", "Northern Europe"),
-        ("EST", "Estonia", "Europe", "Northern Europe"),
-        ("FRO", "Faroe Islands", "Europe", "Northern Europe"),
-        ("FIN", "Finland", "Europe", "Northern Europe"),
-        ("ISL", "Iceland", "Europe", "Northern Europe"),
-        ("IRL", "Ireland", "Europe", "Northern Europe"),
-        ("IMN", "Isle of Man", "Europe", "Northern Europe"),
-        ("LVA", "Latvia", "Europe", "Northern Europe"),
-        ("LTU", "Lithuania", "Europe", "Northern Europe"),
-        ("NOR", "Norway", "Europe", "Northern Europe"),
-        ("SWE", "Sweden", "Europe", "Northern Europe"),
-        ("GBR", "United Kingdom", "Europe", "Northern Europe"),
-        ("ALB", "Albania", "Europe", "Southern Europe"),
-        ("AND", "Andorra", "Europe", "Southern Europe"),
-        ("BIH", "Bosnia and Herzegovina", "Europe", "Southern Europe"),
-        ("HRV", "Croatia", "Europe", "Southern Europe"),
-        ("GIB", "Gibraltar", "Europe", "Southern Europe"),
-        ("GRC", "Greece", "Europe", "Southern Europe"),
-        ("ITA", "Italy", "Europe", "Southern Europe"),
-        ("MLT", "Malta", "Europe", "Southern Europe"),
-        ("MNE", "Montenegro", "Europe", "Southern Europe"),
-        ("MKD", "North Macedonia", "Europe", "Southern Europe"),
-        ("PRT", "Portugal", "Europe", "Southern Europe"),
-        ("SMR", "San Marino", "Europe", "Southern Europe"),
-        ("SRB", "Serbia", "Europe", "Southern Europe"),
-        ("SVN", "Slovenia", "Europe", "Southern Europe"),
-        ("ESP", "Spain", "Europe", "Southern Europe"),
-        ("AUT", "Austria", "Europe", "Western Europe"),
-        ("BEL", "Belgium", "Europe", "Western Europe"),
-        ("FRA", "France", "Europe", "Western Europe"),
-        ("DEU", "Germany", "Europe", "Western Europe"),
-        ("LIE", "Liechtenstein", "Europe", "Western Europe"),
-        ("LUX", "Luxembourg", "Europe", "Western Europe"),
-        ("MCO", "Monaco", "Europe", "Western Europe"),
-        ("NLD", "Netherlands", "Europe", "Western Europe"),
-        ("CHE", "Switzerland", "Europe", "Western Europe"),
-        # Americas (35 + 13)
-        ("CAN", "Canada", "Americas", "Northern America"),
-        ("BMU", "Bermuda", "Americas", "Northern America"),
-        ("GRL", "Greenland", "Americas", "Northern America"),
-        ("SPM", "Saint Pierre and Miquelon", "Americas", "Northern America"),
-        ("USA", "United States of America", "Americas", "Northern America"),
-        ("BLZ", "Belize", "Americas", "Central America"),
-        ("CRI", "Costa Rica", "Americas", "Central America"),
-        ("SLV", "El Salvador", "Americas", "Central America"),
-        ("GTM", "Guatemala", "Americas", "Central America"),
-        ("HND", "Honduras", "Americas", "Central America"),
-        ("MEX", "Mexico", "Americas", "Central America"),
-        ("NIC", "Nicaragua", "Americas", "Central America"),
-        ("PAN", "Panama", "Americas", "Central America"),
-        ("ARG", "Argentina", "Americas", "South America"),
-        ("BOL", "Bolivia (Plurinational State of)", "Americas", "South America"),
-        ("BRA", "Brazil", "Americas", "South America"),
-        ("CHL", "Chile", "Americas", "South America"),
-        ("COL", "Colombia", "Americas", "South America"),
-        ("ECU", "Ecuador", "Americas", "South America"),
-        ("FLK", "Falkland Islands", "Americas", "South America"),
-        ("GUF", "French Guiana", "Americas", "South America"),
-        ("GUY", "Guyana", "Americas", "South America"),
-        ("PRY", "Paraguay", "Americas", "South America"),
-        ("PER", "Peru", "Americas", "South America"),
-        ("SUR", "Suriname", "Americas", "South America"),
-        ("URY", "Uruguay", "Americas", "South America"),
-        ("VEN", "Venezuela (Bolivarian Republic of)", "Americas", "South America"),
-        ("ATG", "Antigua and Barbuda", "Americas", "Caribbean"),
-        ("BHS", "Bahamas", "Americas", "Caribbean"),
-        ("BRB", "Barbados", "Americas", "Caribbean"),
-        ("CUB", "Cuba", "Americas", "Caribbean"),
-        ("DMA", "Dominica", "Americas", "Caribbean"),
-        ("DOM", "Dominican Republic", "Americas", "Caribbean"),
-        ("GRD", "Grenada", "Americas", "Caribbean"),
-        ("HTI", "Haiti", "Americas", "Caribbean"),
-        ("JAM", "Jamaica", "Americas", "Caribbean"),
-        ("PRI", "Puerto Rico", "Americas", "Caribbean"),
-        ("KNA", "Saint Kitts and Nevis", "Americas", "Caribbean"),
-        ("LCA", "Saint Lucia", "Americas", "Caribbean"),
-        ("VCT", "Saint Vincent and the Grenadines", "Americas", "Caribbean"),
-        ("TTO", "Trinidad and Tobago", "Americas", "Caribbean"),
-        ("ABW", "Aruba", "Americas", "Caribbean"),
-        ("CUW", "Curaçao", "Americas", "Caribbean"),
-        # Oceania (14 + 13)
-        ("AUS", "Australia", "Oceania", "Australia and New Zealand"),
-        ("NZL", "New Zealand", "Oceania", "Australia and New Zealand"),
-        ("NOR_", "Norfolk Island", "Oceania", "Australia and New Zealand"),
-        ("FJI", "Fiji", "Oceania", "Melanesia"),
-        ("NCL", "New Caledonia", "Oceania", "Melanesia"),
-        ("PNG", "Papua New Guinea", "Oceania", "Melanesia"),
-        ("SLB", "Solomon Islands", "Oceania", "Melanesia"),
-        ("VUT", "Vanuatu", "Oceania", "Melanesia"),
-        ("FSM", "Micronesia (Federated States of)", "Oceania", "Micronesia"),
-        ("GUM", "Guam", "Oceania", "Micronesia"),
-        ("KIR", "Kiribati", "Oceania", "Micronesia"),
-        ("MHL", "Marshall Islands", "Oceania", "Micronesia"),
-        ("NRU", "Nauru", "Oceania", "Micronesia"),
-        ("PLW", "Palau", "Oceania", "Micronesia"),
-        ("ASM", "American Samoa", "Oceania", "Polynesia"),
-        ("COK", "Cook Islands", "Oceania", "Polynesia"),
-        ("PYF", "French Polynesia", "Oceania", "Polynesia"),
-        ("NIU", "Niue", "Oceania", "Polynesia"),
-        ("PCN", "Pitcairn", "Oceania", "Polynesia"),
-        ("WSM", "Samoa", "Oceania", "Polynesia"),
-        ("TKL", "Tokelau", "Oceania", "Polynesia"),
-        ("TON", "Tonga", "Oceania", "Polynesia"),
-        ("TUV", "Tuvalu", "Oceania", "Polynesia"),
-        ("WLF", "Wallis and Futuna Islands", "Oceania", "Polynesia"),
-    ]
-    return [c for c in data if not c[0].endswith("_")]
+# 国家与地区 —— UN M49
+#
+# 数据不再手写在源码里，而是由 scripts/fetch_un_m49.py 从联合国 M49 标准
+# 生成到 data/un_m49_countries.tsv。这样"来源/日期/取法"都固化在脚本中，
+# 任何人都能复现同一份数据；手写常量做不到这一点。
+# --------------------------------------------------------------------------- #
+DATA_DIR = Path(__file__).resolve().parent / "data"
+COUNTRY_DATA_FILE = DATA_DIR / "un_m49_countries.tsv"
 
 
-COUNTRIES: list[tuple[str, str, str, str]] = _countries()
+@dataclass(frozen=True)
+class Country:
+    """一条 UN M49 国家/地区记录（含 SDG 相关的三项分组标志）。"""
+
+    iso3: str
+    name: str
+    region: str
+    subregion: str
+    intermediate: str = ""
+    m49: str = ""
+    iso2: str = ""
+    ldc: bool = False      # 最不发达国家
+    lldc: bool = False     # 内陆发展中国家
+    sids: bool = False     # 小岛屿发展中国家
+    development: str = ""  # Developed / Developing
+
+
+def load_countries(path: str | Path | None = None) -> list[Country]:
+    """从数据文件加载国家/地区表（制表符分隔，11 列，``#`` 行为注释）。"""
+    src = Path(path) if path else COUNTRY_DATA_FILE
+    out: list[Country] = []
+    for line in src.read_text(encoding="utf-8").splitlines():
+        if not line.strip() or line.startswith("#"):
+            continue
+        f = line.split("\t")
+        if len(f) != 11:
+            raise ValueError(f"{src.name}: 期望 11 列，实际 {len(f)} 列 -> {line[:60]!r}")
+        out.append(Country(
+            iso3=f[0], name=f[1], region=f[2], subregion=f[3], intermediate=f[4],
+            m49=f[5], iso2=f[6],
+            ldc=bool(f[7]), lldc=bool(f[8]), sids=bool(f[9]), development=f[10],
+        ))
+    if not out:
+        raise ValueError(f"{src} 未加载到任何国家/地区")
+    return out
+
+
+#: 完整记录（推荐使用）
+COUNTRIES_FULL: list[Country] = load_countries()
+
+#: 兼容旧接口的 4 元组视图：(iso3, name, region, subregion)
+COUNTRIES: list[tuple[str, str, str, str]] = [
+    (c.iso3, c.name, c.region, c.subregion) for c in COUNTRIES_FULL
+]
 
 
 # --------------------------------------------------------------------------- #

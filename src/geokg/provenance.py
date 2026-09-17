@@ -121,6 +121,17 @@ def _unverified(note: str) -> DataSource:
 #: 来源登记表。键即 ``properties["source"]``。
 SOURCES: dict[str, DataSource] = {
     # ── T1 规范 ──
+    "un-m49": DataSource(
+        id="un-m49",
+        name="UN M49 标准国家或地区代码（Standard country or area codes for statistical use）",
+        version="M49（UN Statistics Division 在线版）",
+        license="联合国公开数据",
+        url="https://unstats.un.org/unsd/methodology/m49/overview/",
+        retrieved="2026-09-16",
+        tier="T1",
+        note="248 国家/地区，另由 ISO 3166-1 补 TWN 共 249；"
+             "由 scripts/fetch_un_m49.py 生成，可复现",
+    ),
     "un-sdg-framework": DataSource(
         id="un-sdg-framework",
         name="联合国可持续发展目标全球指标框架",
@@ -139,7 +150,19 @@ SOURCES: dict[str, DataSource] = {
         url="https://www.iso.org/iso-3166-country-codes.html",
         retrieved="2026-09-16",
         tier="T1",
-        note="收录 221 条，ISO 官方分配 249 条，缺口待核实（原文档误写 249）",
+        note="仅用于补充 UN M49 未单列的 TWN；国家表主体已改用 un-m49",
+    ),
+    # ── T4 聚合/社区 ──
+    "geonames-admin1": DataSource(
+        id="geonames-admin1",
+        name="GeoNames 一级行政区（admin1）",
+        version="admin1CodesASCII.txt + countryInfo.txt（在线最新版）",
+        license="Creative Commons Attribution 4.0 (CC BY 4.0)",
+        url="https://download.geonames.org/export/dump/",
+        retrieved="2026-09-16",
+        tier="T4",
+        note="3,858 条 / 227 国；由 scripts/fetch_geonames_admin1.py 生成，可复现。"
+             "署名：GeoNames, https://www.geonames.org/",
     ),
     # ── 自行整理 ──
     "geokg-authored": DataSource(
@@ -169,7 +192,6 @@ _UNVERIFIED_NOTES = {
     "unverified-satellites": "卫星目录 114 条：无出处、无版本、无检索日期",
     "unverified-satellite-constellations": "星座展开：无出处",
     "unverified-concepts": "概念/术语表 117 条：无出处",
-    "unverified-extended-admin1": "扩充一级行政区：gazetteer + admin1_global，仅写'按官方名称整理'，无出处",
     "unverified-extended-concepts": "扩充词汇：无出处",
 }
 for _sid, _note in _UNVERIFIED_NOTES.items():

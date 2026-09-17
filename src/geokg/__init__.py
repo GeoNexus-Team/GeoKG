@@ -4,7 +4,8 @@
 
 * 参考数据集：SDG 框架（17 目标 / 169 具体目标 / 256 指标）、
   221 个国家、114 颗卫星 / 781 波段、一级行政区划、117 个概念
-* 扩充数据集：星座展开、ADMIN1_EXTENDED、EXTENDED_CONCEPTS、
+* 一级行政区：GeoNames admin1（CC BY 4.0，见 admin1.py）
+* 扩充数据集：星座展开、EXTENDED_CONCEPTS、
   受监测指标、必需输入
 * 摄入管道：把上述内容写入 :class:`geonexus.kg.KnowledgeGraph`
 
@@ -30,9 +31,9 @@ from __future__ import annotations
 
 from .ingest import (
     IngestReport,
+    ingest_admin1,
     ingest_concepts,
     ingest_countries,
-    ingest_extended_admin1,
     ingest_extended_concepts,
     ingest_from_osm,
     ingest_gaag_contracts,
@@ -76,7 +77,7 @@ __all__ = [
     "IngestReport",
     "ingest_concepts",
     "ingest_countries",
-    "ingest_extended_admin1",
+    "ingest_admin1",
     "ingest_extended_concepts",
     "ingest_from_osm",
     "ingest_gaag_contracts",

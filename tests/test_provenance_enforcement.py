@@ -102,12 +102,23 @@ class TestProvenanceReport:
         r = provenance_report(kg)["verified_ratio"]
         assert 0.0 <= r <= 1.0
 
-    def test_verified_sources_are_t1(self, kg: KnowledgeGraph) -> None:
+    def test_verified_sources_declare_tier_and_limits(self, kg: KnowledgeGraph) -> None:
+        """已核实 ≠ T1。T3/T4（学术共识、聚合数据）同样可以"已核实"，
+        但**必须**在 note 里写明局限，否则等于把聚合数据当权威标准用。
+        """
         prov = provenance_report(kg)
         for sid in prov["by_source"]:
             ds = SOURCES[sid]
-            if ds.verified:
-                assert ds.tier == "T1", f"{sid} 已核实但非 T1"
+            if not ds.verified:
+                continue
+            assert ds.tier in ("T1", "T2", "T3", "T4"), f"{sid} 分级非法 {ds.tier}"
+            if ds.tier in ("T3", "T4"):
+                assert ds.note, f"{sid} 为 {ds.tier}（非权威标准），必须说明局限"
+
+    def test_regulatory_sources_are_t1(self, kg: KnowledgeGraph) -> None:
+        """联合国/ISO 这类规范源必须是 T1。"""
+        for sid in ("un-m49", "un-sdg-framework"):
+            assert SOURCES[sid].tier == "T1"
 
     def test_report_mentions_unverified_warning(self, kg: KnowledgeGraph) -> None:
         text = format_provenance_report(provenance_report(kg))
