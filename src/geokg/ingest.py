@@ -35,6 +35,42 @@ from .reference_data import (
 
 logger = logging.getLogger(__name__)
 
+# --------------------------------------------------------------------------- #
+# 实体来源标记（计数口径的工程基础）
+#
+# 考核口径争议的根源是"实体数"没有定义。这里把来源**写进实体本身**，
+# 使任何口径都能从数据复现，而不是靠文档解释：
+#
+#   curated   人工整理的参考表（SDG 框架、国家、卫星目录、概念…）
+#   expanded  由策展表**系统性展开**（星座成员、扩展行政区、扩展词汇）
+#   derived   由交叉积/规则**派生**（MonitoringUnit、DataRequirement）
+# --------------------------------------------------------------------------- #
+ORIGIN_CURATED = "curated"
+ORIGIN_EXPANDED = "expanded"
+ORIGIN_DERIVED = "derived"
+
+ORIGINS = (ORIGIN_CURATED, ORIGIN_EXPANDED, ORIGIN_DERIVED)
+
+
+class _OriginTaggingKG:
+    """把摄入阶段的来源写进每个新增实体的 ``properties["origin"]``。
+
+    只重写 ``add_entity``，其余属性转发给真实图谱对象，因此摄入函数无需改动。
+    """
+
+    __slots__ = ("_kg", "_origin")
+
+    def __init__(self, kg: KnowledgeGraph, origin: str) -> None:
+        self._kg = kg
+        self._origin = origin
+
+    def add_entity(self, entity: Any) -> Any:
+        entity.properties.setdefault("origin", self._origin)
+        return self._kg.add_entity(entity)
+
+    def __getattr__(self, name: str) -> Any:
+        return getattr(self._kg, name)
+
 
 @dataclass
 class IngestReport:
@@ -453,7 +489,9 @@ def ingest_monitoring_units(
     """
     from .gazetteer import MONITORED_INDICATORS, REQUIRED_INPUTS
 
-    levels = levels or ["country"]
+    # 同 run_full_ingestion：显式空列表表示「不生成监测单元」，不能回退到默认层级
+    if levels is None:
+        levels = ["country"]
     entities = 0
     relations = 0
 
@@ -596,22 +634,31 @@ def run_full_ingestion(
     """
     kg = kg or KnowledgeGraph("geonexus")
     report = IngestReport()
-    monitor_levels = monitor_levels or ["country", "admin1"]
+    # NOTE: an explicit empty list must mean "no monitoring units". Written as
+    # `monitor_levels or [...]`, an empty list silently fell back to the LARGEST
+    # configuration, which made the documented "curated only" figure unreachable
+    # through this parameter -- the source of the counting-basis confusion.
+    if monitor_levels is None:
+        monitor_levels = ["country", "admin1"]
 
     if include_reference:
-        ingest_sdg_framework(kg, report)
-        ingest_countries(kg, report)
-        ingest_admin1(kg, report)
-        ingest_satellites(kg, report)
-        ingest_concepts(kg, report)
+        ref = _OriginTaggingKG(kg, ORIGIN_CURATED)
+        ingest_sdg_framework(ref, report)
+        ingest_countries(ref, report)
+        ingest_admin1(ref, report)
+        ingest_satellites(ref, report)
+        ingest_concepts(ref, report)
 
     if include_expansion:
-        ingest_satellite_constellations(kg, report)
-        ingest_extended_admin1(kg, report)
-        ingest_extended_concepts(kg, report)
+        exp = _OriginTaggingKG(kg, ORIGIN_EXPANDED)
+        ingest_satellite_constellations(exp, report)
+        ingest_extended_admin1(exp, report)
+        ingest_extended_concepts(exp, report)
 
     if include_monitoring:
-        ingest_monitoring_units(kg, report, levels=monitor_levels)
+        ingest_monitoring_units(
+            _OriginTaggingKG(kg, ORIGIN_DERIVED), report, levels=monitor_levels
+        )
 
     if include_skills:
         names = skill_names or [
@@ -619,10 +666,10 @@ def run_full_ingestion(
             "ndvi-change", "terrain-slope", "terrain-aspect", "buffer-analysis",
             "zonal-stats", "reproject", "clip-crop", "composite-bands",
         ]
-        ingest_skills(kg, names, report)
+        ingest_skills(_OriginTaggingKG(kg, ORIGIN_CURATED), names, report)
 
     if include_gaag and gaag_registry is not None:
-        ingest_gaag_contracts(kg, gaag_registry, report)
+        ingest_gaag_contracts(_OriginTaggingKG(kg, ORIGIN_CURATED), gaag_registry, report)
 
     report.total_entities = kg.entity_count()
     logger.info("GeoKG ingestion complete: %d entities", report.total_entities)
