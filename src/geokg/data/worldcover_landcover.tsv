@@ -1,0 +1,17 @@
+# ESA WorldCover 土地覆盖分类（遵循 FAO LCCS 方案，11 类）
+# 来源: https://docs.planet.com/data/public-data/other-datasets/esa-worldcover/
+# 许可: Creative Commons Attribution 4.0 (CC BY 4.0)
+# 生成: python scripts/build_l3_ontology.py   —— 转录自上述文献，请勿手工编辑
+# 每行 6 列: source_id	level	icode	name	parent	description
+source_id	level	code	name	parent	description
+esa-worldcover	class	10	Tree cover		任何高于 5 m 的木本植被；对应 LCCS 的树木覆盖
+esa-worldcover	class	20	Shrubland		低于 5 m 的木本植被
+esa-worldcover	class	30	Grassland		草本植物为主，无乔木灌木覆盖
+esa-worldcover	class	40	Cropland		耕地（含一年生作物与水田）
+esa-worldcover	class	50	Built-up		人工建成地表（建筑、道路等）
+esa-worldcover	class	60	Bare / sparse vegetation		裸地或植被稀疏的沙、砾、岩
+esa-worldcover	class	70	Snow and ice		常年冰雪覆盖
+esa-worldcover	class	80	Permanent water bodies		内陆与沿海永久水体
+esa-worldcover	class	90	Herbaceous wetland		草本湿地
+esa-worldcover	class	95	Mangroves		红树林
+esa-worldcover	class	100	Moss and lichen		苔藓与地衣

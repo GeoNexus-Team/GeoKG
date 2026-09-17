@@ -1,0 +1,41 @@
+# Köppen-Geiger 气候分类（Beck et al. 2018, Scientific Data）
+# 来源: https://doi.org/10.1038/sdata.2018.214
+# 许可: Creative Commons Attribution 4.0 (CC BY 4.0)
+# 生成: python scripts/build_l3_ontology.py   —— 转录自上述文献，请勿手工编辑
+# 每行 6 列: source_id	level	icode	name	parent	description
+source_id	level	code	name	parent	description
+koppen-geiger-beck2018	group	A	Tropical		最冷月平均气温 ≥ 18 °C
+koppen-geiger-beck2018	group	B	Arid		降水量不足以维持植被
+koppen-geiger-beck2018	group	C	Temperate		最热月 > 10 °C 且最冷月 0–18 °C
+koppen-geiger-beck2018	group	D	Cold		最热月 > 10 °C 且最冷月 < 0 °C
+koppen-geiger-beck2018	group	E	Polar		最热月 < 10 °C
+koppen-geiger-beck2018	class	Af	热带，雨林	A	
+koppen-geiger-beck2018	class	Am	热带，季风	A	
+koppen-geiger-beck2018	class	Aw	热带，草原（冬干）	A	
+koppen-geiger-beck2018	class	BWh	干旱，沙漠，炎热	B	
+koppen-geiger-beck2018	class	BWk	干旱，沙漠，寒冷	B	
+koppen-geiger-beck2018	class	BSh	干旱，草原，炎热	B	
+koppen-geiger-beck2018	class	BSk	干旱，草原，寒冷	B	
+koppen-geiger-beck2018	class	Csa	温带，夏干，热夏	C	
+koppen-geiger-beck2018	class	Csb	温带，夏干，暖夏	C	
+koppen-geiger-beck2018	class	Csc	温带，夏干，冷夏	C	
+koppen-geiger-beck2018	class	Cwa	温带，冬干，热夏	C	
+koppen-geiger-beck2018	class	Cwb	温带，冬干，暖夏	C	
+koppen-geiger-beck2018	class	Cwc	温带，冬干，冷夏	C	
+koppen-geiger-beck2018	class	Cfa	温带，无干季，热夏	C	
+koppen-geiger-beck2018	class	Cfb	温带，无干季，暖夏	C	
+koppen-geiger-beck2018	class	Cfc	温带，无干季，冷夏	C	
+koppen-geiger-beck2018	class	Dsa	冷，夏干，热夏	D	
+koppen-geiger-beck2018	class	Dsb	冷，夏干，暖夏	D	
+koppen-geiger-beck2018	class	Dsc	冷，夏干，冷夏	D	
+koppen-geiger-beck2018	class	Dsd	冷，夏干，寒冬	D	
+koppen-geiger-beck2018	class	Dwa	冷，冬干，热夏	D	
+koppen-geiger-beck2018	class	Dwb	冷，冬干，暖夏	D	
+koppen-geiger-beck2018	class	Dwc	冷，冬干，冷夏	D	
+koppen-geiger-beck2018	class	Dwd	冷，冬干，寒冬	D	
+koppen-geiger-beck2018	class	Dfa	冷，无干季，热夏	D	
+koppen-geiger-beck2018	class	Dfb	冷，无干季，暖夏	D	
+koppen-geiger-beck2018	class	Dfc	冷，无干季，冷夏	D	
+koppen-geiger-beck2018	class	Dfd	冷，无干季，寒冬	D	
+koppen-geiger-beck2018	class	ET	极地，苔原	E	
+koppen-geiger-beck2018	class	EF	极地，冰霜	E	

@@ -164,6 +164,40 @@ SOURCES: dict[str, DataSource] = {
         note="3,858 条 / 227 国；由 scripts/fetch_geonames_admin1.py 生成，可复现。"
              "署名：GeoNames, https://www.geonames.org/",
     ),
+    # ── T2 官方机构 ──
+    "esa-worldcover": DataSource(
+        id="esa-worldcover",
+        name="ESA WorldCover 土地覆盖分类（遵循 FAO LCCS 方案）",
+        version="WorldCover v100/v200（11 类）",
+        license="Creative Commons Attribution 4.0 (CC BY 4.0)",
+        url="https://docs.planet.com/data/public-data/other-datasets/esa-worldcover/",
+        retrieved="2026-09-16",
+        tier="T2",
+        note="转录自产品文档（无官方机器可读清单）；署名随实体分发",
+    ),
+    # ── T3 同行评议 / 技术报告 ──
+    "koppen-geiger-beck2018": DataSource(
+        id="koppen-geiger-beck2018",
+        name="Köppen-Geiger 气候分类",
+        version="Beck et al. 2018, Scientific Data 5:180214（5 主群 / 30 气候型）",
+        license="Creative Commons Attribution 4.0 (CC BY 4.0)",
+        url="https://doi.org/10.1038/sdata.2018.214",
+        retrieved="2026-09-16",
+        tier="T3",
+        note="转录自该文 Table 1（无官方机器可读清单）",
+    ),
+    "irdr-peril-classification-2014": DataSource(
+        id="irdr-peril-classification-2014",
+        name="IRDR 灾害分类（Peril Classification and Hazard Glossary）",
+        version="IRDR DATA Publication No. 1, 2014",
+        license="IRDR 公开技术报告",
+        url="https://www.irdrinternational.org/pdf/uploads/files/sc11/"
+            "IRDR_DATA-Project-Report-No.-1.pdf",
+        retrieved="2026-09-16",
+        tier="T3",
+        note="转录自报告正文与图 3/4。⚠️ 原文献明确 peril 与 main event 非一对一，"
+             "故 peril 未指定父级；family→main_event 层级照实建立",
+    ),
     # ── 自行整理 ──
     "geokg-authored": DataSource(
         id="geokg-authored",

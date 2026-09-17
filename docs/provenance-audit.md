@@ -162,6 +162,37 @@
 
 **已核实比例 9.3% → 52.7%**，达到 P0 的预期目标。
 
+### L3 地球系统本体（新增）
+
+用户决策的 L3 范围（土地覆盖 / 气候 / 灾害）已落地。这一层补上图谱此前完全
+缺失的"**这是什么**"——此前只能回答"叫什么、在哪"。
+
+| 领域 | 来源 | 分级 | 条目 | 许可 |
+|------|------|------|-----:|------|
+| 土地覆盖 | ESA WorldCover（遵循 FAO LCCS） | **T2** | 11 | CC BY 4.0 |
+| 气候 | Köppen-Geiger（Beck et al. 2018, *Sci Data*） | **T3** | 35 | CC BY 4.0 |
+| 灾害 | IRDR Peril Classification (2014) | **T3** | 73 | 公开技术报告 |
+| | | | **119** | |
+
+**与 fetch_*.py 的区别**：这三个分类只以论文/报告发布，**没有官方机器可读清单**，
+因此 `scripts/build_l3_ontology.py` 是**转录**。校验方式是与引用文献逐条比对，
+而非比对文件哈希——这一点已写在脚本文档中，避免日后误以为可以"重跑校验"。
+
+**层级关系（实测 50 条 `IS_A`）**：
+- 30 个 Köppen 气候型 → 5 个主群
+- 20 个 IRDR main event → 6 个 family
+
+**刻意不建的关系**：IRDR 原文明确 peril 与 main event **不是一对一关系**
+（"there is not an exclusive one-to-one relationship"），因此 47 个 peril
+**一律不指定父级**。强行指定等于编造关系，并有测试锁住这一点。
+
+**顺带修正两处工程缺陷**（都会静默丢数据）：
+1. IRDR 在 main_event 与 peril 两级都列了 "Airburst"。实体 id 原本不含层级，
+   两条会被静默合并成一条；现改为 `hazard.{level}.{code}`，73 条完整保留。
+2. `KnowledgeGraph.neighbors()` 返回 `(entity, relation)` 二元组，而层级去重
+   检查写成了 `r.target_id`——因为当时关系列表为空，`any([])` 短路，
+   该缺陷**从未被执行到**。已改为 `rel.target_id` 并加断言。
+
 ### 剩余未核实（4,124 条，P1）
 
 | 来源 | 条目 | 计划 |

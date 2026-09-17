@@ -24,6 +24,12 @@ from geonexus.kg import KGEntity, KnowledgeGraph
 
 from .admin1 import ADMIN1_UNITS
 from .admin1 import ATTRIBUTION as ADMIN1_ATTRIBUTION
+from .ontology import (
+    CLIMATE_TERMS,
+    HAZARD_TERMS,
+    LANDCOVER_ATTRIBUTION,
+    LANDCOVER_TERMS,
+)
 from .reference_data import (
     CONCEPTS,
     COUNTRIES_FULL,
@@ -631,6 +637,98 @@ def ingest_from_osm(
 # --------------------------------------------------------------------------- #
 # 编排
 # --------------------------------------------------------------------------- #
+def _ingest_terms(
+    kg: KnowledgeGraph,
+    report: IngestReport,
+    terms: list,
+    *,
+    id_prefix: str,
+    entity_type: str,
+    label: str,
+    source: str,
+) -> None:
+    """把本体条目写入图谱，并按 ``parent`` 建立层级关系。
+
+    id 用条目 code（而非名称）——code 是文献中的稳定标识。
+    """
+    entities = 0
+    relations = 0
+    seen: set[str] = set()
+
+    def _slug(text: str) -> str:
+        return (text.lower().replace(" ", "-").replace(",", "")
+                .replace("/", "-").replace(":", "").replace("(", "").replace(")", ""))
+
+    def _id(term) -> str:
+        # id 含层级：IRDR 的 "Airburst" 同时出现在 main_event 与 peril 两级，
+        # 不带层级会**静默合并**成一条，丢失一级信息。
+        return f"{id_prefix}.{term.level}.{_slug(term.code)}"
+
+    for t in terms:
+        tid = _id(t)
+        if tid in seen or kg.get_entity(tid) is not None:
+            continue
+        seen.add(tid)
+        props = {
+            "name": t.name,
+            "level": t.level,
+            "code": t.code,
+            "ontology_level": t.level,
+        }
+        if t.description:
+            props["description"] = t.description
+        if source == "esa-worldcover":
+            props["attribution"] = LANDCOVER_ATTRIBUTION
+        kg.add_entity(KGEntity(
+            id=tid, type=entity_type, properties=props,
+            labels=[label, t.level],
+        ))
+        entities += 1
+
+    # 第二遍建层级（父级可能后出现）。
+    # 父级 id 也要带层级，因此先按 code 查出父级条目拿到它的 level——
+    # 否则 class 的父级会去匹配 group 的 id 而对不上（曾因此静默丢失全部层级关系）。
+    by_code = {t.code: t for t in terms}
+    for t in terms:
+        if not t.parent:
+            continue
+        pt = by_code.get(t.parent)
+        if pt is None:
+            raise ValueError(
+                f"本体父级未找到: {t.code!r} 的 parent={t.parent!r} 不在同一数据文件中")
+        child = _id(t)
+        parent = _id(pt)
+        if kg.get_entity(child) is None or kg.get_entity(parent) is None:
+            continue
+        if any(rel.target_id == parent for _, rel in kg.neighbors(child, "IS_A")):
+            continue
+        kg.add_relation(child, parent, "IS_A")
+        relations += 1
+
+    report.record(f"l3_{label}", entities, relations)
+
+
+def ingest_landcover(kg: KnowledgeGraph, report: IngestReport) -> None:
+    """导入 ESA WorldCover 土地覆盖分类（11 类，FAO LCCS 方案）。"""
+    _ingest_terms(kg, report, LANDCOVER_TERMS, id_prefix="landcover",
+                  entity_type="LandCoverClass", label="landcover",
+                  source="esa-worldcover")
+
+
+def ingest_climate(kg: KnowledgeGraph, report: IngestReport) -> None:
+    """导入 Köppen-Geiger 气候分类（5 主群 + 30 气候型）。"""
+    _ingest_terms(kg, report, CLIMATE_TERMS, id_prefix="climate",
+                  entity_type="ClimateClass", label="climate",
+                  source="koppen-geiger-beck2018")
+
+
+def ingest_hazards(kg: KnowledgeGraph, report: IngestReport) -> None:
+    """导入 IRDR 灾害分类（6 family + 20 main event + 47 peril）。"""
+    _ingest_terms(kg, report, HAZARD_TERMS, id_prefix="hazard",
+                  entity_type="HazardType", label="hazard",
+                  source="irdr-peril-classification-2014")
+
+
 def run_full_ingestion(
     kg: KnowledgeGraph | None = None,
     *,
@@ -642,6 +740,7 @@ def run_full_ingestion(
     monitor_levels: list[str] | None = None,
     include_gaag: bool = True,
     include_skills: bool = True,
+    include_ontology: bool = True,
 ) -> IngestReport:
     """执行完整灌数流水线。
 
@@ -655,6 +754,7 @@ def run_full_ingestion(
         monitor_levels: 监测层级 ["country"] 或 ["country", "admin1"]。
         include_gaag: 是否导入 GAAG 合约。
         include_skills: 是否导入技能实体。
+        include_ontology: 是否导入 L3 本体（土地覆盖/气候/灾害）。
     """
     kg = kg or KnowledgeGraph("geonexus")
     report = IngestReport()
@@ -695,6 +795,15 @@ def run_full_ingestion(
             "zonal-stats", "reproject", "clip-crop", "composite-bands",
         ]
         ingest_skills(_ProvenanceKG(kg, ORIGIN_CURATED, "geokg-authored"), names, report)
+
+    if include_ontology:
+        ingest_landcover(
+            _ProvenanceKG(kg, ORIGIN_CURATED, "esa-worldcover"), report)
+        ingest_climate(
+            _ProvenanceKG(kg, ORIGIN_CURATED, "koppen-geiger-beck2018"), report)
+        ingest_hazards(
+            _ProvenanceKG(kg, ORIGIN_CURATED, "irdr-peril-classification-2014"),
+            report)
 
     if include_gaag and gaag_registry is not None:
         ingest_gaag_contracts(

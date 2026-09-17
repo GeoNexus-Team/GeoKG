@@ -1,0 +1,79 @@
+# IRDR 灾害分类（Peril Classification and Hazard Glossary, 2014）
+# 来源: https://www.irdrinternational.org/pdf/uploads/files/sc11/IRDR_DATA-Project-Report-No.-1.pdf
+# 许可: IRDR 公开技术报告（引用 IRDR DATA Publication No. 1）
+# 生成: python scripts/build_l3_ontology.py   —— 转录自上述文献，请勿手工编辑
+# 每行 6 列: source_id	level	icode	name	parent	description
+source_id	level	code	name	parent	description
+irdr-peril-classification-2014	family	Geophysical	Geophysical		固体地球起源的灾害（同 geological hazard）
+irdr-peril-classification-2014	family	Hydrological	Hydrological		由地表与地下淡水/咸水的出现、运动与分布引起
+irdr-peril-classification-2014	family	Meteorological	Meteorological		短历时、微到中尺度的极端天气与大气条件（分钟至天）
+irdr-peril-classification-2014	family	Climatological	Climatological		长历时、中到大尺度大气过程（季节内至多年代际气候变率）
+irdr-peril-classification-2014	family	Biological	Biological		暴露于生物体、其毒性物质或媒介传播疾病
+irdr-peril-classification-2014	family	Extraterrestrial	Extraterrestrial		小行星、流星体、彗星，或行星际条件变化对地球磁层/电离层/热层的影响
+irdr-peril-classification-2014	main_event	Earthquake	Earthquake	Geophysical	
+irdr-peril-classification-2014	main_event	Mass Movement	Mass Movement	Geophysical	
+irdr-peril-classification-2014	main_event	Volcanic Activity	Volcanic Activity	Geophysical	
+irdr-peril-classification-2014	main_event	Flood	Flood	Hydrological	
+irdr-peril-classification-2014	main_event	Landslide	Landslide	Hydrological	
+irdr-peril-classification-2014	main_event	Wave Action	Wave Action	Hydrological	
+irdr-peril-classification-2014	main_event	Convective Storm	Convective Storm	Meteorological	
+irdr-peril-classification-2014	main_event	Extratropical Storm	Extratropical Storm	Meteorological	
+irdr-peril-classification-2014	main_event	Extreme Temperature	Extreme Temperature	Meteorological	
+irdr-peril-classification-2014	main_event	Fog	Fog	Meteorological	
+irdr-peril-classification-2014	main_event	Tropical Cyclone	Tropical Cyclone	Meteorological	
+irdr-peril-classification-2014	main_event	Drought	Drought	Climatological	
+irdr-peril-classification-2014	main_event	Glacial Lake Outburst	Glacial Lake Outburst	Climatological	
+irdr-peril-classification-2014	main_event	Wildfire	Wildfire	Climatological	
+irdr-peril-classification-2014	main_event	Animal Incident	Animal Incident	Biological	
+irdr-peril-classification-2014	main_event	Disease	Disease	Biological	
+irdr-peril-classification-2014	main_event	Insect Infestation	Insect Infestation	Biological	
+irdr-peril-classification-2014	main_event	Impact	Impact	Extraterrestrial	
+irdr-peril-classification-2014	main_event	Space Weather	Space Weather	Extraterrestrial	
+irdr-peril-classification-2014	main_event	Airburst	Airburst	Extraterrestrial	
+irdr-peril-classification-2014	peril	Airburst	Airburst		
+irdr-peril-classification-2014	peril	Ashfall	Ashfall		
+irdr-peril-classification-2014	peril	Avalanche: Snow, Debris	Avalanche: Snow, Debris		
+irdr-peril-classification-2014	peril	Bacterial Disease	Bacterial Disease		
+irdr-peril-classification-2014	peril	Coastal Erosion	Coastal Erosion		
+irdr-peril-classification-2014	peril	Coastal Flood	Coastal Flood		
+irdr-peril-classification-2014	peril	Cold Wave	Cold Wave		
+irdr-peril-classification-2014	peril	Collision	Collision		
+irdr-peril-classification-2014	peril	Debris/Mud Flow/Rockfall	Debris/Mud Flow/Rockfall		
+irdr-peril-classification-2014	peril	Derecho	Derecho		
+irdr-peril-classification-2014	peril	Energetic Particles	Energetic Particles		
+irdr-peril-classification-2014	peril	Expansive Soil	Expansive Soil		
+irdr-peril-classification-2014	peril	Fire following EQ	Fire following EQ		
+irdr-peril-classification-2014	peril	Flash Flood	Flash Flood		
+irdr-peril-classification-2014	peril	Forest Fire	Forest Fire		
+irdr-peril-classification-2014	peril	Frost/Freeze	Frost/Freeze		
+irdr-peril-classification-2014	peril	Fungal Disease	Fungal Disease		
+irdr-peril-classification-2014	peril	Geomagnetic Storm	Geomagnetic Storm		
+irdr-peril-classification-2014	peril	Ground Movement	Ground Movement		
+irdr-peril-classification-2014	peril	Hail	Hail		
+irdr-peril-classification-2014	peril	Heat Wave	Heat Wave		
+irdr-peril-classification-2014	peril	Ice Jam Flood	Ice Jam Flood		
+irdr-peril-classification-2014	peril	Lahar	Lahar		
+irdr-peril-classification-2014	peril	Land Fire: Brush, Bush, Pasture	Land Fire: Brush, Bush, Pasture		
+irdr-peril-classification-2014	peril	Landslide following EQ	Landslide following EQ		
+irdr-peril-classification-2014	peril	Lava Flow	Lava Flow		
+irdr-peril-classification-2014	peril	Lightning	Lightning		
+irdr-peril-classification-2014	peril	Liquefaction	Liquefaction		
+irdr-peril-classification-2014	peril	Parasitic Disease	Parasitic Disease		
+irdr-peril-classification-2014	peril	Prion Disease	Prion Disease		
+irdr-peril-classification-2014	peril	Pyroclastic Flow	Pyroclastic Flow		
+irdr-peril-classification-2014	peril	Radio Disturbance	Radio Disturbance		
+irdr-peril-classification-2014	peril	Rain	Rain		
+irdr-peril-classification-2014	peril	Riverine Flood	Riverine Flood		
+irdr-peril-classification-2014	peril	Rogue Wave	Rogue Wave		
+irdr-peril-classification-2014	peril	Sandstorm/Dust Storm	Sandstorm/Dust Storm		
+irdr-peril-classification-2014	peril	Seiche	Seiche		
+irdr-peril-classification-2014	peril	Shockwave	Shockwave		
+irdr-peril-classification-2014	peril	Sinkhole	Sinkhole		
+irdr-peril-classification-2014	peril	Snow/Ice	Snow/Ice		
+irdr-peril-classification-2014	peril	Storm Surge	Storm Surge		
+irdr-peril-classification-2014	peril	Subsidence	Subsidence		
+irdr-peril-classification-2014	peril	Tornado	Tornado		
+irdr-peril-classification-2014	peril	Tsunami	Tsunami		
+irdr-peril-classification-2014	peril	Viral Disease	Viral Disease		
+irdr-peril-classification-2014	peril	Wind	Wind		
+irdr-peril-classification-2014	peril	Winter Storm/Blizzard	Winter Storm/Blizzard		
