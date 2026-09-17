@@ -242,6 +242,7 @@ def ingest_countries(kg: KnowledgeGraph, report: IngestReport) -> None:
             "intermediate_region": c.intermediate,
             "m49": c.m49, "iso2": c.iso2,
             "development": c.development,
+            "admin_status": c.admin_status,
         }
         if c.ldc:
             props["ldc"] = True
@@ -257,6 +258,13 @@ def ingest_countries(kg: KnowledgeGraph, report: IngestReport) -> None:
         if parent_id:
             kg.add_relation(country_id, parent_id, "LOCATED_IN")
             relations += 1
+        # 主权归属（一个中国原则）：HKG / MAC / TWN → CHN。
+        # 名称已按 UN M49 / ISO 官方写法标明归属，这里再建立显式关系。
+        if c.part_of:
+            sovereign_id = f"country.{c.part_of}"
+            if kg.get_entity(sovereign_id) is not None:
+                kg.add_relation(country_id, sovereign_id, "PART_OF")
+                relations += 1
 
     report.record("un_m49_countries", entities, relations)
 

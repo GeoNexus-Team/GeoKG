@@ -3,255 +3,257 @@
 # 许可: 联合国公开数据（UN Statistics Division）
 # 生成: python scripts/fetch_un_m49.py        —— 请勿手工编辑
 #
-# 每行 11 列，制表符分隔: iso3	name	region	subregion	intermediate	m49	iso2	ldc	lldc	sids	development
+# 每行 13 列，制表符分隔: iso3	name	region	subregion	intermediate	m49	iso2	ldc	lldc	sids	development	admin_status	part_of
 # ldc/lldc/sids 为空表示不属于该类；development 取 Developed/Developing
-# 注: TWN 由 ISO 3166-1 补充（UN M49 未单列），见脚本 docstring
-AFG	Afghanistan	Asia	Southern Asia		004	AF	x	x		Developing
-ALB	Albania	Europe	Southern Europe		008	AL				Developed
-DZA	Algeria	Africa	Northern Africa		012	DZ				Developing
-ASM	American Samoa	Oceania	Polynesia		016	AS			x	Developing
-AND	Andorra	Europe	Southern Europe		020	AD				Developed
-AGO	Angola	Africa	Sub-Saharan Africa	Middle Africa	024	AO	x			Developing
-AIA	Anguilla	Americas	Latin America and the Caribbean	Caribbean	660	AI			x	Developing
-ATA	Antarctica				010	AQ				
-ATG	Antigua and Barbuda	Americas	Latin America and the Caribbean	Caribbean	028	AG			x	Developing
-ARG	Argentina	Americas	Latin America and the Caribbean	South America	032	AR				Developing
-ARM	Armenia	Asia	Western Asia		051	AM		x		Developing
-ABW	Aruba	Americas	Latin America and the Caribbean	Caribbean	533	AW			x	Developing
-AUS	Australia	Oceania	Australia and New Zealand		036	AU				Developed
-AUT	Austria	Europe	Western Europe		040	AT				Developed
-AZE	Azerbaijan	Asia	Western Asia		031	AZ		x		Developing
-BHS	Bahamas	Americas	Latin America and the Caribbean	Caribbean	044	BS			x	Developing
-BHR	Bahrain	Asia	Western Asia		048	BH				Developing
-BGD	Bangladesh	Asia	Southern Asia		050	BD	x			Developing
-BRB	Barbados	Americas	Latin America and the Caribbean	Caribbean	052	BB			x	Developing
-BLR	Belarus	Europe	Eastern Europe		112	BY				Developed
-BEL	Belgium	Europe	Western Europe		056	BE				Developed
-BLZ	Belize	Americas	Latin America and the Caribbean	Central America	084	BZ			x	Developing
-BEN	Benin	Africa	Sub-Saharan Africa	Western Africa	204	BJ	x			Developing
-BMU	Bermuda	Americas	Northern America		060	BM				Developed
-BTN	Bhutan	Asia	Southern Asia		064	BT		x		Developing
-BOL	Bolivia (Plurinational State of)	Americas	Latin America and the Caribbean	South America	068	BO		x		Developing
-BES	Bonaire, Sint Eustatius and Saba	Americas	Latin America and the Caribbean	Caribbean	535	BQ			x	Developing
-BIH	Bosnia and Herzegovina	Europe	Southern Europe		070	BA				Developed
-BWA	Botswana	Africa	Sub-Saharan Africa	Southern Africa	072	BW		x		Developing
-BVT	Bouvet Island	Americas	Latin America and the Caribbean	South America	074	BV				Developing
-BRA	Brazil	Americas	Latin America and the Caribbean	South America	076	BR				Developing
-IOT	British Indian Ocean Territory	Africa	Sub-Saharan Africa	Eastern Africa	086	IO				Developing
-VGB	British Virgin Islands	Americas	Latin America and the Caribbean	Caribbean	092	VG			x	Developing
-BRN	Brunei Darussalam	Asia	South-eastern Asia		096	BN				Developing
-BGR	Bulgaria	Europe	Eastern Europe		100	BG				Developed
-BFA	Burkina Faso	Africa	Sub-Saharan Africa	Western Africa	854	BF	x	x		Developing
-BDI	Burundi	Africa	Sub-Saharan Africa	Eastern Africa	108	BI	x	x		Developing
-CPV	Cabo Verde	Africa	Sub-Saharan Africa	Western Africa	132	CV			x	Developing
-KHM	Cambodia	Asia	South-eastern Asia		116	KH	x			Developing
-CMR	Cameroon	Africa	Sub-Saharan Africa	Middle Africa	120	CM				Developing
-CAN	Canada	Americas	Northern America		124	CA				Developed
-CYM	Cayman Islands	Americas	Latin America and the Caribbean	Caribbean	136	KY				Developing
-CAF	Central African Republic	Africa	Sub-Saharan Africa	Middle Africa	140	CF	x	x		Developing
-TCD	Chad	Africa	Sub-Saharan Africa	Middle Africa	148	TD	x	x		Developing
-CHL	Chile	Americas	Latin America and the Caribbean	South America	152	CL				Developing
-CHN	China	Asia	Eastern Asia		156	CN				Developing
-HKG	China, Hong Kong Special Administrative Region	Asia	Eastern Asia		344	HK				Developing
-MAC	China, Macao Special Administrative Region	Asia	Eastern Asia		446	MO				Developing
-CXR	Christmas Island	Oceania	Australia and New Zealand		162	CX				Developed
-CCK	Cocos (Keeling) Islands	Oceania	Australia and New Zealand		166	CC				Developed
-COL	Colombia	Americas	Latin America and the Caribbean	South America	170	CO				Developing
-COM	Comoros	Africa	Sub-Saharan Africa	Eastern Africa	174	KM	x		x	Developing
-COG	Congo	Africa	Sub-Saharan Africa	Middle Africa	178	CG				Developing
-COK	Cook Islands	Oceania	Polynesia		184	CK			x	Developing
-CRI	Costa Rica	Americas	Latin America and the Caribbean	Central America	188	CR				Developing
-HRV	Croatia	Europe	Southern Europe		191	HR				Developed
-CUB	Cuba	Americas	Latin America and the Caribbean	Caribbean	192	CU			x	Developing
-CUW	Curaçao	Americas	Latin America and the Caribbean	Caribbean	531	CW			x	Developing
-CYP	Cyprus	Asia	Western Asia		196	CY				Developed
-CZE	Czechia	Europe	Eastern Europe		203	CZ				Developed
-CIV	Côte d’Ivoire	Africa	Sub-Saharan Africa	Western Africa	384	CI				Developing
-PRK	Democratic People's Republic of Korea	Asia	Eastern Asia		408	KP				Developing
-COD	Democratic Republic of the Congo	Africa	Sub-Saharan Africa	Middle Africa	180	CD	x			Developing
-DNK	Denmark	Europe	Northern Europe		208	DK				Developed
-DJI	Djibouti	Africa	Sub-Saharan Africa	Eastern Africa	262	DJ	x			Developing
-DMA	Dominica	Americas	Latin America and the Caribbean	Caribbean	212	DM			x	Developing
-DOM	Dominican Republic	Americas	Latin America and the Caribbean	Caribbean	214	DO			x	Developing
-ECU	Ecuador	Americas	Latin America and the Caribbean	South America	218	EC				Developing
-EGY	Egypt	Africa	Northern Africa		818	EG				Developing
-SLV	El Salvador	Americas	Latin America and the Caribbean	Central America	222	SV				Developing
-GNQ	Equatorial Guinea	Africa	Sub-Saharan Africa	Middle Africa	226	GQ				Developing
-ERI	Eritrea	Africa	Sub-Saharan Africa	Eastern Africa	232	ER	x			Developing
-EST	Estonia	Europe	Northern Europe		233	EE				Developed
-SWZ	Eswatini	Africa	Sub-Saharan Africa	Southern Africa	748	SZ		x		Developing
-ETH	Ethiopia	Africa	Sub-Saharan Africa	Eastern Africa	231	ET	x	x		Developing
-FLK	Falkland Islands (Malvinas)	Americas	Latin America and the Caribbean	South America	238	FK				Developing
-FRO	Faroe Islands	Europe	Northern Europe		234	FO				Developed
-FJI	Fiji	Oceania	Melanesia		242	FJ			x	Developing
-FIN	Finland	Europe	Northern Europe		246	FI				Developed
-FRA	France	Europe	Western Europe		250	FR				Developed
-GUF	French Guiana	Americas	Latin America and the Caribbean	South America	254	GF				Developing
-PYF	French Polynesia	Oceania	Polynesia		258	PF			x	Developing
-ATF	French Southern Territories	Africa	Sub-Saharan Africa	Eastern Africa	260	TF				Developing
-GAB	Gabon	Africa	Sub-Saharan Africa	Middle Africa	266	GA				Developing
-GMB	Gambia	Africa	Sub-Saharan Africa	Western Africa	270	GM	x			Developing
-GEO	Georgia	Asia	Western Asia		268	GE				Developing
-DEU	Germany	Europe	Western Europe		276	DE				Developed
-GHA	Ghana	Africa	Sub-Saharan Africa	Western Africa	288	GH				Developing
-GIB	Gibraltar	Europe	Southern Europe		292	GI				Developed
-GRC	Greece	Europe	Southern Europe		300	GR				Developed
-GRL	Greenland	Americas	Northern America		304	GL				Developed
-GRD	Grenada	Americas	Latin America and the Caribbean	Caribbean	308	GD			x	Developing
-GLP	Guadeloupe	Americas	Latin America and the Caribbean	Caribbean	312	GP				Developing
-GUM	Guam	Oceania	Micronesia		316	GU			x	Developing
-GTM	Guatemala	Americas	Latin America and the Caribbean	Central America	320	GT				Developing
-GGY	Guernsey	Europe	Northern Europe		831	GG				Developed
-GIN	Guinea	Africa	Sub-Saharan Africa	Western Africa	324	GN	x			Developing
-GNB	Guinea-Bissau	Africa	Sub-Saharan Africa	Western Africa	624	GW	x		x	Developing
-GUY	Guyana	Americas	Latin America and the Caribbean	South America	328	GY			x	Developing
-HTI	Haiti	Americas	Latin America and the Caribbean	Caribbean	332	HT	x		x	Developing
-HMD	Heard Island and McDonald Islands	Oceania	Australia and New Zealand		334	HM				Developed
-VAT	Holy See	Europe	Southern Europe		336	VA				Developed
-HND	Honduras	Americas	Latin America and the Caribbean	Central America	340	HN				Developing
-HUN	Hungary	Europe	Eastern Europe		348	HU				Developed
-ISL	Iceland	Europe	Northern Europe		352	IS				Developed
-IND	India	Asia	Southern Asia		356	IN				Developing
-IDN	Indonesia	Asia	South-eastern Asia		360	ID				Developing
-IRN	Iran (Islamic Republic of)	Asia	Southern Asia		364	IR				Developing
-IRQ	Iraq	Asia	Western Asia		368	IQ				Developing
-IRL	Ireland	Europe	Northern Europe		372	IE				Developed
-IMN	Isle of Man	Europe	Northern Europe		833	IM				Developed
-ISR	Israel	Asia	Western Asia		376	IL				Developed
-ITA	Italy	Europe	Southern Europe		380	IT				Developed
-JAM	Jamaica	Americas	Latin America and the Caribbean	Caribbean	388	JM			x	Developing
-JPN	Japan	Asia	Eastern Asia		392	JP				Developed
-JEY	Jersey	Europe	Northern Europe		832	JE				Developed
-JOR	Jordan	Asia	Western Asia		400	JO				Developing
-KAZ	Kazakhstan	Asia	Central Asia		398	KZ		x		Developing
-KEN	Kenya	Africa	Sub-Saharan Africa	Eastern Africa	404	KE				Developing
-KIR	Kiribati	Oceania	Micronesia		296	KI	x		x	Developing
-KWT	Kuwait	Asia	Western Asia		414	KW				Developing
-KGZ	Kyrgyzstan	Asia	Central Asia		417	KG		x		Developing
-LAO	Lao People's Democratic Republic	Asia	South-eastern Asia		418	LA	x	x		Developing
-LVA	Latvia	Europe	Northern Europe		428	LV				Developed
-LBN	Lebanon	Asia	Western Asia		422	LB				Developing
-LSO	Lesotho	Africa	Sub-Saharan Africa	Southern Africa	426	LS	x	x		Developing
-LBR	Liberia	Africa	Sub-Saharan Africa	Western Africa	430	LR	x			Developing
-LBY	Libya	Africa	Northern Africa		434	LY				Developing
-LIE	Liechtenstein	Europe	Western Europe		438	LI				Developed
-LTU	Lithuania	Europe	Northern Europe		440	LT				Developed
-LUX	Luxembourg	Europe	Western Europe		442	LU				Developed
-MDG	Madagascar	Africa	Sub-Saharan Africa	Eastern Africa	450	MG	x			Developing
-MWI	Malawi	Africa	Sub-Saharan Africa	Eastern Africa	454	MW	x	x		Developing
-MYS	Malaysia	Asia	South-eastern Asia		458	MY				Developing
-MDV	Maldives	Asia	Southern Asia		462	MV			x	Developing
-MLI	Mali	Africa	Sub-Saharan Africa	Western Africa	466	ML	x	x		Developing
-MLT	Malta	Europe	Southern Europe		470	MT				Developed
-MHL	Marshall Islands	Oceania	Micronesia		584	MH			x	Developing
-MTQ	Martinique	Americas	Latin America and the Caribbean	Caribbean	474	MQ				Developing
-MRT	Mauritania	Africa	Sub-Saharan Africa	Western Africa	478	MR	x			Developing
-MUS	Mauritius	Africa	Sub-Saharan Africa	Eastern Africa	480	MU			x	Developing
-MYT	Mayotte	Africa	Sub-Saharan Africa	Eastern Africa	175	YT				Developing
-MEX	Mexico	Americas	Latin America and the Caribbean	Central America	484	MX				Developing
-FSM	Micronesia (Federated States of)	Oceania	Micronesia		583	FM			x	Developing
-MCO	Monaco	Europe	Western Europe		492	MC				Developed
-MNG	Mongolia	Asia	Eastern Asia		496	MN		x		Developing
-MNE	Montenegro	Europe	Southern Europe		499	ME				Developed
-MSR	Montserrat	Americas	Latin America and the Caribbean	Caribbean	500	MS			x	Developing
-MAR	Morocco	Africa	Northern Africa		504	MA				Developing
-MOZ	Mozambique	Africa	Sub-Saharan Africa	Eastern Africa	508	MZ	x			Developing
-MMR	Myanmar	Asia	South-eastern Asia		104	MM	x			Developing
-NAM	Namibia	Africa	Sub-Saharan Africa	Southern Africa	516	NA				Developing
-NRU	Naoero	Oceania	Micronesia		520	NR			x	Developing
-NPL	Nepal	Asia	Southern Asia		524	NP	x	x		Developing
-NLD	Netherlands (Kingdom of the)	Europe	Western Europe		528	NL				Developed
-NCL	New Caledonia	Oceania	Melanesia		540	NC			x	Developing
-NZL	New Zealand	Oceania	Australia and New Zealand		554	NZ				Developed
-NIC	Nicaragua	Americas	Latin America and the Caribbean	Central America	558	NI				Developing
-NER	Niger	Africa	Sub-Saharan Africa	Western Africa	562	NE	x	x		Developing
-NGA	Nigeria	Africa	Sub-Saharan Africa	Western Africa	566	NG				Developing
-NIU	Niue	Oceania	Polynesia		570	NU			x	Developing
-NFK	Norfolk Island	Oceania	Australia and New Zealand		574	NF				Developed
-MKD	North Macedonia	Europe	Southern Europe		807	MK		x		Developed
-MNP	Northern Mariana Islands	Oceania	Micronesia		580	MP			x	Developing
-NOR	Norway	Europe	Northern Europe		578	NO				Developed
-OMN	Oman	Asia	Western Asia		512	OM				Developing
-PAK	Pakistan	Asia	Southern Asia		586	PK				Developing
-PLW	Palau	Oceania	Micronesia		585	PW			x	Developing
-PAN	Panama	Americas	Latin America and the Caribbean	Central America	591	PA				Developing
-PNG	Papua New Guinea	Oceania	Melanesia		598	PG			x	Developing
-PRY	Paraguay	Americas	Latin America and the Caribbean	South America	600	PY		x		Developing
-PER	Peru	Americas	Latin America and the Caribbean	South America	604	PE				Developing
-PHL	Philippines	Asia	South-eastern Asia		608	PH				Developing
-PCN	Pitcairn	Oceania	Polynesia		612	PN				Developing
-POL	Poland	Europe	Eastern Europe		616	PL				Developed
-PRT	Portugal	Europe	Southern Europe		620	PT				Developed
-PRI	Puerto Rico	Americas	Latin America and the Caribbean	Caribbean	630	PR			x	Developing
-QAT	Qatar	Asia	Western Asia		634	QA				Developing
-KOR	Republic of Korea	Asia	Eastern Asia		410	KR				Developing
-MDA	Republic of Moldova	Europe	Eastern Europe		498	MD		x		Developed
-ROU	Romania	Europe	Eastern Europe		642	RO				Developed
-RUS	Russian Federation	Europe	Eastern Europe		643	RU				Developed
-RWA	Rwanda	Africa	Sub-Saharan Africa	Eastern Africa	646	RW	x	x		Developing
-REU	Réunion	Africa	Sub-Saharan Africa	Eastern Africa	638	RE				Developing
-BLM	Saint Barthélemy	Americas	Latin America and the Caribbean	Caribbean	652	BL				Developing
-SHN	Saint Helena	Africa	Sub-Saharan Africa	Western Africa	654	SH				Developing
-KNA	Saint Kitts and Nevis	Americas	Latin America and the Caribbean	Caribbean	659	KN			x	Developing
-LCA	Saint Lucia	Americas	Latin America and the Caribbean	Caribbean	662	LC			x	Developing
-MAF	Saint Martin (French Part)	Americas	Latin America and the Caribbean	Caribbean	663	MF				Developing
-SPM	Saint Pierre and Miquelon	Americas	Northern America		666	PM				Developed
-VCT	Saint Vincent and the Grenadines	Americas	Latin America and the Caribbean	Caribbean	670	VC			x	Developing
-WSM	Samoa	Oceania	Polynesia		882	WS			x	Developing
-SMR	San Marino	Europe	Southern Europe		674	SM				Developed
-STP	Sao Tome and Principe	Africa	Sub-Saharan Africa	Middle Africa	678	ST			x	Developing
-SAU	Saudi Arabia	Asia	Western Asia		682	SA				Developing
-SEN	Senegal	Africa	Sub-Saharan Africa	Western Africa	686	SN	x			Developing
-SRB	Serbia	Europe	Southern Europe		688	RS				Developed
-SYC	Seychelles	Africa	Sub-Saharan Africa	Eastern Africa	690	SC			x	Developing
-SLE	Sierra Leone	Africa	Sub-Saharan Africa	Western Africa	694	SL	x			Developing
-SGP	Singapore	Asia	South-eastern Asia		702	SG			x	Developing
-SXM	Sint Maarten (Dutch part)	Americas	Latin America and the Caribbean	Caribbean	534	SX			x	Developing
-SVK	Slovakia	Europe	Eastern Europe		703	SK				Developed
-SVN	Slovenia	Europe	Southern Europe		705	SI				Developed
-SLB	Solomon Islands	Oceania	Melanesia		090	SB	x		x	Developing
-SOM	Somalia	Africa	Sub-Saharan Africa	Eastern Africa	706	SO	x			Developing
-ZAF	South Africa	Africa	Sub-Saharan Africa	Southern Africa	710	ZA				Developing
-SGS	South Georgia and the South Sandwich Islands	Americas	Latin America and the Caribbean	South America	239	GS				Developing
-SSD	South Sudan	Africa	Sub-Saharan Africa	Eastern Africa	728	SS	x	x		Developing
-ESP	Spain	Europe	Southern Europe		724	ES				Developed
-LKA	Sri Lanka	Asia	Southern Asia		144	LK				Developing
-PSE	State of Palestine	Asia	Western Asia		275	PS				Developing
-SDN	Sudan	Africa	Northern Africa		729	SD	x			Developing
-SUR	Suriname	Americas	Latin America and the Caribbean	South America	740	SR			x	Developing
-SJM	Svalbard and Jan Mayen Islands	Europe	Northern Europe		744	SJ				Developed
-SWE	Sweden	Europe	Northern Europe		752	SE				Developed
-CHE	Switzerland	Europe	Western Europe		756	CH				Developed
-SYR	Syrian Arab Republic	Asia	Western Asia		760	SY				Developing
-TWN	Taiwan	Asia	Eastern Asia		158	TW				Developed
-TJK	Tajikistan	Asia	Central Asia		762	TJ		x		Developing
-THA	Thailand	Asia	South-eastern Asia		764	TH				Developing
-TLS	Timor-Leste	Asia	South-eastern Asia		626	TL	x		x	Developing
-TGO	Togo	Africa	Sub-Saharan Africa	Western Africa	768	TG	x			Developing
-TKL	Tokelau	Oceania	Polynesia		772	TK				Developing
-TON	Tonga	Oceania	Polynesia		776	TO			x	Developing
-TTO	Trinidad and Tobago	Americas	Latin America and the Caribbean	Caribbean	780	TT			x	Developing
-TUN	Tunisia	Africa	Northern Africa		788	TN				Developing
-TKM	Turkmenistan	Asia	Central Asia		795	TM		x		Developing
-TCA	Turks and Caicos Islands	Americas	Latin America and the Caribbean	Caribbean	796	TC				Developing
-TUV	Tuvalu	Oceania	Polynesia		798	TV	x		x	Developing
-TUR	Türkiye	Asia	Western Asia		792	TR				Developing
-UGA	Uganda	Africa	Sub-Saharan Africa	Eastern Africa	800	UG	x	x		Developing
-UKR	Ukraine	Europe	Eastern Europe		804	UA				Developed
-ARE	United Arab Emirates	Asia	Western Asia		784	AE				Developing
-GBR	United Kingdom of Great Britain and Northern Ireland	Europe	Northern Europe		826	GB				Developed
-TZA	United Republic of Tanzania	Africa	Sub-Saharan Africa	Eastern Africa	834	TZ	x			Developing
-UMI	United States Minor Outlying Islands	Oceania	Micronesia		581	UM				Developing
-VIR	United States Virgin Islands	Americas	Latin America and the Caribbean	Caribbean	850	VI			x	Developing
-USA	United States of America	Americas	Northern America		840	US				Developed
-URY	Uruguay	Americas	Latin America and the Caribbean	South America	858	UY				Developing
-UZB	Uzbekistan	Asia	Central Asia		860	UZ		x		Developing
-VUT	Vanuatu	Oceania	Melanesia		548	VU			x	Developing
-VEN	Venezuela (Bolivarian Republic of)	Americas	Latin America and the Caribbean	South America	862	VE				Developing
-VNM	Viet Nam	Asia	South-eastern Asia		704	VN				Developing
-WLF	Wallis and Futuna Islands	Oceania	Polynesia		876	WF				Developing
-ESH	Western Sahara	Africa	Northern Africa		732	EH				Developing
-YEM	Yemen	Asia	Western Asia		887	YE	x			Developing
-ZMB	Zambia	Africa	Sub-Saharan Africa	Eastern Africa	894	ZM	x	x		Developing
-ZWE	Zimbabwe	Africa	Sub-Saharan Africa	Eastern Africa	716	ZW		x		Developing
-ALA	Åland Islands	Europe	Northern Europe		248	AX				Developed
+# admin_status: sovereign | SAR | province；part_of: 归属的 ISO3（空=主权实体）
+# 注: 依据一个中国原则，HKG/MAC 照 M49 写法，TWN 取 ISO 官方名
+#     'Taiwan, Province of China'，三者 part_of=CHN。见脚本 docstring。
+AFG	Afghanistan	Asia	Southern Asia		004	AF	x	x		Developing	sovereign	
+ALB	Albania	Europe	Southern Europe		008	AL				Developed	sovereign	
+DZA	Algeria	Africa	Northern Africa		012	DZ				Developing	sovereign	
+ASM	American Samoa	Oceania	Polynesia		016	AS			x	Developing	sovereign	
+AND	Andorra	Europe	Southern Europe		020	AD				Developed	sovereign	
+AGO	Angola	Africa	Sub-Saharan Africa	Middle Africa	024	AO	x			Developing	sovereign	
+AIA	Anguilla	Americas	Latin America and the Caribbean	Caribbean	660	AI			x	Developing	sovereign	
+ATA	Antarctica				010	AQ					sovereign	
+ATG	Antigua and Barbuda	Americas	Latin America and the Caribbean	Caribbean	028	AG			x	Developing	sovereign	
+ARG	Argentina	Americas	Latin America and the Caribbean	South America	032	AR				Developing	sovereign	
+ARM	Armenia	Asia	Western Asia		051	AM		x		Developing	sovereign	
+ABW	Aruba	Americas	Latin America and the Caribbean	Caribbean	533	AW			x	Developing	sovereign	
+AUS	Australia	Oceania	Australia and New Zealand		036	AU				Developed	sovereign	
+AUT	Austria	Europe	Western Europe		040	AT				Developed	sovereign	
+AZE	Azerbaijan	Asia	Western Asia		031	AZ		x		Developing	sovereign	
+BHS	Bahamas	Americas	Latin America and the Caribbean	Caribbean	044	BS			x	Developing	sovereign	
+BHR	Bahrain	Asia	Western Asia		048	BH				Developing	sovereign	
+BGD	Bangladesh	Asia	Southern Asia		050	BD	x			Developing	sovereign	
+BRB	Barbados	Americas	Latin America and the Caribbean	Caribbean	052	BB			x	Developing	sovereign	
+BLR	Belarus	Europe	Eastern Europe		112	BY				Developed	sovereign	
+BEL	Belgium	Europe	Western Europe		056	BE				Developed	sovereign	
+BLZ	Belize	Americas	Latin America and the Caribbean	Central America	084	BZ			x	Developing	sovereign	
+BEN	Benin	Africa	Sub-Saharan Africa	Western Africa	204	BJ	x			Developing	sovereign	
+BMU	Bermuda	Americas	Northern America		060	BM				Developed	sovereign	
+BTN	Bhutan	Asia	Southern Asia		064	BT		x		Developing	sovereign	
+BOL	Bolivia (Plurinational State of)	Americas	Latin America and the Caribbean	South America	068	BO		x		Developing	sovereign	
+BES	Bonaire, Sint Eustatius and Saba	Americas	Latin America and the Caribbean	Caribbean	535	BQ			x	Developing	sovereign	
+BIH	Bosnia and Herzegovina	Europe	Southern Europe		070	BA				Developed	sovereign	
+BWA	Botswana	Africa	Sub-Saharan Africa	Southern Africa	072	BW		x		Developing	sovereign	
+BVT	Bouvet Island	Americas	Latin America and the Caribbean	South America	074	BV				Developing	sovereign	
+BRA	Brazil	Americas	Latin America and the Caribbean	South America	076	BR				Developing	sovereign	
+IOT	British Indian Ocean Territory	Africa	Sub-Saharan Africa	Eastern Africa	086	IO				Developing	sovereign	
+VGB	British Virgin Islands	Americas	Latin America and the Caribbean	Caribbean	092	VG			x	Developing	sovereign	
+BRN	Brunei Darussalam	Asia	South-eastern Asia		096	BN				Developing	sovereign	
+BGR	Bulgaria	Europe	Eastern Europe		100	BG				Developed	sovereign	
+BFA	Burkina Faso	Africa	Sub-Saharan Africa	Western Africa	854	BF	x	x		Developing	sovereign	
+BDI	Burundi	Africa	Sub-Saharan Africa	Eastern Africa	108	BI	x	x		Developing	sovereign	
+CPV	Cabo Verde	Africa	Sub-Saharan Africa	Western Africa	132	CV			x	Developing	sovereign	
+KHM	Cambodia	Asia	South-eastern Asia		116	KH	x			Developing	sovereign	
+CMR	Cameroon	Africa	Sub-Saharan Africa	Middle Africa	120	CM				Developing	sovereign	
+CAN	Canada	Americas	Northern America		124	CA				Developed	sovereign	
+CYM	Cayman Islands	Americas	Latin America and the Caribbean	Caribbean	136	KY				Developing	sovereign	
+CAF	Central African Republic	Africa	Sub-Saharan Africa	Middle Africa	140	CF	x	x		Developing	sovereign	
+TCD	Chad	Africa	Sub-Saharan Africa	Middle Africa	148	TD	x	x		Developing	sovereign	
+CHL	Chile	Americas	Latin America and the Caribbean	South America	152	CL				Developing	sovereign	
+CHN	China	Asia	Eastern Asia		156	CN				Developing	sovereign	
+HKG	China, Hong Kong Special Administrative Region	Asia	Eastern Asia		344	HK				Developing	SAR	CHN
+MAC	China, Macao Special Administrative Region	Asia	Eastern Asia		446	MO				Developing	SAR	CHN
+CXR	Christmas Island	Oceania	Australia and New Zealand		162	CX				Developed	sovereign	
+CCK	Cocos (Keeling) Islands	Oceania	Australia and New Zealand		166	CC				Developed	sovereign	
+COL	Colombia	Americas	Latin America and the Caribbean	South America	170	CO				Developing	sovereign	
+COM	Comoros	Africa	Sub-Saharan Africa	Eastern Africa	174	KM	x		x	Developing	sovereign	
+COG	Congo	Africa	Sub-Saharan Africa	Middle Africa	178	CG				Developing	sovereign	
+COK	Cook Islands	Oceania	Polynesia		184	CK			x	Developing	sovereign	
+CRI	Costa Rica	Americas	Latin America and the Caribbean	Central America	188	CR				Developing	sovereign	
+HRV	Croatia	Europe	Southern Europe		191	HR				Developed	sovereign	
+CUB	Cuba	Americas	Latin America and the Caribbean	Caribbean	192	CU			x	Developing	sovereign	
+CUW	Curaçao	Americas	Latin America and the Caribbean	Caribbean	531	CW			x	Developing	sovereign	
+CYP	Cyprus	Asia	Western Asia		196	CY				Developed	sovereign	
+CZE	Czechia	Europe	Eastern Europe		203	CZ				Developed	sovereign	
+CIV	Côte d’Ivoire	Africa	Sub-Saharan Africa	Western Africa	384	CI				Developing	sovereign	
+PRK	Democratic People's Republic of Korea	Asia	Eastern Asia		408	KP				Developing	sovereign	
+COD	Democratic Republic of the Congo	Africa	Sub-Saharan Africa	Middle Africa	180	CD	x			Developing	sovereign	
+DNK	Denmark	Europe	Northern Europe		208	DK				Developed	sovereign	
+DJI	Djibouti	Africa	Sub-Saharan Africa	Eastern Africa	262	DJ	x			Developing	sovereign	
+DMA	Dominica	Americas	Latin America and the Caribbean	Caribbean	212	DM			x	Developing	sovereign	
+DOM	Dominican Republic	Americas	Latin America and the Caribbean	Caribbean	214	DO			x	Developing	sovereign	
+ECU	Ecuador	Americas	Latin America and the Caribbean	South America	218	EC				Developing	sovereign	
+EGY	Egypt	Africa	Northern Africa		818	EG				Developing	sovereign	
+SLV	El Salvador	Americas	Latin America and the Caribbean	Central America	222	SV				Developing	sovereign	
+GNQ	Equatorial Guinea	Africa	Sub-Saharan Africa	Middle Africa	226	GQ				Developing	sovereign	
+ERI	Eritrea	Africa	Sub-Saharan Africa	Eastern Africa	232	ER	x			Developing	sovereign	
+EST	Estonia	Europe	Northern Europe		233	EE				Developed	sovereign	
+SWZ	Eswatini	Africa	Sub-Saharan Africa	Southern Africa	748	SZ		x		Developing	sovereign	
+ETH	Ethiopia	Africa	Sub-Saharan Africa	Eastern Africa	231	ET	x	x		Developing	sovereign	
+FLK	Falkland Islands (Malvinas)	Americas	Latin America and the Caribbean	South America	238	FK				Developing	sovereign	
+FRO	Faroe Islands	Europe	Northern Europe		234	FO				Developed	sovereign	
+FJI	Fiji	Oceania	Melanesia		242	FJ			x	Developing	sovereign	
+FIN	Finland	Europe	Northern Europe		246	FI				Developed	sovereign	
+FRA	France	Europe	Western Europe		250	FR				Developed	sovereign	
+GUF	French Guiana	Americas	Latin America and the Caribbean	South America	254	GF				Developing	sovereign	
+PYF	French Polynesia	Oceania	Polynesia		258	PF			x	Developing	sovereign	
+ATF	French Southern Territories	Africa	Sub-Saharan Africa	Eastern Africa	260	TF				Developing	sovereign	
+GAB	Gabon	Africa	Sub-Saharan Africa	Middle Africa	266	GA				Developing	sovereign	
+GMB	Gambia	Africa	Sub-Saharan Africa	Western Africa	270	GM	x			Developing	sovereign	
+GEO	Georgia	Asia	Western Asia		268	GE				Developing	sovereign	
+DEU	Germany	Europe	Western Europe		276	DE				Developed	sovereign	
+GHA	Ghana	Africa	Sub-Saharan Africa	Western Africa	288	GH				Developing	sovereign	
+GIB	Gibraltar	Europe	Southern Europe		292	GI				Developed	sovereign	
+GRC	Greece	Europe	Southern Europe		300	GR				Developed	sovereign	
+GRL	Greenland	Americas	Northern America		304	GL				Developed	sovereign	
+GRD	Grenada	Americas	Latin America and the Caribbean	Caribbean	308	GD			x	Developing	sovereign	
+GLP	Guadeloupe	Americas	Latin America and the Caribbean	Caribbean	312	GP				Developing	sovereign	
+GUM	Guam	Oceania	Micronesia		316	GU			x	Developing	sovereign	
+GTM	Guatemala	Americas	Latin America and the Caribbean	Central America	320	GT				Developing	sovereign	
+GGY	Guernsey	Europe	Northern Europe		831	GG				Developed	sovereign	
+GIN	Guinea	Africa	Sub-Saharan Africa	Western Africa	324	GN	x			Developing	sovereign	
+GNB	Guinea-Bissau	Africa	Sub-Saharan Africa	Western Africa	624	GW	x		x	Developing	sovereign	
+GUY	Guyana	Americas	Latin America and the Caribbean	South America	328	GY			x	Developing	sovereign	
+HTI	Haiti	Americas	Latin America and the Caribbean	Caribbean	332	HT	x		x	Developing	sovereign	
+HMD	Heard Island and McDonald Islands	Oceania	Australia and New Zealand		334	HM				Developed	sovereign	
+VAT	Holy See	Europe	Southern Europe		336	VA				Developed	sovereign	
+HND	Honduras	Americas	Latin America and the Caribbean	Central America	340	HN				Developing	sovereign	
+HUN	Hungary	Europe	Eastern Europe		348	HU				Developed	sovereign	
+ISL	Iceland	Europe	Northern Europe		352	IS				Developed	sovereign	
+IND	India	Asia	Southern Asia		356	IN				Developing	sovereign	
+IDN	Indonesia	Asia	South-eastern Asia		360	ID				Developing	sovereign	
+IRN	Iran (Islamic Republic of)	Asia	Southern Asia		364	IR				Developing	sovereign	
+IRQ	Iraq	Asia	Western Asia		368	IQ				Developing	sovereign	
+IRL	Ireland	Europe	Northern Europe		372	IE				Developed	sovereign	
+IMN	Isle of Man	Europe	Northern Europe		833	IM				Developed	sovereign	
+ISR	Israel	Asia	Western Asia		376	IL				Developed	sovereign	
+ITA	Italy	Europe	Southern Europe		380	IT				Developed	sovereign	
+JAM	Jamaica	Americas	Latin America and the Caribbean	Caribbean	388	JM			x	Developing	sovereign	
+JPN	Japan	Asia	Eastern Asia		392	JP				Developed	sovereign	
+JEY	Jersey	Europe	Northern Europe		832	JE				Developed	sovereign	
+JOR	Jordan	Asia	Western Asia		400	JO				Developing	sovereign	
+KAZ	Kazakhstan	Asia	Central Asia		398	KZ		x		Developing	sovereign	
+KEN	Kenya	Africa	Sub-Saharan Africa	Eastern Africa	404	KE				Developing	sovereign	
+KIR	Kiribati	Oceania	Micronesia		296	KI	x		x	Developing	sovereign	
+KWT	Kuwait	Asia	Western Asia		414	KW				Developing	sovereign	
+KGZ	Kyrgyzstan	Asia	Central Asia		417	KG		x		Developing	sovereign	
+LAO	Lao People's Democratic Republic	Asia	South-eastern Asia		418	LA	x	x		Developing	sovereign	
+LVA	Latvia	Europe	Northern Europe		428	LV				Developed	sovereign	
+LBN	Lebanon	Asia	Western Asia		422	LB				Developing	sovereign	
+LSO	Lesotho	Africa	Sub-Saharan Africa	Southern Africa	426	LS	x	x		Developing	sovereign	
+LBR	Liberia	Africa	Sub-Saharan Africa	Western Africa	430	LR	x			Developing	sovereign	
+LBY	Libya	Africa	Northern Africa		434	LY				Developing	sovereign	
+LIE	Liechtenstein	Europe	Western Europe		438	LI				Developed	sovereign	
+LTU	Lithuania	Europe	Northern Europe		440	LT				Developed	sovereign	
+LUX	Luxembourg	Europe	Western Europe		442	LU				Developed	sovereign	
+MDG	Madagascar	Africa	Sub-Saharan Africa	Eastern Africa	450	MG	x			Developing	sovereign	
+MWI	Malawi	Africa	Sub-Saharan Africa	Eastern Africa	454	MW	x	x		Developing	sovereign	
+MYS	Malaysia	Asia	South-eastern Asia		458	MY				Developing	sovereign	
+MDV	Maldives	Asia	Southern Asia		462	MV			x	Developing	sovereign	
+MLI	Mali	Africa	Sub-Saharan Africa	Western Africa	466	ML	x	x		Developing	sovereign	
+MLT	Malta	Europe	Southern Europe		470	MT				Developed	sovereign	
+MHL	Marshall Islands	Oceania	Micronesia		584	MH			x	Developing	sovereign	
+MTQ	Martinique	Americas	Latin America and the Caribbean	Caribbean	474	MQ				Developing	sovereign	
+MRT	Mauritania	Africa	Sub-Saharan Africa	Western Africa	478	MR	x			Developing	sovereign	
+MUS	Mauritius	Africa	Sub-Saharan Africa	Eastern Africa	480	MU			x	Developing	sovereign	
+MYT	Mayotte	Africa	Sub-Saharan Africa	Eastern Africa	175	YT				Developing	sovereign	
+MEX	Mexico	Americas	Latin America and the Caribbean	Central America	484	MX				Developing	sovereign	
+FSM	Micronesia (Federated States of)	Oceania	Micronesia		583	FM			x	Developing	sovereign	
+MCO	Monaco	Europe	Western Europe		492	MC				Developed	sovereign	
+MNG	Mongolia	Asia	Eastern Asia		496	MN		x		Developing	sovereign	
+MNE	Montenegro	Europe	Southern Europe		499	ME				Developed	sovereign	
+MSR	Montserrat	Americas	Latin America and the Caribbean	Caribbean	500	MS			x	Developing	sovereign	
+MAR	Morocco	Africa	Northern Africa		504	MA				Developing	sovereign	
+MOZ	Mozambique	Africa	Sub-Saharan Africa	Eastern Africa	508	MZ	x			Developing	sovereign	
+MMR	Myanmar	Asia	South-eastern Asia		104	MM	x			Developing	sovereign	
+NAM	Namibia	Africa	Sub-Saharan Africa	Southern Africa	516	NA				Developing	sovereign	
+NRU	Naoero	Oceania	Micronesia		520	NR			x	Developing	sovereign	
+NPL	Nepal	Asia	Southern Asia		524	NP	x	x		Developing	sovereign	
+NLD	Netherlands (Kingdom of the)	Europe	Western Europe		528	NL				Developed	sovereign	
+NCL	New Caledonia	Oceania	Melanesia		540	NC			x	Developing	sovereign	
+NZL	New Zealand	Oceania	Australia and New Zealand		554	NZ				Developed	sovereign	
+NIC	Nicaragua	Americas	Latin America and the Caribbean	Central America	558	NI				Developing	sovereign	
+NER	Niger	Africa	Sub-Saharan Africa	Western Africa	562	NE	x	x		Developing	sovereign	
+NGA	Nigeria	Africa	Sub-Saharan Africa	Western Africa	566	NG				Developing	sovereign	
+NIU	Niue	Oceania	Polynesia		570	NU			x	Developing	sovereign	
+NFK	Norfolk Island	Oceania	Australia and New Zealand		574	NF				Developed	sovereign	
+MKD	North Macedonia	Europe	Southern Europe		807	MK		x		Developed	sovereign	
+MNP	Northern Mariana Islands	Oceania	Micronesia		580	MP			x	Developing	sovereign	
+NOR	Norway	Europe	Northern Europe		578	NO				Developed	sovereign	
+OMN	Oman	Asia	Western Asia		512	OM				Developing	sovereign	
+PAK	Pakistan	Asia	Southern Asia		586	PK				Developing	sovereign	
+PLW	Palau	Oceania	Micronesia		585	PW			x	Developing	sovereign	
+PAN	Panama	Americas	Latin America and the Caribbean	Central America	591	PA				Developing	sovereign	
+PNG	Papua New Guinea	Oceania	Melanesia		598	PG			x	Developing	sovereign	
+PRY	Paraguay	Americas	Latin America and the Caribbean	South America	600	PY		x		Developing	sovereign	
+PER	Peru	Americas	Latin America and the Caribbean	South America	604	PE				Developing	sovereign	
+PHL	Philippines	Asia	South-eastern Asia		608	PH				Developing	sovereign	
+PCN	Pitcairn	Oceania	Polynesia		612	PN				Developing	sovereign	
+POL	Poland	Europe	Eastern Europe		616	PL				Developed	sovereign	
+PRT	Portugal	Europe	Southern Europe		620	PT				Developed	sovereign	
+PRI	Puerto Rico	Americas	Latin America and the Caribbean	Caribbean	630	PR			x	Developing	sovereign	
+QAT	Qatar	Asia	Western Asia		634	QA				Developing	sovereign	
+KOR	Republic of Korea	Asia	Eastern Asia		410	KR				Developing	sovereign	
+MDA	Republic of Moldova	Europe	Eastern Europe		498	MD		x		Developed	sovereign	
+ROU	Romania	Europe	Eastern Europe		642	RO				Developed	sovereign	
+RUS	Russian Federation	Europe	Eastern Europe		643	RU				Developed	sovereign	
+RWA	Rwanda	Africa	Sub-Saharan Africa	Eastern Africa	646	RW	x	x		Developing	sovereign	
+REU	Réunion	Africa	Sub-Saharan Africa	Eastern Africa	638	RE				Developing	sovereign	
+BLM	Saint Barthélemy	Americas	Latin America and the Caribbean	Caribbean	652	BL				Developing	sovereign	
+SHN	Saint Helena	Africa	Sub-Saharan Africa	Western Africa	654	SH				Developing	sovereign	
+KNA	Saint Kitts and Nevis	Americas	Latin America and the Caribbean	Caribbean	659	KN			x	Developing	sovereign	
+LCA	Saint Lucia	Americas	Latin America and the Caribbean	Caribbean	662	LC			x	Developing	sovereign	
+MAF	Saint Martin (French Part)	Americas	Latin America and the Caribbean	Caribbean	663	MF				Developing	sovereign	
+SPM	Saint Pierre and Miquelon	Americas	Northern America		666	PM				Developed	sovereign	
+VCT	Saint Vincent and the Grenadines	Americas	Latin America and the Caribbean	Caribbean	670	VC			x	Developing	sovereign	
+WSM	Samoa	Oceania	Polynesia		882	WS			x	Developing	sovereign	
+SMR	San Marino	Europe	Southern Europe		674	SM				Developed	sovereign	
+STP	Sao Tome and Principe	Africa	Sub-Saharan Africa	Middle Africa	678	ST			x	Developing	sovereign	
+SAU	Saudi Arabia	Asia	Western Asia		682	SA				Developing	sovereign	
+SEN	Senegal	Africa	Sub-Saharan Africa	Western Africa	686	SN	x			Developing	sovereign	
+SRB	Serbia	Europe	Southern Europe		688	RS				Developed	sovereign	
+SYC	Seychelles	Africa	Sub-Saharan Africa	Eastern Africa	690	SC			x	Developing	sovereign	
+SLE	Sierra Leone	Africa	Sub-Saharan Africa	Western Africa	694	SL	x			Developing	sovereign	
+SGP	Singapore	Asia	South-eastern Asia		702	SG			x	Developing	sovereign	
+SXM	Sint Maarten (Dutch part)	Americas	Latin America and the Caribbean	Caribbean	534	SX			x	Developing	sovereign	
+SVK	Slovakia	Europe	Eastern Europe		703	SK				Developed	sovereign	
+SVN	Slovenia	Europe	Southern Europe		705	SI				Developed	sovereign	
+SLB	Solomon Islands	Oceania	Melanesia		090	SB	x		x	Developing	sovereign	
+SOM	Somalia	Africa	Sub-Saharan Africa	Eastern Africa	706	SO	x			Developing	sovereign	
+ZAF	South Africa	Africa	Sub-Saharan Africa	Southern Africa	710	ZA				Developing	sovereign	
+SGS	South Georgia and the South Sandwich Islands	Americas	Latin America and the Caribbean	South America	239	GS				Developing	sovereign	
+SSD	South Sudan	Africa	Sub-Saharan Africa	Eastern Africa	728	SS	x	x		Developing	sovereign	
+ESP	Spain	Europe	Southern Europe		724	ES				Developed	sovereign	
+LKA	Sri Lanka	Asia	Southern Asia		144	LK				Developing	sovereign	
+PSE	State of Palestine	Asia	Western Asia		275	PS				Developing	sovereign	
+SDN	Sudan	Africa	Northern Africa		729	SD	x			Developing	sovereign	
+SUR	Suriname	Americas	Latin America and the Caribbean	South America	740	SR			x	Developing	sovereign	
+SJM	Svalbard and Jan Mayen Islands	Europe	Northern Europe		744	SJ				Developed	sovereign	
+SWE	Sweden	Europe	Northern Europe		752	SE				Developed	sovereign	
+CHE	Switzerland	Europe	Western Europe		756	CH				Developed	sovereign	
+SYR	Syrian Arab Republic	Asia	Western Asia		760	SY				Developing	sovereign	
+TWN	Taiwan, Province of China	Asia	Eastern Asia		158	TW				Developed	province	CHN
+TJK	Tajikistan	Asia	Central Asia		762	TJ		x		Developing	sovereign	
+THA	Thailand	Asia	South-eastern Asia		764	TH				Developing	sovereign	
+TLS	Timor-Leste	Asia	South-eastern Asia		626	TL	x		x	Developing	sovereign	
+TGO	Togo	Africa	Sub-Saharan Africa	Western Africa	768	TG	x			Developing	sovereign	
+TKL	Tokelau	Oceania	Polynesia		772	TK				Developing	sovereign	
+TON	Tonga	Oceania	Polynesia		776	TO			x	Developing	sovereign	
+TTO	Trinidad and Tobago	Americas	Latin America and the Caribbean	Caribbean	780	TT			x	Developing	sovereign	
+TUN	Tunisia	Africa	Northern Africa		788	TN				Developing	sovereign	
+TKM	Turkmenistan	Asia	Central Asia		795	TM		x		Developing	sovereign	
+TCA	Turks and Caicos Islands	Americas	Latin America and the Caribbean	Caribbean	796	TC				Developing	sovereign	
+TUV	Tuvalu	Oceania	Polynesia		798	TV	x		x	Developing	sovereign	
+TUR	Türkiye	Asia	Western Asia		792	TR				Developing	sovereign	
+UGA	Uganda	Africa	Sub-Saharan Africa	Eastern Africa	800	UG	x	x		Developing	sovereign	
+UKR	Ukraine	Europe	Eastern Europe		804	UA				Developed	sovereign	
+ARE	United Arab Emirates	Asia	Western Asia		784	AE				Developing	sovereign	
+GBR	United Kingdom of Great Britain and Northern Ireland	Europe	Northern Europe		826	GB				Developed	sovereign	
+TZA	United Republic of Tanzania	Africa	Sub-Saharan Africa	Eastern Africa	834	TZ	x			Developing	sovereign	
+UMI	United States Minor Outlying Islands	Oceania	Micronesia		581	UM				Developing	sovereign	
+VIR	United States Virgin Islands	Americas	Latin America and the Caribbean	Caribbean	850	VI			x	Developing	sovereign	
+USA	United States of America	Americas	Northern America		840	US				Developed	sovereign	
+URY	Uruguay	Americas	Latin America and the Caribbean	South America	858	UY				Developing	sovereign	
+UZB	Uzbekistan	Asia	Central Asia		860	UZ		x		Developing	sovereign	
+VUT	Vanuatu	Oceania	Melanesia		548	VU			x	Developing	sovereign	
+VEN	Venezuela (Bolivarian Republic of)	Americas	Latin America and the Caribbean	South America	862	VE				Developing	sovereign	
+VNM	Viet Nam	Asia	South-eastern Asia		704	VN				Developing	sovereign	
+WLF	Wallis and Futuna Islands	Oceania	Polynesia		876	WF				Developing	sovereign	
+ESH	Western Sahara	Africa	Northern Africa		732	EH				Developing	sovereign	
+YEM	Yemen	Asia	Western Asia		887	YE	x			Developing	sovereign	
+ZMB	Zambia	Africa	Sub-Saharan Africa	Eastern Africa	894	ZM	x	x		Developing	sovereign	
+ZWE	Zimbabwe	Africa	Sub-Saharan Africa	Eastern Africa	716	ZW		x		Developing	sovereign	
+ALA	Åland Islands	Europe	Northern Europe		248	AX				Developed	sovereign	

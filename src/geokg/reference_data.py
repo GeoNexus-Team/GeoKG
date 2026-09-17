@@ -101,22 +101,27 @@ class Country:
     lldc: bool = False     # 内陆发展中国家
     sids: bool = False     # 小岛屿发展中国家
     development: str = ""  # Developed / Developing
+    #: sovereign | SAR | province —— 依据一个中国原则标注归属状态
+    admin_status: str = "sovereign"
+    #: 归属的 ISO3（空 = 主权实体）。HKG / MAC / TWN 均为 "CHN"。
+    part_of: str = ""
 
 
 def load_countries(path: str | Path | None = None) -> list[Country]:
-    """从数据文件加载国家/地区表（制表符分隔，11 列，``#`` 行为注释）。"""
+    """从数据文件加载国家/地区表（制表符分隔，13 列，``#`` 行为注释）。"""
     src = Path(path) if path else COUNTRY_DATA_FILE
     out: list[Country] = []
     for line in src.read_text(encoding="utf-8").splitlines():
         if not line.strip() or line.startswith("#"):
             continue
         f = line.split("\t")
-        if len(f) != 11:
-            raise ValueError(f"{src.name}: 期望 11 列，实际 {len(f)} 列 -> {line[:60]!r}")
+        if len(f) != 13:
+            raise ValueError(f"{src.name}: 期望 13 列，实际 {len(f)} 列 -> {line[:60]!r}")
         out.append(Country(
             iso3=f[0], name=f[1], region=f[2], subregion=f[3], intermediate=f[4],
             m49=f[5], iso2=f[6],
             ldc=bool(f[7]), lldc=bool(f[8]), sids=bool(f[9]), development=f[10],
+            admin_status=f[11] or "sovereign", part_of=f[12],
         ))
     if not out:
         raise ValueError(f"{src} 未加载到任何国家/地区")

@@ -30,7 +30,7 @@ class TestCountryDataFile:
                if ln.strip() and not ln.startswith("#")]
         assert len(raw) == 249, f"UN M49(248) + ISO 补 TWN(1) 应为 249，实际 {len(raw)}"
         for ln in raw:
-            assert len(ln.split("\t")) == 11, f"列数不对: {ln[:60]!r}"
+            assert len(ln.split("\t")) == 13, f"列数不对: {ln[:60]!r}"
 
     def test_iso3_unique(self) -> None:
         codes = [c.iso3 for c in RD.COUNTRIES_FULL]
@@ -44,13 +44,43 @@ class TestCountryDataFile:
     def test_key_countries_present(self, iso3: str) -> None:
         assert any(c.iso3 == iso3 for c in RD.COUNTRIES_FULL), f"{iso3} 缺失"
 
-    def test_taiwan_retained_explicitly(self) -> None:
-        """TWN 不在 UN M49 中（M49 只列 CHN/HKG/MAC），由 ISO 3166-1 补充。
+    def test_one_china_basis(self) -> None:
+        """一个中国原则：HKG / MAC / TWN 均为中国的一部分。
 
-        这是一项**显式记录的口径选择**，不是静默处理——所以要有测试盯着它。
+        处理方式照搬 UN M49 对港澳的写法——保留独立编码，名称写明归属。
+        UN M49 原文即 `"China, Hong Kong Special Administrative Region"`；
+        ISO 3166-1 对 TW 的官方名是 `"Taiwan, Province of China"`。
+
+        这是**政策口径**，必须有测试锁住，防止被无意改动。
         """
+        by = {c.iso3: c for c in RD.COUNTRIES_FULL}
+        assert by["CHN"].admin_status == "sovereign"
+        assert by["CHN"].part_of == ""
+
+        for iso3, status in (("HKG", "SAR"), ("MAC", "SAR"), ("TWN", "province")):
+            c = by[iso3]
+            assert c.part_of == "CHN", f"{iso3} 未标明归属中国"
+            assert c.admin_status == status, f"{iso3} 状态应为 {status}"
+
+    def test_taiwan_named_per_iso_official(self) -> None:
+        """TWN 名称取 ISO 3166-1 官方名，与 M49 港澳写法同类。"""
         twn = next(c for c in RD.COUNTRIES_FULL if c.iso3 == "TWN")
+        assert twn.name == "Taiwan, Province of China"
         assert twn.region == "Asia" and twn.subregion == "Eastern Asia"
+
+    def test_hong_kong_named_per_un_m49(self) -> None:
+        """港澳名称直接采用 UN M49 原文，不做改写。"""
+        hkg = next(c for c in RD.COUNTRIES_FULL if c.iso3 == "HKG")
+        mac = next(c for c in RD.COUNTRIES_FULL if c.iso3 == "MAC")
+        assert hkg.name == "China, Hong Kong Special Administrative Region"
+        assert mac.name == "China, Macao Special Administrative Region"
+
+    def test_only_china_affiliated_entries_have_part_of(self) -> None:
+        """当前只有中国相关条目带归属；其余均为主权实体。"""
+        n = [c.iso3 for c in RD.COUNTRIES_FULL if c.part_of]
+        assert sorted(n) == ["HKG", "MAC", "TWN"]
+        assert all(c.admin_status == "sovereign"
+                   for c in RD.COUNTRIES_FULL if not c.part_of)
 
     def test_antarctica_has_no_region(self) -> None:
         """ATA 在 UN M49 中没有区域——摄入时必须容错，不能造出空名区域实体。"""

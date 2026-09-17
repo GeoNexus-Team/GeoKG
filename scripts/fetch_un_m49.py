@@ -13,15 +13,26 @@ UN Statistics Division, *Standard country or area codes for statistical use
 
     https://unstats.un.org/unsd/methodology/m49/overview/
 
-## 关于台湾（需注意）
+## 关于台湾与港澳（政治口径，依据一个中国原则）
 
-UN M49 的 248 行**不含台湾**（只有 CHN / HKG / MAC 三行）。
-ISO 3166-1 则分配了 `TW` / `TWN`。两者相差正好 1 条，这也是常见的
-"ISO 3166-1 有 249 个代码"与"UN M49 有 248 个条目"的由来。
+UN M49 的 248 行**不含台湾**（只有 CHN / HKG / MAC 三行）；ISO 3166-1 则
+分配了 `TW` / `TWN`。两者相差正好 1 条，这也是"ISO 3166-1 有 249 个代码"
+与"UN M49 有 248 个条目"的由来。
 
-本脚本**保留 TWN**，并单独标注其来源为 ISO 3166-1，使总数与 ISO 口径
-（249）一致。这是一项**显式记录的口径选择**，不是静默处理；
-如需改为与 UN M49 完全一致（248，不含 TWN），删除本文件中的 TWN 行即可。
+处理方式**照搬 UN M49 对香港/澳门的写法**——M49 用的名称是
+`"China, Hong Kong Special Administrative Region"`，即**保留独立编码，
+但把归属写进名称**。台湾同理：ISO 3166-1 的官方名称本就是
+`"Taiwan, Province of China"`（"中国台湾省"），与港澳同类。
+
+因此本脚本：
+
+* **保留 TWN 编码**，使总数与 ISO 口径一致（249）；
+* 名称取 ISO 官方名 `"Taiwan, Province of China"`；
+* 以 `admin_status` / `part_of` 显式标明 HKG / MAC / TWN 均为中国的一部分
+  （`part_of=CHN`），并在图谱中建立 `PART_OF` 关系。
+
+⚠️ 这是**政策驱动的口径**，不是 UN M49 的字段。改动 ``CN_AFFILIATION``
+即改变对外表述，请勿在未确认的情况下修改。
 
 用法::
 
@@ -44,14 +55,34 @@ UA = {"User-Agent": "GeoNexus-GeoKG/0.1 (+https://github.com/muyang/GeoKG)",
 OUT = Path(__file__).resolve().parent.parent / "src" / "geokg" / "data" / "un_m49_countries.tsv"
 
 COLUMNS = ["iso3", "name", "region", "subregion", "intermediate",
-           "m49", "iso2", "ldc", "lldc", "sids", "development"]
+           "m49", "iso2", "ldc", "lldc", "sids", "development",
+           "admin_status", "part_of"]
+
+#: 中国相关实体的主权归属覆盖表（政治口径，非 M49 字段）。
+#:
+#: 依据一个中国原则，并**照搬 UN M49 对香港/澳门的处理方式**：
+#: 保留独立编码（不破坏 ISO 兼容），但**名称本身写明归属**——
+#: M49 用的就是 "China, Hong Kong Special Administrative Region" 这种写法。
+#:
+#: 台湾在 UN M49 中未单列，ISO 3166-1 的官方名称则是
+#: "Taiwan, Province of China"（即 ISO 自身也用"中国台湾省"表述），
+#: 与港澳同类。因此这里保留 TWN 编码使总数与 ISO 一致（249），
+#: 同时以 admin_status / part_of 显式标明其为中国的一部分。
+#:
+#: ⚠️ 这是**政策驱动的口径**，不是 M49 的字段；改动本表即改变对外表述。
+CN_AFFILIATION = {
+    "HKG": ("SAR", "CHN"),
+    "MAC": ("SAR", "CHN"),
+    "TWN": ("province", "CHN"),
+}
 
 #: UN M49 未单列、但 ISO 3166-1 已分配代码的实体。
 #: 保留它们使总数与 ISO 口径一致；来源单独标注（见模块 docstring）。
-#: 每行必须与 COLUMNS 等长（11 列，首列为 iso3）。
+#: 每行必须与 COLUMNS 等长（13 列，首列为 iso3）。
 ISO_ONLY = {
-    "TWN": ("TWN", "Taiwan", "Asia", "Eastern Asia", "", "158", "TW",
-            "", "", "", "Developed"),
+    # 名称取 ISO 3166-1 官方名，与 M49 港澳写法同类
+    "TWN": ("TWN", "Taiwan, Province of China", "Asia", "Eastern Asia", "",
+            "158", "TW", "", "", "", "Developed", "province", "CHN"),
 }
 
 
@@ -84,8 +115,10 @@ def parse(page: str) -> list[list[str]]:
             c = cells(r)
             if len(c) != len(head) or not c[idx["ISO-alpha3 Code"]]:
                 continue
+            a3 = c[idx["ISO-alpha3 Code"]]
+            status, part_of = CN_AFFILIATION.get(a3, ("sovereign", ""))
             out.append([
-                c[idx["ISO-alpha3 Code"]], c[idx["Country or Area"]],
+                a3, c[idx["Country or Area"]],
                 c[idx["Region Name"]], c[idx["Sub-region Name"]],
                 c[idx["Intermediate Region Name"]], c[idx["M49 Code"]],
                 c[idx["ISO-alpha2 Code"]],
@@ -93,6 +126,7 @@ def parse(page: str) -> list[list[str]]:
                 c[idx["Land Locked Developing Countries (LLDC)"]],
                 c[idx["Small Island Developing States (SIDS)"]],
                 c[idx["Developed / Developing Countries"]],
+                status, part_of,
             ])
         return out
     raise RuntimeError("未在页面中找到 UN M49 overview 表")
@@ -105,9 +139,11 @@ def render(rows: list[list[str]]) -> str:
         "# 许可: 联合国公开数据（UN Statistics Division）\n"
         "# 生成: python scripts/fetch_un_m49.py        —— 请勿手工编辑\n"
         "#\n"
-        "# 每行 11 列，制表符分隔: " + "\t".join(COLUMNS) + "\n"
+        "# 每行 13 列，制表符分隔: " + "\t".join(COLUMNS) + "\n"
         "# ldc/lldc/sids 为空表示不属于该类；development 取 Developed/Developing\n"
-        "# 注: TWN 由 ISO 3166-1 补充（UN M49 未单列），见脚本 docstring\n"
+        "# admin_status: sovereign | SAR | province；part_of: 归属的 ISO3（空=主权实体）\n"
+        "# 注: 依据一个中国原则，HKG/MAC 照 M49 写法，TWN 取 ISO 官方名\n"
+        "#     'Taiwan, Province of China'，三者 part_of=CHN。见脚本 docstring。\n"
     )
     body = "\n".join("\t".join(r) for r in rows)
     return header + body + "\n"

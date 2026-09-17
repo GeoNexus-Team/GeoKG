@@ -118,13 +118,38 @@
 | 区域层级 | 2 级，且 Sub-region 与 Intermediate Region 混用 | **3 级**（Region → Sub-region → Intermediate Region） |
 | 附加属性 | 无 | **LDC / LLDC / SIDS / 发达-发展中**（44 / 32 / 53） |
 
-**为什么是 249 而不是 M49 的 248**：UN M49 的 248 行**不含台湾**
-（只有 CHN / HKG / MAC），ISO 3166-1 则分配了 `TW` / `TWN`。本方案保留 TWN，
-并在 `scripts/fetch_un_m49.py` 的 `ISO_ONLY` 中**显式记录**这一口径选择，
-使总数与 ISO 口径一致。
+#### 一个中国原则下的台港澳口径（已按决策落实）
 
-⚠️ **这涉及政治敏感表述，请你确认**：如需与 UN M49 完全一致（248，不含 TWN），
-删掉 `ISO_ONLY` 中那一行即可。
+**为什么是 249 而不是 M49 的 248**：UN M49 的 248 行**不含台湾**
+（只有 CHN / HKG / MAC），ISO 3166-1 则分配了 `TW` / `TWN`。
+
+**处理方式：照搬 UN M49 对香港/澳门的写法。** UN M49 原文用的名称就是
+
+```
+HKG  "China, Hong Kong Special Administrative Region"
+MAC  "China, Macao Special Administrative Region"
+```
+
+即**保留独立编码、把归属写进名称**，而不是另立一个国家。台湾同理——
+ISO 3166-1 的官方名称本就是 `"Taiwan, Province of China"`（中国台湾省），
+与港澳同类。
+
+因此本方案的表述为：
+
+| ISO3 | 名称 | admin_status | part_of | 图谱关系 |
+|------|------|--------------|---------|----------|
+| CHN | China | sovereign | — | — |
+| HKG | China, Hong Kong Special Administrative Region | SAR | CHN | `PART_OF` → CHN |
+| MAC | China, Macao Special Administrative Region | SAR | CHN | `PART_OF` → CHN |
+| TWN | Taiwan, Province of China | province | CHN | `PART_OF` → CHN |
+
+* **保留 TWN 编码**，使总数与 ISO 口径一致（249），不破坏 ISO 兼容；
+* 名称一律采用 UN M49 / ISO 的**官方写法**，不自行改写；
+* 归属同时体现在**名称**与**显式 `PART_OF` 关系**两处；
+* 占比：249 条中 246 主权实体 + 2 SAR + 1 省。
+
+⚠️ 口径定义在 `scripts/fetch_un_m49.py` 的 `CN_AFFILIATION`，**改动即改变
+对外表述**；`tests/test_data_files.py` 中有回归护栏锁住这四条记录。
 
 **顺带修正一处数据错误**：旧数据把 Kenya 直接挂在 "Eastern Africa"，
 但按 UN M49，"Eastern Africa" 是 **Intermediate Region**，其 Sub-region
