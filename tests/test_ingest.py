@@ -8,20 +8,20 @@ from geonexus.kg import KGEntity, KnowledgeGraph
 
 from geokg.ingest import (
     IngestReport,
-    ingest_concepts,
     ingest_countries,
+    ingest_instruments,
     ingest_satellites,
     ingest_sdg_framework,
     ingest_skills,
+    ingest_vocabulary,
     run_full_ingestion,
 )
-from geokg.reference_data import (
-    CONCEPTS,
-    COUNTRIES,
-    SDG_GOALS,
-    reference_data_stats,
-)
+from geokg.reference_data import COUNTRIES, reference_data_stats
 from geokg.satellites import SATELLITES, satellite_stats
+from geokg.sdg import (
+    sdg_stats,
+)
+from geokg.vocabulary import TERMS, vocabulary_stats
 
 # --------------------------------------------------------------------------- #
 # 参考数据集完整性
@@ -29,10 +29,16 @@ from geokg.satellites import SATELLITES, satellite_stats
 
 class TestReferenceData:
     def test_sdg_framework_counts(self):
-        assert len(SDG_GOALS) == 17
-        stats = reference_data_stats()
-        assert stats["sdg_targets"] == 169, "SDG 具体目标应为 169 个"
-        assert stats["sdg_indicators"] >= 231, "SDG 唯一指标应 ≥231 个"
+        """数字取自 UN SDG 官方 API，而非文档。
+
+        核对期间发现两处问题：文档声称的"231 个唯一指标"是 2017 年
+        A/RES/71/313 的过时数字（现为 251），且旧手写表少了 7 个指标。
+        """
+        st = sdg_stats()
+        assert st["goals"] == 17
+        assert st["targets"] == 169
+        assert st["indicators"] == 251, f"官方 API 现为 251，实际 {st['indicators']}"
+        assert st["indicators_tier1"] + st["indicators_tier2"] == st["indicators"]
 
     def test_countries_count(self):
         stats = reference_data_stats()
@@ -55,8 +61,11 @@ class TestReferenceData:
         assert not hasattr(rd, "ADMIN1_REGIONS"), "GADM 来源的 ADMIN1_REGIONS 又回到了包里"
         assert "admin1_regions" not in reference_data_stats()
 
-    def test_concepts_present(self):
-        assert reference_data_stats()["concepts"] > 50
+    def test_vocabulary_present(self):
+        """术语表由 CONCEPTS + EXTENDED_CONCEPTS 合并而来，逐条标注来源。"""
+        st = vocabulary_stats()
+        assert st["terms_total"] == 294
+        assert st["terms_authored"] > 0 and st["terms_external"] > 0
 
     def test_country_tuple_shape(self):
         for entry in COUNTRIES:
@@ -151,19 +160,50 @@ class TestIngestSatellites:
         assert "WMO" in e.properties.get("attribution", "")
 
 
-class TestIngestConcepts:
-    def test_concepts_and_categories(self):
-        kg = KnowledgeGraph("t")
-        ingest_concepts(kg, IngestReport())
-        terms = kg.search_by_type("Concept")
-        cats = kg.search_by_type("ConceptCategory")
-        assert len(terms) >= 50
-        assert len(cats) == len(CONCEPTS)
+class TestIngestVocabulary:
+    """术语表摄入（取代原先的 ingest_concepts / ingest_extended_concepts）。"""
 
-    def test_ndvi_concept(self):
+    def test_terms_and_categories(self):
         kg = KnowledgeGraph("t")
-        ingest_concepts(kg, IngestReport())
-        assert kg.get_entity("term.ndvi") is not None
+        ingest_vocabulary(kg, IngestReport())
+        assert len(kg.search_by_type("Concept")) == 294
+        assert len(kg.search_by_type("ConceptCategory")) == len(
+            {t.category for t in TERMS}
+        )
+
+    def test_term_linked_to_category(self):
+        kg = KnowledgeGraph("t")
+        ingest_vocabulary(kg, IngestReport())
+        ndvi = next(c for c in kg.search_by_type("Concept")
+                    if c.properties["name"] == "NDVI")
+        assert kg.neighbors(ndvi.id, "BELONGS_TO")
+
+    def test_each_term_carries_its_own_source(self):
+        """术语逐条标注来源——外部来源与自编术语必须区分开。
+
+        来源由管线的 ``_ProvenanceKG`` 包装写入，因此这里走完整流程，
+        而不是直接调用摄入函数（直接调用不带来源戳，与其他摄入函数一致）。
+        """
+        kg = KnowledgeGraph("t")
+        run_full_ingestion(kg, include_monitoring=False)
+        seen = {c.properties["source"] for c in kg.search_by_type("Concept")}
+        assert "geokg-authored" in seen
+        assert seen & {"iogp-epsg", "iso-ogc-standards", "un-frameworks"}
+
+
+class TestIngestInstruments:
+    def test_oscar_instruments(self):
+        kg = KnowledgeGraph("t")
+        ingest_instruments(kg, IngestReport())
+        assert len(kg.search_by_type("Instrument")) == 1244
+
+    def test_entity_id_and_attribution(self):
+        kg = KnowledgeGraph("t")
+        ingest_instruments(kg, IngestReport())
+        e = kg.get_entity("instrument.msi")
+        assert e is not None, "MSI 应存在（原 Sensors 术语表里的条目）"
+        assert e.properties.get("instrument_type")
+        assert "WMO" in e.properties.get("attribution", "")
 
 
 class TestIngestSkills:

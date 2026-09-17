@@ -32,15 +32,15 @@ from __future__ import annotations
 from .ingest import (
     IngestReport,
     ingest_admin1,
-    ingest_concepts,
     ingest_countries,
-    ingest_extended_concepts,
     ingest_from_osm,
     ingest_gaag_contracts,
+    ingest_instruments,
     ingest_monitoring_units,
     ingest_satellites,
     ingest_sdg_framework,
     ingest_skills,
+    ingest_vocabulary,
     run_full_ingestion,
 )
 from .provenance import (
@@ -55,11 +55,7 @@ from .provenance import (
     provenance_report,
 )
 from .reference_data import (
-    CONCEPTS,
     COUNTRIES,
-    SDG_GOALS,
-    SDG_INDICATOR_COUNTS,
-    SDG_TARGETS,
     reference_data_stats,
 )
 
@@ -73,10 +69,10 @@ __all__ = [
 
     # 摄入管道
     "IngestReport",
-    "ingest_concepts",
+    "ingest_instruments",
+    "ingest_vocabulary",
     "ingest_countries",
     "ingest_admin1",
-    "ingest_extended_concepts",
     "ingest_from_osm",
     "ingest_gaag_contracts",
     "ingest_monitoring_units",
@@ -85,10 +81,6 @@ __all__ = [
     "ingest_skills",
     "run_full_ingestion",
     # 参考数据
-    "CONCEPTS",
     "COUNTRIES",
-    "SDG_GOALS",
-    "SDG_INDICATOR_COUNTS",
-    "SDG_TARGETS",
     "reference_data_stats",
 ]

@@ -1,10 +1,10 @@
 """GeoKG 参考数据集 — 权威结构化数据，用于知识图谱批量灌数。
 
 数据来源（逐项标注，见 PROVENANCE）：
-- SDG 框架：联合国官方编号体系
+- SDG 框架：已改由 UN SDG 官方 API 生成（见 geokg.sdg）
 - 国家：ISO 3166-1
 - 卫星目录：已改由 WMO OSCAR/Space 提供（见 geokg.satellites）
-- 概念/术语表：**来源待核实**（见 PROVENANCE）
+- 概念/术语表：已改为逐条标注来源（见 geokg.vocabulary）
 
 ⚠️ 一级行政区（原 ADMIN1_REGIONS）已于 2026-09 **移出本包**：
 其数据自述来自 GADM，而 GADM 许可禁止再分发，提交进公开仓库即构成
@@ -21,40 +21,8 @@ from dataclasses import dataclass
 from pathlib import Path
 
 # --------------------------------------------------------------------------- #
-# UN SDG 框架：17 个目标
-# --------------------------------------------------------------------------- #
-SDG_GOALS: dict[int, str] = {
-    1: "No Poverty",
-    2: "Zero Hunger",
-    3: "Good Health and Well-being",
-    4: "Quality Education",
-    5: "Gender Equality",
-    6: "Clean Water and Sanitation",
-    7: "Affordable and Clean Energy",
-    8: "Decent Work and Economic Growth",
-    9: "Industry, Innovation and Infrastructure",
-    10: "Reduced Inequalities",
-    11: "Sustainable Cities and Communities",
-    12: "Responsible Consumption and Production",
-    13: "Climate Action",
-    14: "Life Below Water",
-    15: "Life on Land",
-    16: "Peace, Justice and Strong Institutions",
-    17: "Partnerships for the Goals",
-}
-
-#: 各目标的官方具体目标（target）数量，合计 169（含 a/b/c 类执行手段目标）
-SDG_TARGETS: dict[int, int] = {
-    1: 7, 2: 8, 3: 13, 4: 10, 5: 9, 6: 8, 7: 5, 8: 12, 9: 8,
-    10: 10, 11: 10, 12: 11, 13: 5, 14: 10, 15: 12, 16: 12, 17: 19,
-}
-
-#: 各目标的官方唯一指标（indicator）数量（IAEG-SDGs 2023 修订版）
-SDG_INDICATOR_COUNTS: dict[int, int] = {
-    1: 13, 2: 14, 3: 28, 4: 12, 5: 14, 6: 11, 7: 5, 8: 17, 9: 12,
-    10: 11, 11: 15, 12: 13, 13: 8, 14: 10, 15: 14, 16: 23, 17: 24,
-}
-
+# ISO 3166-1 国家与地区（249 条）
+# 格式: (ISO3, 英文名, 大区, 次区域)
 #: 与地理空间观测强相关的关键指标（GeoNexus 优先监测对象）
 GEOSPATIAL_INDICATORS: dict[str, str] = {
     "6.3.2": "Proportion of bodies of water with good ambient water quality",
@@ -72,9 +40,6 @@ GEOSPATIAL_INDICATORS: dict[str, str] = {
 }
 
 
-# --------------------------------------------------------------------------- #
-# ISO 3166-1 国家与地区（249 条）
-# 格式: (ISO3, 英文名, 大区, 次区域)
 # --------------------------------------------------------------------------- #
 # 国家与地区 —— UN M49
 #
@@ -137,56 +102,19 @@ COUNTRIES: list[tuple[str, str, str, str]] = [
 ]
 
 
-# 概念/术语表（GeoNexus 领域本体）
-# --------------------------------------------------------------------------- #
-CONCEPTS: dict[str, list[str]] = {
-    "RemoteSensing": [
-        "NDVI","NDWI","NDBI","EVI","SAVI","NDMI","NBR","MNDWI","AWEI","NMDI",
-        "Pan-sharpening","Atmospheric correction","Radiometric calibration","Orthorectification",
-        "Cloud masking","Image fusion","Mosaic","Resampling","Georeferencing","Radiometric normalization",
-    ],
-    "GIS": [
-        "Buffer analysis","Overlay analysis","Zonal statistics","Spatial join","Network analysis",
-        "Interpolation","Kriging","IDW","Thiessen polygon","Viewshed","Cost path","Watershed delineation",
-        "Reclassification","Raster algebra","Vector overlay","Topology","Spatial indexing","Spatial autocorrelation",
-    ],
-    "CoordinateSystems": [
-        "EPSG:4326","EPSG:3857","WGS84","CGCS2000","UTM","Lambert Conformal Conic","Albers Equal Area",
-        "Geographic coordinate system","Projected coordinate system","Datum","Geoid","Ellipsoid",
-        "Coordinate transformation","Datum shift","Grid shift",
-    ],
-    "DataFormats": [
-        "GeoTIFF","COG","NetCDF","Zarr","GeoJSON","GeoPackage","Shapefile","GeoParquet","FlatGeobuf",
-        "LAZ","LAS","3D Tiles","CityGML","GML","KML","GPX","STAC","OGC API","WMS","WMTS","WFS","WCS",
-    ],
-    "GeoAI": [
-        "Semantic segmentation","Object detection","Change detection","Super-resolution","Image classification",
-        "Foundation model","Transfer learning","LoRA","Fine-tuning","Few-shot learning","Self-supervised learning",
-        "Vision transformer","U-Net","ResNet","YOLO","SAM","CLIP","Knowledge graph embedding",
-    ],
-    "Federation": [
-        "Data sovereignty","Zero-trust","Federated learning","Secure multi-party computation",
-        "Differential privacy","Compute pushdown","Data locality","Contract binding","Capability discovery",
-        "Node federation","Trust score","Policy enforcement","Provenance tracking","Data lineage",
-    ],
-    "SDGFramework": [
-        "UN-GGKIC","UN-IGIF","IAEG-SDGs","Voluntary National Review","Tier classification",
-        "Indicator framework","Means of implementation","Global indicator framework",
-        "Data disaggregation","Capacity building",
-    ],
-}
-
-
 # --------------------------------------------------------------------------- #
 # 统计汇总
 # --------------------------------------------------------------------------- #
 def reference_data_stats() -> dict[str, int]:
+    from .sdg import sdg_stats
+    from .vocabulary import vocabulary_stats
+
     """返回各参考数据集的条目数。"""
     return {
-        "sdg_goals": len(SDG_GOALS),
-        "sdg_targets": sum(SDG_TARGETS.values()),
-        "sdg_indicators": sum(SDG_INDICATOR_COUNTS.values()),
+        "sdg_goals": sdg_stats()["goals"],
+        "sdg_targets": sdg_stats()["targets"],
+        "sdg_indicators": sdg_stats()["indicators"],
         "geospatial_indicators": len(GEOSPATIAL_INDICATORS),
         "countries": len(COUNTRIES),
-        "concepts": sum(len(v) for v in CONCEPTS.values()),
+        "concepts": vocabulary_stats()["terms_total"],
     }

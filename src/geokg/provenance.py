@@ -164,7 +164,50 @@ SOURCES: dict[str, DataSource] = {
         note="3,858 条 / 227 国；由 scripts/fetch_geonames_admin1.py 生成，可复现。"
              "署名：GeoNames, https://www.geonames.org/",
     ),
+    # ── T1 规范 ──
+    "iogp-epsg": DataSource(
+        id="iogp-epsg",
+        name="EPSG 大地测量参数数据集（坐标参考系代码）",
+        version="EPSG Dataset（经 PROJ 分发）",
+        license="EPSG Terms of Use：可分发、须署名 IOGP、禁止以数据集本身牟利",
+        url="https://epsg.org/",
+        retrieved="2026-09-16",
+        tier="T1",
+        note="仅收录坐标参考系代码与名称；本地可经 pyproj 离线获取 6,942 条",
+    ),
+    "iso-ogc-standards": DataSource(
+        id="iso-ogc-standards",
+        name="ISO / OGC 地理信息标准编号",
+        version="ISO 19100 系列 / OGC 标准族",
+        license="标准编号与标题为事实性引用；标准文本须向 ISO/OGC 获取",
+        url="https://www.ogc.org/standards/",
+        retrieved="2026-09-16",
+        tier="T1",
+        note="仅收录标准编号与名称，不含标准正文",
+    ),
     # ── T2 官方机构 ──
+    "un-frameworks": DataSource(
+        id="un-frameworks",
+        name="联合国政策框架（2030 议程 / 巴黎协定 / 仙台框架等）",
+        version="各框架正式文本",
+        license="联合国公开文件",
+        url="https://www.un.org/sustainabledevelopment/",
+        retrieved="2026-09-16",
+        tier="T2",
+        note="框架名称与简称的引用",
+    ),
+    "wmo-oscar-instruments": DataSource(
+        id="wmo-oscar-instruments",
+        name="WMO OSCAR/Space 对地观测仪器目录",
+        version="OSCAR/Space v2.7（官方 REST API）",
+        license="可自由使用与再分发，须致谢 WMO；WMO 不对准确性作担保",
+        url="https://space.oscar.wmo.int/apidoc/",
+        retrieved="2026-09-16",
+        tier="T2",
+        note="1,244 台仪器 / 86 机构；由 scripts/fetch_oscar_instruments.py 抓取。"
+             "署名：WMO OSCAR/Space",
+    ),
+
     "wmo-oscar-satellites": DataSource(
         id="wmo-oscar-satellites",
         name="WMO OSCAR/Space 对地观测卫星目录",
@@ -213,7 +256,7 @@ SOURCES: dict[str, DataSource] = {
     # ── 自行整理 ──
     "geokg-authored": DataSource(
         id="geokg-authored",
-        name="GeoKG 自行整理的技能/分类条目",
+        name="GeoKG 自行整理的技能 / 术语表（自编内容，非外部数据集）",
         version="v0.1.0",
         license=AUTHORED_LICENSE,
         url="https://github.com/muyang/GeoKG",

@@ -42,82 +42,6 @@ REQUIRED_INPUTS: dict[str, list[str]] = {
     "ocean": ["Sentinel-3 OLCI", "MODIS Ocean Color", "Coastline vector"],
     "air": ["Sentinel-5P TROPOMI", "CAMS reanalysis", "Population grid"],
 }
-# --------------------------------------------------------------------------- #
-# 4. 领域词汇扩充
-# --------------------------------------------------------------------------- #
-EXTENDED_CONCEPTS: dict[str, list[str]] = {
-    "Sensors": [
-        "MSI","OLI","TIRS","ETM+","TM","MSS","VIIRS","MODIS","AVHRR","SLSTR","OLCI","SRAL",
-        "TROPOMI","IASI","AIRS","CrIS","OMPS","PALSAR","PALSAR-2","C-SAR","X-SAR","L-SAR",
-        "SENTINEL-1 SAR","SENTINEL-2 MSI","SENTINEL-3 OLCI","SENTINEL-5P TROPOMI",
-        "GF-1 PMC","GF-2 PMS","GF-3 SAR","GF-4 PMI","GF-5 AHSI","GF-6 PMS","GF-7 LAS",
-        "ZY-3 TLC","ZY-1 AHSI","CBERS MUX","CBERS WFI","CBERS IRS","HJ-1 CCD","HJ-2 CCD",
-        "WorldView-3 WV110","GeoEye-1 GIS","Pléiades HiRI","SPOT NAOMI","SkySat-C",
-        "TerraSAR-X","TanDEM-X","RADARSAT-2","RCM SAR","ALOS-2 PALSAR-2","SAOCOM L-SAR",
-        "KOMPSAT AESA","Cartosat PAN","RISAT C-SAR","PROBA-V Vegetation","SDGSAT GIS",
-    ],
-    "DataProducts": [
-        "NDVI composite","EVI composite","SAVI composite","NDWI water mask","MNDWI water mask",
-        "NDBI built-up","NDMI moisture","NBR burn severity","dNBR","NBR2",
-        "Land cover classification","Cropland extent","Forest cover","Tree canopy height",
-        "Impervious surface","Built-up area","Population grid","GDP grid","Nighttime lights",
-        "Digital Elevation Model","Digital Surface Model","Canopy Height Model",
-        "Slope","Aspect","Hillshade","Curvature","Flow accumulation","Watershed boundary",
-        "Flood extent","Flood depth","Burn scar","Drought index","Vegetation condition index",
-        "Land surface temperature","Sea surface temperature","Chlorophyll-a","Turbidity",
-        "Snow cover","Ice extent","Glacier outline","Coastline","Bathymetry",
-        "Surface water occurrence","Surface water seasonality","Water quality index",
-    ],
-    "AnalysisMethods": [
-        "Supervised classification","Unsupervised classification","Random Forest","SVM",
-        "Maximum likelihood","Object-based image analysis","Segmentation",
-        "Change vector analysis","Post-classification comparison","CVA","Image differencing",
-        "Principal component analysis","Tasseled cap transformation","Vegetation indices",
-        "Spectral unmixing","Endmember extraction","Sub-pixel analysis",
-        "Time series analysis","Harmonic regression","BFAST","LandTrendr","CCDC",
-        "Machine learning","Deep learning","Convolutional neural network","Recurrent neural network",
-        "Transformer","Attention mechanism","Transfer learning","Domain adaptation",
-        "Uncertainty quantification","Cross validation","Accuracy assessment","Confusion matrix",
-        "Kappa coefficient","ROC curve","Feature importance","SHAP",
-    ],
-    "Standards": [
-        "ISO 19115","ISO 19139","ISO 19119","ISO 19136","ISO/TC 211",
-        "OGC API - Features","OGC API - Coverages","OGC API - Processes",
-        "OGC API - Records","OGC API - Tiles","OGC API - Maps","OGC API - EDR",
-        "WMS 1.3.0","WMTS 1.0.0","WFS 2.0","WCS 2.0","CSW 3.0",
-        "STAC 1.0.0","STAC API","COG specification","Zarr v3","GeoParquet 1.1",
-        "CF Conventions","EPSG Geodetic Parameter Dataset","OGC GeoPackage 1.3",
-        "INSPIRE Directive","CEOS-ARD","CEOS-WGISS","GEOSS","GEO DAB",
-        "FAIR principles","OGC Compliance","ISO 9001","ISO 27001",
-    ],
-    "GeospatialConcepts": [
-        "Coordinate reference system","Map projection","Geodesic","Great circle",
-        "Spatial resolution","Temporal resolution","Radiometric resolution","Spectral resolution",
-        "Ground sample distance","Swath width","Revisit time","Orbit inclination",
-        "Sun-synchronous orbit","Geostationary orbit","Polar orbit","Equatorial crossing time",
-        "Nadir","Off-nadir","Incidence angle","Azimuth angle","Elevation angle",
-        "Atmospheric window","Signal-to-noise ratio","Radiometric calibration coefficient",
-        "Top of atmosphere reflectance","Surface reflectance","Brightness temperature",
-        "Digital number","Bit depth","Dynamic range","Saturation",
-        "Spatial autocorrelation","Moran's I","Geary's C","Variogram","Semivariance",
-        "Scale effect","Modifiable areal unit problem","Ecological fallacy",
-        "Edge effect","Boundary effect","Mixed pixel","Point spread function",
-    ],
-    "DisasterRisk": [
-        "Hazard","Exposure","Vulnerability","Risk","Resilience","Adaptive capacity",
-        "Sendai Framework","Early warning system","Rapid mapping","Damage assessment",
-        "Emergency response","Post-disaster recovery","Disaster risk reduction",
-        "Flood hazard map","Landslide susceptibility","Wildfire risk","Drought risk",
-        "Cyclone track","Storm surge","Tsunami inundation","Earthquake intensity",
-    ],
-    "PolicyFrameworks": [
-        "2030 Agenda","Paris Agreement","Sendai Framework","New Urban Agenda",
-        "Kunming-Montreal Global Biodiversity Framework","UNCCD","UNFCCC","Ramsar Convention",
-        "World Heritage Convention","UN-GGKIC","UN-IGIF","IGIF Nine Strategic Pathways",
-        "Voluntary National Review","Voluntary Local Review","Data for Now",
-        "Global Statistical Geospatial Framework","Integrated Geospatial Information Framework",
-    ],
-}
 
 
 # --------------------------------------------------------------------------- #
@@ -125,9 +49,7 @@ EXTENDED_CONCEPTS: dict[str, list[str]] = {
 # --------------------------------------------------------------------------- #
 def expansion_stats() -> dict[str, int]:
     """返回扩充数据的条目数统计（一级行政区已改由 GeoNames 提供，不计入本模块）。"""
-    concepts = sum(len(v) for v in EXTENDED_CONCEPTS.values())
     return {
-        "extended_concepts": concepts,
         "monitored_indicators": len(MONITORED_INDICATORS),
         "required_input_types": len(REQUIRED_INPUTS),
     }

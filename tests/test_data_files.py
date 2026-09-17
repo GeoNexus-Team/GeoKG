@@ -17,6 +17,7 @@ import pytest
 
 from geokg import admin1 as A1
 from geokg import reference_data as RD
+from geokg import sdg as SDG
 
 SCRIPTS = Path(__file__).resolve().parent.parent / "scripts"
 
@@ -128,6 +129,62 @@ class TestAdmin1DataFile:
     def test_no_duplicate_entity_ids(self) -> None:
         eids = [u.entity_id for u in A1.ADMIN1_UNITS]
         assert len(eids) == len(set(eids))
+
+
+class TestSdgFrameworkFile:
+    """SDG 框架改用官方 API 后的数据完整性。
+
+    核对期间发现旧实现有两个问题，这里都要锁住：
+    1. 按"每目标有 N 个"用计数**伪造 id**，真实代码（1.a / 2.a / 17.18）全被错编号；
+    2. 手写表少了 7 个指标，文档所称"231"亦为过时数字。
+    """
+
+    def test_counts(self) -> None:
+        assert len(SDG.SDG_GOALS_LIST) == 17
+        assert len(SDG.SDG_TARGETS_LIST) == 169
+        assert len(SDG.SDG_INDICATORS_LIST) == 251
+
+    def test_columns(self) -> None:
+        raw = [ln for ln in SDG.SDG_DATA_FILE.read_text(encoding="utf-8").splitlines()
+               if ln.strip() and not ln.startswith("#")]
+        assert len(raw) == 437
+        for ln in raw:
+            assert len(ln.split("\t")) == 7, f"列数不对: {ln[:60]!r}"
+
+    def test_codes_unique_per_level(self) -> None:
+        for level in ("goal", "target", "indicator"):
+            codes = [e.code for e in SDG.SDG_ENTRIES if e.level == level]
+            assert len(codes) == len(set(codes)), f"{level} code 重复"
+
+    def test_real_codes_not_fabricated(self) -> None:
+        """官方代码含字母后缀（1.a / 2.a / 5.c / 17.18 等），伪造的纯数字编号不会有。"""
+        t = {e.code for e in SDG.SDG_TARGETS_LIST}
+        for c in ("1.a", "1.b", "2.a", "5.c", "17.18", "17.19"):
+            assert c in t, f"缺少真实具体目标代码 {c}"
+        i = {e.code for e in SDG.SDG_INDICATORS_LIST}
+        for c in ("1.a.1", "2.a.1", "17.18.1", "6.6.1"):
+            assert c in i, f"缺少真实指标代码 {c}"
+
+    def test_every_entry_has_title(self) -> None:
+        for e in SDG.SDG_ENTRIES:
+            assert e.title, f"{e.level} {e.code} 缺标题"
+
+    def test_tiers_present(self) -> None:
+        st = SDG.sdg_stats()
+        assert st["indicators_tier1"] > 0 and st["indicators_tier2"] > 0
+        assert st["indicators_tier1"] + st["indicators_tier2"] == st["indicators"]
+
+    def test_entity_ids_use_official_codes(self) -> None:
+        e = next(x for x in SDG.SDG_INDICATORS_LIST if x.code == "1.a.1")
+        assert e.entity_id == "sdg.indicator.1.a.1"
+        t = next(x for x in SDG.SDG_TARGETS_LIST if x.code == "1.a")
+        assert t.entity_id == "sdg.target.1.a"
+        assert t.parent == "1"
+
+    def test_sdg_script_exists(self) -> None:
+        f = SCRIPTS / "fetch_un_sdg.py"
+        assert f.exists(), "SDG 数据将无法复现"
+        assert "SDGAPI" in f.read_text(encoding="utf-8")
 
 
 class TestRegenerationScripts:

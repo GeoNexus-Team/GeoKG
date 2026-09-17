@@ -24,6 +24,8 @@ from geonexus.kg import KGEntity, KnowledgeGraph
 
 from .admin1 import ADMIN1_UNITS
 from .admin1 import ATTRIBUTION as ADMIN1_ATTRIBUTION
+from .instruments import ATTRIBUTION as INSTRUMENT_ATTRIBUTION
+from .instruments import INSTRUMENTS
 from .ontology import (
     CLIMATE_TERMS,
     HAZARD_TERMS,
@@ -31,15 +33,13 @@ from .ontology import (
     LANDCOVER_TERMS,
 )
 from .reference_data import (
-    CONCEPTS,
     COUNTRIES_FULL,
     GEOSPATIAL_INDICATORS,
-    SDG_GOALS,
-    SDG_INDICATOR_COUNTS,
-    SDG_TARGETS,
 )
 from .satellites import ATTRIBUTION as SATELLITE_ATTRIBUTION
 from .satellites import SATELLITES
+from .sdg import GOAL, SDG_ENTRIES, TARGET
+from .vocabulary import TERMS
 
 logger = logging.getLogger(__name__)
 
@@ -134,69 +134,81 @@ class IngestReport:
 # 1. SDG 框架
 # --------------------------------------------------------------------------- #
 def ingest_sdg_framework(kg: KnowledgeGraph, report: IngestReport) -> None:
-    """导入 UN SDG 框架：目标 → 具体目标 → 指标（三级层级）。"""
+    """导入 UN SDG 框架：目标 → 具体目标 → 指标（三级层级）。
+
+    数据来自官方 API（见 ``geokg.sdg``），因此**实体 id 使用官方代码**：
+    ``sdg.target.1.a`` / ``sdg.indicator.1.a.1``。
+
+    ⚠️ 旧实现按"每目标有 N 个具体目标/M 个指标"**用计数编号伪造 id**
+    （``range(1, N+1)``），于是 ``1.a``、``2.a``、``5.c``、``17.18`` 这类
+    真实代码全被错编号，任何外部按官方代码交叉引用都会对不上。
+    同时旧表少 7 个指标、文档所称"231"亦为过时数字。
+    """
     entities = 0
     relations = 0
 
-    for num, title in SDG_GOALS.items():
-        goal_id = f"sdg.goal.{num}"
-        kg.add_entity(KGEntity(
-            id=goal_id, type="SDG_Goal",
-            properties={"number": num, "title": title},
-            labels=["sdg", "goal"],
-        ))
-        entities += 1
+    for e in SDG_ENTRIES:
+        eid = e.entity_id
+        props: dict[str, Any] = {"code": e.code, "title": e.title}
+        if e.description and e.description != e.title:
+            props["description"] = e.description
+        if e.tier:
+            props["tier"] = e.tier
 
-        # 具体目标
-        for t in range(1, SDG_TARGETS[num] + 1):
-            target_id = f"sdg.target.{num}.{t}"
-            kg.add_entity(KGEntity(
-                id=target_id, type="SDG_Target",
-                properties={"number": f"{num}.{t}", "goal": num},
-                labels=["sdg", "target"],
-            ))
-            kg.add_relation(target_id, goal_id, "BELONGS_TO")
+        if e.level == GOAL:
+            props["number"] = int(e.code) if e.code.isdigit() else e.code
+            kg.add_entity(KGEntity(id=eid, type="SDG_Goal", properties=props,
+                                   labels=["sdg", "goal"]))
             entities += 1
-            relations += 1
+            continue
+
+        if e.level == TARGET:
+            props["number"] = e.code
+            props["goal"] = e.parent
+            kg.add_entity(KGEntity(id=eid, type="SDG_Target", properties=props,
+                                   labels=["sdg", "target"]))
+            parent = f"sdg.goal.{e.parent}"
+            if kg.get_entity(parent) is not None:
+                kg.add_relation(eid, parent, "BELONGS_TO")
+                relations += 1
+            entities += 1
+            continue
 
         # 指标
-        for i in range(1, SDG_INDICATOR_COUNTS[num] + 1):
-            ind_id = f"sdg.indicator.{num}.{i}"
-            is_geo = f"{num}.{i}" in GEOSPATIAL_INDICATORS or any(
-                k.startswith(f"{num}.{i}.") for k in GEOSPATIAL_INDICATORS
-            )
-            props: dict[str, Any] = {
-                "number": f"{num}.{i}",
-                "goal": num,
-                "geospatial": is_geo,
-            }
-            # 补充已知的地理空间指标标题
-            for key, title_txt in GEOSPATIAL_INDICATORS.items():
-                if key == f"{num}.{i}":
-                    props["title"] = title_txt
-                    break
-            kg.add_entity(KGEntity(
-                id=ind_id, type="SDG_Indicator",
-                properties=props,
-                labels=["sdg", "indicator"] + (["geospatial"] if is_geo else []),
-            ))
-            kg.add_relation(ind_id, f"sdg.target.{num}.{t if t <= SDG_TARGETS[num] else 1}", "MEASURES")
-            entities += 1
+        goal_num = e.code.split(".")[0]
+        is_geo = e.code in GEOSPATIAL_INDICATORS or any(
+            e.code.startswith(k) for k in GEOSPATIAL_INDICATORS
+        )
+        props["number"] = e.code
+        props["goal"] = goal_num
+        props["geospatial"] = is_geo
+        if e.code in GEOSPATIAL_INDICATORS:
+            props["title"] = GEOSPATIAL_INDICATORS[e.code]
+        kg.add_entity(KGEntity(
+            id=eid, type="SDG_Indicator", properties=props,
+            labels=["sdg", "indicator"] + (["geospatial"] if is_geo else []),
+        ))
+        entities += 1
+        parent = f"sdg.target.{e.parent}"
+        if kg.get_entity(parent) is not None:
+            kg.add_relation(eid, parent, "MEASURES")
             relations += 1
 
-    # 已知标题的地理空间指标补全（可能超出编号范围）
+    # 地理空间指标中若存在官方框架之外的条目，单独补齐（保持原行为）
     for key, title in GEOSPATIAL_INDICATORS.items():
-        ind_id = f"sdg.indicator.{key}"
-        if kg.get_entity(ind_id) is None:
-            goal_num = int(key.split(".")[0])
+        eid = f"sdg.indicator.{key}"
+        if kg.get_entity(eid) is None:
             kg.add_entity(KGEntity(
-                id=ind_id, type="SDG_Indicator",
-                properties={"number": key, "title": title, "goal": goal_num, "geospatial": True},
+                id=eid, type="SDG_Indicator",
+                properties={"number": key, "title": title,
+                            "goal": key.split(".")[0], "geospatial": True},
                 labels=["sdg", "indicator", "geospatial"],
             ))
             entities += 1
 
     report.record("sdg_framework", entities, relations)
+
+
 
 
 # --------------------------------------------------------------------------- #
@@ -336,39 +348,80 @@ def ingest_satellites(kg: KnowledgeGraph, report: IngestReport) -> None:
 # --------------------------------------------------------------------------- #
 # 4. 概念本体
 # --------------------------------------------------------------------------- #
-def ingest_concepts(kg: KnowledgeGraph, report: IngestReport) -> None:
-    """导入领域概念/术语表，并关联到所属类别。"""
+def ingest_vocabulary(kg: KnowledgeGraph, report: IngestReport,
+                      terms: list | None = None) -> None:
+    """导入术语表，并按**每条术语自身的来源**标记。
+
+    取代了原先的 ``ingest_concepts`` + ``ingest_extended_concepts``：
+    旧实现把 371 条术语当成一整块摄入，来源只有一个（且是空的），
+    而实际上它们的性质分三种——外部数据集、本仓库自编术语表、
+    已被其他层取代。现按 ``source_id`` 分组摄入，各组使用各自来源。
+    """
+    entities = 0
+    relations = 0
+    by_cat: dict[str, str] = {}
+
+    # 按来源分组摄入：每组由管线用各自的 _ProvenanceKG 包装
+    for t in (TERMS if terms is None else terms):
+        cat_id = f"concept_category.{_slug(t.category)}"
+        if cat_id not in by_cat:
+            kg.add_entity(KGEntity(
+                cat_id, "ConceptCategory", {"name": t.category}, ["concept", "category"]))
+            by_cat[cat_id] = t.category
+            entities += 1
+        eid = t.entity_id
+        if kg.get_entity(eid) is not None:
+            continue
+        kg.add_entity(KGEntity(
+            id=eid, type="Concept",
+            properties={"name": t.term, "category": t.category},
+            labels=["concept", _slug(t.category)],
+        ))
+        kg.add_relation(eid, cat_id, "BELONGS_TO")
+        entities += 1
+        relations += 1
+
+    report.record("vocabulary", entities, relations)
+
+
+def ingest_instruments(kg: KnowledgeGraph, report: IngestReport) -> None:
+    """导入 WMO OSCAR/Space 仪器目录（T2 官方机构）。
+
+    取代了术语表中原先的 "Sensors" 类别（56 条无出处的缩写），
+    现为 1,244 台仪器的权威记录（86 个机构 / 24 种类型）。
+    """
     entities = 0
     relations = 0
 
-    for category, terms in CONCEPTS.items():
-        cat_id = f"concept.{category.lower()}"
+    for i in INSTRUMENTS:
+        iid = i.entity_id
+        if kg.get_entity(iid) is not None:
+            continue
+        props: dict[str, Any] = {
+            "name": i.fullname or i.acronym or i.slug,
+            "acronym": i.acronym,
+            "oscar_id": i.oscar_id,
+            "attribution": INSTRUMENT_ATTRIBUTION,
+        }
+        for k, v in (("agency", i.agency), ("instrument_type", i.instrument_type),
+                     ("classification", i.classification),
+                     ("wigos_subcomponent", i.wigos_subcomponent),
+                     ("variables", i.variables)):
+            if v:
+                props[k] = v
+        if i.satellite_count:
+            props["satellite_count"] = i.satellite_count
         kg.add_entity(KGEntity(
-            id=cat_id, type="ConceptCategory",
-            properties={"name": category, "term_count": len(terms)},
-            labels=["concept", "category"],
+            id=iid, type="Instrument", properties=props,
+            labels=["instrument", "oscar"],
         ))
         entities += 1
 
-        for term in terms:
-            slug = term.lower().replace(" ", "-").replace(":", "").replace(".", "-").replace("/", "-")
-            tid = f"term.{slug}"
-            if kg.get_entity(tid) is None:
-                kg.add_entity(KGEntity(
-                    id=tid, type="Concept",
-                    properties={"name": term, "category": category},
-                    labels=["concept", category.lower()],
-                ))
-                entities += 1
-            kg.add_relation(tid, cat_id, "BELONGS_TO")
-            relations += 1
-
-    report.record("concepts", entities, relations)
+    report.record("oscar_instruments", entities, relations)
 
 
-# --------------------------------------------------------------------------- #
-# 5. 技能与数据产品
-# --------------------------------------------------------------------------- #
+
+
 def ingest_skills(kg: KnowledgeGraph, skill_names: list[str], report: IngestReport) -> None:
     """导入 GeoSkill 实体。"""
     entities = 0
@@ -398,11 +451,6 @@ def ingest_gaag_contracts(kg: KnowledgeGraph, registry: Any, report: IngestRepor
     kg.import_from_gaag(registry)
     added = kg.entity_count() - before
     report.record("gaag_contracts", added)
-
-
-# --------------------------------------------------------------------------- #
-# 6. 扩充数据集（gazetteer）
-# --------------------------------------------------------------------------- #
 
 
 def ingest_admin1(kg: KnowledgeGraph, report: IngestReport) -> None:
@@ -442,42 +490,6 @@ def ingest_admin1(kg: KnowledgeGraph, report: IngestReport) -> None:
         relations += 1
 
     report.record("geonames_admin1", entities, relations)
-
-
-
-
-def ingest_extended_concepts(kg: KnowledgeGraph, report: IngestReport) -> None:
-    """导入扩充的领域词汇。"""
-    from .gazetteer import EXTENDED_CONCEPTS
-
-    entities = 0
-    relations = 0
-
-    for category, terms in EXTENDED_CONCEPTS.items():
-        cat_id = f"concept.{category.lower()}"
-        if kg.get_entity(cat_id) is None:
-            kg.add_entity(KGEntity(
-                id=cat_id, type="ConceptCategory",
-                properties={"name": category, "term_count": len(terms)},
-                labels=["concept", "category"],
-            ))
-            entities += 1
-
-        for term in terms:
-            slug = (term.lower().replace(" ", "-").replace(":", "").replace(".", "-")
-                    .replace("/", "-").replace("(", "").replace(")", ""))
-            tid = f"term.{slug}"
-            if kg.get_entity(tid) is None:
-                kg.add_entity(KGEntity(
-                    id=tid, type="Concept",
-                    properties={"name": term, "category": category},
-                    labels=["concept", category.lower()],
-                ))
-                entities += 1
-            kg.add_relation(tid, cat_id, "BELONGS_TO")
-            relations += 1
-
-    report.record("concepts_extended", entities, relations)
 
 
 def ingest_monitoring_units(
@@ -750,17 +762,20 @@ def run_full_ingestion(
     if include_reference:
         ingest_sdg_framework(_ProvenanceKG(kg, ORIGIN_CURATED, "un-sdg-framework"), report)
         ingest_countries(_ProvenanceKG(kg, ORIGIN_CURATED, "un-m49"), report)
-        # ⚠️ 以下两项来源待核实（审计债务），显式标注而非默认放行
         ingest_satellites(
             _ProvenanceKG(kg, ORIGIN_CURATED, "wmo-oscar-satellites"), report)
-        ingest_concepts(
-            _ProvenanceKG(kg, ORIGIN_CURATED, "unverified-concepts"), report)
+        ingest_instruments(
+            _ProvenanceKG(kg, ORIGIN_CURATED, "wmo-oscar-instruments"), report)
+        # 术语表按来源分组：外部来源与自编术语分别标注
+        for src in ("iogp-epsg", "iso-ogc-standards", "un-frameworks", "geokg-authored"):
+            group = [t for t in TERMS if t.source_id == src]
+            if group:
+                ingest_vocabulary(
+                    _ProvenanceKG(kg, ORIGIN_CURATED, src), report, group)
 
     if include_expansion:
         ingest_admin1(
             _ProvenanceKG(kg, ORIGIN_EXPANDED, "geonames-admin1"), report)
-        ingest_extended_concepts(
-            _ProvenanceKG(kg, ORIGIN_EXPANDED, "unverified-extended-concepts"), report)
 
     if include_monitoring:
         ingest_monitoring_units(

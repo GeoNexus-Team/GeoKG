@@ -1,0 +1,306 @@
+# GeoKG 术语表（原 CONCEPTS + EXTENDED_CONCEPTS）
+# 生成: python scripts/build_vocabulary.py   —— 请勿手工编辑
+#
+# 逐类标注来源。'geokg-authored' 表示这是**本仓库自编术语表**
+# （Apache-2.0），而非从外部数据集提取——这是如实分类，不是免除引用。
+# 外部来源：
+#   iogp-epsg          EPSG 代码属 IOGP（T1）
+#   iso-ogc-standards  标准编号属 ISO / OGC（T1）
+#   un-frameworks      联合国文件（T2）
+# 每行 3 列，制表符分隔: source_id	category	term
+#
+# 条目数按来源: geokg-authored=218, iogp-epsg=15, iso-ogc-standards=34, un-frameworks=27
+geokg-authored	AnalysisMethods	Accuracy assessment
+geokg-authored	AnalysisMethods	Attention mechanism
+geokg-authored	AnalysisMethods	BFAST
+geokg-authored	AnalysisMethods	CCDC
+geokg-authored	AnalysisMethods	CVA
+geokg-authored	AnalysisMethods	Change vector analysis
+geokg-authored	AnalysisMethods	Confusion matrix
+geokg-authored	AnalysisMethods	Convolutional neural network
+geokg-authored	AnalysisMethods	Cross validation
+geokg-authored	AnalysisMethods	Deep learning
+geokg-authored	AnalysisMethods	Domain adaptation
+geokg-authored	AnalysisMethods	Endmember extraction
+geokg-authored	AnalysisMethods	Feature importance
+geokg-authored	AnalysisMethods	Harmonic regression
+geokg-authored	AnalysisMethods	Image differencing
+geokg-authored	AnalysisMethods	Kappa coefficient
+geokg-authored	AnalysisMethods	LandTrendr
+geokg-authored	AnalysisMethods	Machine learning
+geokg-authored	AnalysisMethods	Maximum likelihood
+geokg-authored	AnalysisMethods	Object-based image analysis
+geokg-authored	AnalysisMethods	Post-classification comparison
+geokg-authored	AnalysisMethods	Principal component analysis
+geokg-authored	AnalysisMethods	ROC curve
+geokg-authored	AnalysisMethods	Random Forest
+geokg-authored	AnalysisMethods	Recurrent neural network
+geokg-authored	AnalysisMethods	SHAP
+geokg-authored	AnalysisMethods	SVM
+geokg-authored	AnalysisMethods	Segmentation
+geokg-authored	AnalysisMethods	Spectral unmixing
+geokg-authored	AnalysisMethods	Sub-pixel analysis
+geokg-authored	AnalysisMethods	Supervised classification
+geokg-authored	AnalysisMethods	Tasseled cap transformation
+geokg-authored	AnalysisMethods	Time series analysis
+geokg-authored	AnalysisMethods	Transfer learning
+geokg-authored	AnalysisMethods	Transformer
+geokg-authored	AnalysisMethods	Uncertainty quantification
+geokg-authored	AnalysisMethods	Unsupervised classification
+geokg-authored	AnalysisMethods	Vegetation indices
+geokg-authored	DataFormats	3D Tiles
+geokg-authored	DataFormats	COG
+geokg-authored	DataFormats	CityGML
+geokg-authored	DataFormats	FlatGeobuf
+geokg-authored	DataFormats	GML
+geokg-authored	DataFormats	GPX
+geokg-authored	DataFormats	GeoJSON
+geokg-authored	DataFormats	GeoPackage
+geokg-authored	DataFormats	GeoParquet
+geokg-authored	DataFormats	GeoTIFF
+geokg-authored	DataFormats	KML
+geokg-authored	DataFormats	LAS
+geokg-authored	DataFormats	LAZ
+geokg-authored	DataFormats	NetCDF
+geokg-authored	DataFormats	OGC API
+geokg-authored	DataFormats	STAC
+geokg-authored	DataFormats	Shapefile
+geokg-authored	DataFormats	WCS
+geokg-authored	DataFormats	WFS
+geokg-authored	DataFormats	WMS
+geokg-authored	DataFormats	WMTS
+geokg-authored	DataFormats	Zarr
+geokg-authored	DataProducts	Aspect
+geokg-authored	DataProducts	Bathymetry
+geokg-authored	DataProducts	Built-up area
+geokg-authored	DataProducts	Burn scar
+geokg-authored	DataProducts	Canopy Height Model
+geokg-authored	DataProducts	Chlorophyll-a
+geokg-authored	DataProducts	Coastline
+geokg-authored	DataProducts	Cropland extent
+geokg-authored	DataProducts	Curvature
+geokg-authored	DataProducts	Digital Elevation Model
+geokg-authored	DataProducts	Digital Surface Model
+geokg-authored	DataProducts	Drought index
+geokg-authored	DataProducts	EVI composite
+geokg-authored	DataProducts	Flood depth
+geokg-authored	DataProducts	Flood extent
+geokg-authored	DataProducts	Flow accumulation
+geokg-authored	DataProducts	Forest cover
+geokg-authored	DataProducts	GDP grid
+geokg-authored	DataProducts	Glacier outline
+geokg-authored	DataProducts	Hillshade
+geokg-authored	DataProducts	Ice extent
+geokg-authored	DataProducts	Impervious surface
+geokg-authored	DataProducts	Land cover classification
+geokg-authored	DataProducts	Land surface temperature
+geokg-authored	DataProducts	MNDWI water mask
+geokg-authored	DataProducts	NBR burn severity
+geokg-authored	DataProducts	NBR2
+geokg-authored	DataProducts	NDBI built-up
+geokg-authored	DataProducts	NDMI moisture
+geokg-authored	DataProducts	NDVI composite
+geokg-authored	DataProducts	NDWI water mask
+geokg-authored	DataProducts	Nighttime lights
+geokg-authored	DataProducts	Population grid
+geokg-authored	DataProducts	SAVI composite
+geokg-authored	DataProducts	Sea surface temperature
+geokg-authored	DataProducts	Slope
+geokg-authored	DataProducts	Snow cover
+geokg-authored	DataProducts	Surface water occurrence
+geokg-authored	DataProducts	Surface water seasonality
+geokg-authored	DataProducts	Tree canopy height
+geokg-authored	DataProducts	Turbidity
+geokg-authored	DataProducts	Vegetation condition index
+geokg-authored	DataProducts	Water quality index
+geokg-authored	DataProducts	Watershed boundary
+geokg-authored	DataProducts	dNBR
+geokg-authored	Federation	Capability discovery
+geokg-authored	Federation	Compute pushdown
+geokg-authored	Federation	Contract binding
+geokg-authored	Federation	Data lineage
+geokg-authored	Federation	Data locality
+geokg-authored	Federation	Data sovereignty
+geokg-authored	Federation	Differential privacy
+geokg-authored	Federation	Federated learning
+geokg-authored	Federation	Node federation
+geokg-authored	Federation	Policy enforcement
+geokg-authored	Federation	Provenance tracking
+geokg-authored	Federation	Secure multi-party computation
+geokg-authored	Federation	Trust score
+geokg-authored	Federation	Zero-trust
+geokg-authored	GIS	Buffer analysis
+geokg-authored	GIS	Cost path
+geokg-authored	GIS	IDW
+geokg-authored	GIS	Interpolation
+geokg-authored	GIS	Kriging
+geokg-authored	GIS	Network analysis
+geokg-authored	GIS	Overlay analysis
+geokg-authored	GIS	Raster algebra
+geokg-authored	GIS	Reclassification
+geokg-authored	GIS	Spatial autocorrelation
+geokg-authored	GIS	Spatial indexing
+geokg-authored	GIS	Spatial join
+geokg-authored	GIS	Thiessen polygon
+geokg-authored	GIS	Topology
+geokg-authored	GIS	Vector overlay
+geokg-authored	GIS	Viewshed
+geokg-authored	GIS	Watershed delineation
+geokg-authored	GIS	Zonal statistics
+geokg-authored	GeoAI	CLIP
+geokg-authored	GeoAI	Change detection
+geokg-authored	GeoAI	Few-shot learning
+geokg-authored	GeoAI	Fine-tuning
+geokg-authored	GeoAI	Foundation model
+geokg-authored	GeoAI	Image classification
+geokg-authored	GeoAI	Knowledge graph embedding
+geokg-authored	GeoAI	LoRA
+geokg-authored	GeoAI	Object detection
+geokg-authored	GeoAI	ResNet
+geokg-authored	GeoAI	SAM
+geokg-authored	GeoAI	Self-supervised learning
+geokg-authored	GeoAI	Semantic segmentation
+geokg-authored	GeoAI	Super-resolution
+geokg-authored	GeoAI	Transfer learning
+geokg-authored	GeoAI	U-Net
+geokg-authored	GeoAI	Vision transformer
+geokg-authored	GeoAI	YOLO
+geokg-authored	GeospatialConcepts	Atmospheric window
+geokg-authored	GeospatialConcepts	Azimuth angle
+geokg-authored	GeospatialConcepts	Bit depth
+geokg-authored	GeospatialConcepts	Boundary effect
+geokg-authored	GeospatialConcepts	Brightness temperature
+geokg-authored	GeospatialConcepts	Coordinate reference system
+geokg-authored	GeospatialConcepts	Digital number
+geokg-authored	GeospatialConcepts	Dynamic range
+geokg-authored	GeospatialConcepts	Ecological fallacy
+geokg-authored	GeospatialConcepts	Edge effect
+geokg-authored	GeospatialConcepts	Elevation angle
+geokg-authored	GeospatialConcepts	Equatorial crossing time
+geokg-authored	GeospatialConcepts	Geary's C
+geokg-authored	GeospatialConcepts	Geodesic
+geokg-authored	GeospatialConcepts	Geostationary orbit
+geokg-authored	GeospatialConcepts	Great circle
+geokg-authored	GeospatialConcepts	Ground sample distance
+geokg-authored	GeospatialConcepts	Incidence angle
+geokg-authored	GeospatialConcepts	Map projection
+geokg-authored	GeospatialConcepts	Mixed pixel
+geokg-authored	GeospatialConcepts	Modifiable areal unit problem
+geokg-authored	GeospatialConcepts	Moran's I
+geokg-authored	GeospatialConcepts	Nadir
+geokg-authored	GeospatialConcepts	Off-nadir
+geokg-authored	GeospatialConcepts	Orbit inclination
+geokg-authored	GeospatialConcepts	Point spread function
+geokg-authored	GeospatialConcepts	Polar orbit
+geokg-authored	GeospatialConcepts	Radiometric calibration coefficient
+geokg-authored	GeospatialConcepts	Radiometric resolution
+geokg-authored	GeospatialConcepts	Revisit time
+geokg-authored	GeospatialConcepts	Saturation
+geokg-authored	GeospatialConcepts	Scale effect
+geokg-authored	GeospatialConcepts	Semivariance
+geokg-authored	GeospatialConcepts	Signal-to-noise ratio
+geokg-authored	GeospatialConcepts	Spatial autocorrelation
+geokg-authored	GeospatialConcepts	Spatial resolution
+geokg-authored	GeospatialConcepts	Spectral resolution
+geokg-authored	GeospatialConcepts	Sun-synchronous orbit
+geokg-authored	GeospatialConcepts	Surface reflectance
+geokg-authored	GeospatialConcepts	Swath width
+geokg-authored	GeospatialConcepts	Temporal resolution
+geokg-authored	GeospatialConcepts	Top of atmosphere reflectance
+geokg-authored	GeospatialConcepts	Variogram
+geokg-authored	RemoteSensing	AWEI
+geokg-authored	RemoteSensing	Atmospheric correction
+geokg-authored	RemoteSensing	Cloud masking
+geokg-authored	RemoteSensing	EVI
+geokg-authored	RemoteSensing	Georeferencing
+geokg-authored	RemoteSensing	Image fusion
+geokg-authored	RemoteSensing	MNDWI
+geokg-authored	RemoteSensing	Mosaic
+geokg-authored	RemoteSensing	NBR
+geokg-authored	RemoteSensing	NDBI
+geokg-authored	RemoteSensing	NDMI
+geokg-authored	RemoteSensing	NDVI
+geokg-authored	RemoteSensing	NDWI
+geokg-authored	RemoteSensing	NMDI
+geokg-authored	RemoteSensing	Orthorectification
+geokg-authored	RemoteSensing	Pan-sharpening
+geokg-authored	RemoteSensing	Radiometric calibration
+geokg-authored	RemoteSensing	Radiometric normalization
+geokg-authored	RemoteSensing	Resampling
+geokg-authored	RemoteSensing	SAVI
+iogp-epsg	CoordinateSystems	Albers Equal Area
+iogp-epsg	CoordinateSystems	CGCS2000
+iogp-epsg	CoordinateSystems	Coordinate transformation
+iogp-epsg	CoordinateSystems	Datum
+iogp-epsg	CoordinateSystems	Datum shift
+iogp-epsg	CoordinateSystems	EPSG:3857
+iogp-epsg	CoordinateSystems	EPSG:4326
+iogp-epsg	CoordinateSystems	Ellipsoid
+iogp-epsg	CoordinateSystems	Geographic coordinate system
+iogp-epsg	CoordinateSystems	Geoid
+iogp-epsg	CoordinateSystems	Grid shift
+iogp-epsg	CoordinateSystems	Lambert Conformal Conic
+iogp-epsg	CoordinateSystems	Projected coordinate system
+iogp-epsg	CoordinateSystems	UTM
+iogp-epsg	CoordinateSystems	WGS84
+iso-ogc-standards	Standards	CEOS-ARD
+iso-ogc-standards	Standards	CEOS-WGISS
+iso-ogc-standards	Standards	CF Conventions
+iso-ogc-standards	Standards	COG specification
+iso-ogc-standards	Standards	CSW 3.0
+iso-ogc-standards	Standards	EPSG Geodetic Parameter Dataset
+iso-ogc-standards	Standards	FAIR principles
+iso-ogc-standards	Standards	GEO DAB
+iso-ogc-standards	Standards	GEOSS
+iso-ogc-standards	Standards	GeoParquet 1.1
+iso-ogc-standards	Standards	INSPIRE Directive
+iso-ogc-standards	Standards	ISO 19115
+iso-ogc-standards	Standards	ISO 19119
+iso-ogc-standards	Standards	ISO 19136
+iso-ogc-standards	Standards	ISO 19139
+iso-ogc-standards	Standards	ISO 27001
+iso-ogc-standards	Standards	ISO 9001
+iso-ogc-standards	Standards	ISO/TC 211
+iso-ogc-standards	Standards	OGC API - Coverages
+iso-ogc-standards	Standards	OGC API - EDR
+iso-ogc-standards	Standards	OGC API - Features
+iso-ogc-standards	Standards	OGC API - Maps
+iso-ogc-standards	Standards	OGC API - Processes
+iso-ogc-standards	Standards	OGC API - Records
+iso-ogc-standards	Standards	OGC API - Tiles
+iso-ogc-standards	Standards	OGC Compliance
+iso-ogc-standards	Standards	OGC GeoPackage 1.3
+iso-ogc-standards	Standards	STAC 1.0.0
+iso-ogc-standards	Standards	STAC API
+iso-ogc-standards	Standards	WCS 2.0
+iso-ogc-standards	Standards	WFS 2.0
+iso-ogc-standards	Standards	WMS 1.3.0
+iso-ogc-standards	Standards	WMTS 1.0.0
+iso-ogc-standards	Standards	Zarr v3
+un-frameworks	PolicyFrameworks	2030 Agenda
+un-frameworks	PolicyFrameworks	Data for Now
+un-frameworks	PolicyFrameworks	Global Statistical Geospatial Framework
+un-frameworks	PolicyFrameworks	IGIF Nine Strategic Pathways
+un-frameworks	PolicyFrameworks	Integrated Geospatial Information Framework
+un-frameworks	PolicyFrameworks	Kunming-Montreal Global Biodiversity Framework
+un-frameworks	PolicyFrameworks	New Urban Agenda
+un-frameworks	PolicyFrameworks	Paris Agreement
+un-frameworks	PolicyFrameworks	Ramsar Convention
+un-frameworks	PolicyFrameworks	Sendai Framework
+un-frameworks	PolicyFrameworks	UN-GGKIC
+un-frameworks	PolicyFrameworks	UN-IGIF
+un-frameworks	PolicyFrameworks	UNCCD
+un-frameworks	PolicyFrameworks	UNFCCC
+un-frameworks	PolicyFrameworks	Voluntary Local Review
+un-frameworks	PolicyFrameworks	Voluntary National Review
+un-frameworks	PolicyFrameworks	World Heritage Convention
+un-frameworks	SDGFramework	Capacity building
+un-frameworks	SDGFramework	Data disaggregation
+un-frameworks	SDGFramework	Global indicator framework
+un-frameworks	SDGFramework	IAEG-SDGs
+un-frameworks	SDGFramework	Indicator framework
+un-frameworks	SDGFramework	Means of implementation
+un-frameworks	SDGFramework	Tier classification
+un-frameworks	SDGFramework	UN-GGKIC
+un-frameworks	SDGFramework	UN-IGIF
+un-frameworks	SDGFramework	Voluntary National Review
