@@ -131,9 +131,14 @@ GeoKG 存在。默认 `8788`，避开 SDK Web 的 `8787/8790`。
 | GET | `/api/v1/geokg/counts?level=&level=` | `admin.counts()` | 只读（较重） |
 | GET | `/api/v1/geokg/manifest` | `admin.manifest(write=False)` | 只读 |
 | GET | `/api/v1/geokg/version` | 版本 + 指纹（精简） | 只读 |
+| GET | `/api/v1/geokg/search?q=&type=&limit=&level=` | `admin.search()` | 只读（图谱） |
+| GET | `/api/v1/geokg/entity/{id}` | `admin.entity()` | 只读（图谱） |
+| GET | `/api/v1/geokg/graph?focus=&depth=&direction=&limit=&type=` | `admin.subgraph()` | 只读（图谱） |
+| GET | `/api/v1/geokg/types` | `admin.entity_types()` | 只读（图谱） |
+| GET | `/ui` · `/` | 图谱视图单页（`/` 跳 `/ui`） | 页面 |
 | POST | `/api/v1/geokg/manifest` | `admin.manifest(write=True)` | **变更** |
-| POST | `/api/v1/geokg/refresh` | `admin.refresh()` | **变更·长任务** |
-| POST | `/api/v1/geokg/build` | `admin.build()` | **变更·长任务** |
+| POST | `/api/v1/geokg/refresh` | `admin.refresh()` | **变更 · 长任务** |
+| POST | `/api/v1/geokg/build` | `admin.build()` | **变更 · 长任务** |
 | GET | `/api/v1/geokg/tasks` | 任务列表 | 鉴权 |
 | GET | `/api/v1/geokg/tasks/{id}` | 任务状态 | 鉴权 |
 | POST | `/api/v1/geokg/tasks/{id}/cancel` | 协作式取消 | 鉴权 |
@@ -144,6 +149,40 @@ OpenAPI 文档在 `/docs`。
 
 **`drift` 刻意不上 HTTP**：漂移检查要联网、要跑生成脚本的 `--check`，属于运维
 批处理（`geokg verify --drift` 或定时 CI），不该挂在 HTTP 请求上。
+
+### 6.2.1 知识图谱视图（`/ui`）
+
+治理接口回答"数据新不新、许可能不能发"，图谱接口回答"里面有什么、怎么连起来"。
+两者共用 `admin.py`，所以 CLI 与 HTTP 不可能给出不同答案。
+
+**图是数据的函数，不是状态**：缓存键是 9 个数据文件的 `(mtime_ns, size)`，
+数据一变键就变，因此不需要 TTL、也不可能读到过期图。失效是**替换**而非追加——
+否则数据每变一次就往内存里多留一张上万实体的图。建图耗时：country 层 0.17 s、
+country+admin1 层 2.01 s；命中缓存后检索约 68 ms。缓存诊断在 `/health` 的
+`graph_cache` 字段，**刻意不放进数据视图**——那会让同一查询每次响应都不同，破坏
+"响应只由数据与查询决定"（与 `/version` 同一原则）。
+
+**布局不做力导向**：`/graph` 返回 BFS 层级（`nodes[].depth`），渲染端画同心环。
+层级本身就是有意义的距离（"离它一跳/两跳"），而力导向图的距离没有语义、每次
+重排还抖动。环半径按该环节点数自适应且**单调递增**——若只按节点数算，一跳 250 个
+邻居的枢纽（`sdg.indicator.6.6.1`）会得到比二跳环更大的半径，"两跳"就被画到
+"一跳"里面去了。
+
+**单文件页面**：零构建、零 CDN、零外部请求。GeoKG 常部署在没有外网的机器上，
+页面一旦依赖 CDN 就是白屏。`tests/test_api.py::TestUiPage` 用静态检查代替人工点击
+——页面调用的每个接口都必须在路由表里、`$("id")` 引用的每个 DOM id 都必须在 HTML
+里、JS 必须能被 `node --check` 解析、引用的字段必须在响应里。
+
+### 6.2.2 为什么邻域必须走双向
+
+领域图里**大量边指向宿主**：`monitor.AFG.6.6.1 --LOCATED_IN--> country.AFG`、
+`admin1.BRA.* --LOCATED_IN--> country.BRA`。而引擎的 `neighbors()` 只走出边，
+所以 `country.BRA` 的出边邻域只有 **1** 条，入边有 **39** 条。照 `neighbors()`
+做图视图，从国家点进去几乎空白。
+
+为此 SDK 补了 `KnowledgeGraph.incoming()`（反向索引 `_incoming` 一直在
+`add_relation` 里维护、`load()` 也会重建，只是**从来没有访问器**），
+`direction=both` 成为默认值。
 
 ### 6.3 鉴权：只读放开，变更**失败关闭**
 
@@ -229,11 +268,12 @@ OpenAPI 文档在 `/docs`。
 | **1** | `sources.py` 登记表 + `admin.py` 库 API + `cli.py` | ✅ **已完成** |
 | **2** | `manifest.json` 版本化 + 陈旧度告警 | ✅ **已完成** |
 | **3** | **HTTP 管理面**（FastAPI 薄路由 + 长任务复用 TaskManager/SSE + 鉴权） | ✅ **已完成** |
-| **4** | 平台 `portal.html` 增加数据治理页（消费阶段 3 的接口） | ⬜ 待做 |
+| **3.5** | **知识图谱视图**：检索/详情/子图接口 + `/ui` 单页（含引擎反向遍历） | ✅ **已完成** |
+| **4** | 平台 `portal.html` 增加数据治理页（消费上面这批接口） | ⬜ 待做 |
 | **5** | CI 定时巡检：`geokg status --strict` 检出陈旧数据 | ✅ **已完成**（每周一 02:00 UTC） |
 
-阶段 1–3、5 已完成并测试（阶段 3 零逻辑改动地复用了 `admin.py`）。阶段 4 只是
-前端页面 + 调用上面那批接口。
+阶段 1–3.5、5 已完成并测试（阶段 3/3.5 零逻辑改动地复用了 `admin.py`）。阶段 4 只是
+平台侧的前端页面 + 调用上面那批接口。
 
 阶段 5 的意义在于**不依赖任何人推送**：上游更新、数据变旧，定时任务就会失败并
 通知。判据是现成的 `ok_strict`，因此定时任务与 push/PR 门禁不可能给出不同结论。

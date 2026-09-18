@@ -23,7 +23,9 @@ import hashlib
 import json
 import subprocess
 import sys
+import threading
 import time
+from collections import deque
 from collections.abc import Callable
 from datetime import date, datetime, timezone
 from pathlib import Path
@@ -334,6 +336,351 @@ def counts(monitor_levels: list[str] | None = None) -> dict[str, Any]:
         "monitor_levels": levels,
         "basis": counting_basis(kg),
         "provenance": provenance_report(kg),
+    }
+
+
+# --------------------------------------------------------------------------- #
+# 只读：检索与子图（知识图谱视图的后端）
+# --------------------------------------------------------------------------- #
+# 图是**数据文件的函数**，不是状态：同一批文件必然建出同一张图。因此缓存按
+# "数据文件的 (mtime_ns, size)" 失效，而不是按时间——数据一变键就变，既不需要
+# TTL，也不可能读到过期图。
+#
+# 不用 manifest 指纹当键：那要哈希 9 个文件（实测 ~14 ms），而 os.stat 几乎免费。
+# 指纹只在**真正建图时**算一次并随缓存存下，于是接口仍能回答"这张图对应哪个
+# 数据集版本"，但每次请求不必重算。
+#
+# 注意：建图期间持有锁（admin1 层约 2 s）。这是有意的——宁可并发请求排队，
+# 也不要为同一个键同时建两张图。
+_GRAPH_CACHE: dict[tuple, dict[str, Any]] = {}
+_GRAPH_LOCK = threading.Lock()
+
+#: 取显示名时按顺序尝试的属性；取不到就退回实体 id
+_NAME_KEYS = ("name", "title", "indicator_title", "fullname", "acronym", "label")
+
+#: 溯源字段——这是 GeoKG 的立身之本，界面必须能直接展示
+_PROVENANCE_KEYS = ("origin", "source", "source_tier", "license",
+                    "retrieved", "attribution")
+
+
+def _data_stamp() -> tuple[Any, ...]:
+    """数据文件的 (mtime_ns, size) 快照：数据一变，这个元组就变。"""
+    stamp = []
+    for ds in DATASETS:
+        try:
+            st = ds.path.stat()
+            stamp.append((ds.id, st.st_mtime_ns, st.st_size))
+        except OSError:
+            stamp.append((ds.id, 0, 0))
+    return tuple(stamp)
+
+
+def display_name(entity: Any) -> str:
+    """实体的显示名：优先 name/title，取不到退回 id。
+
+    ``KGEntity`` 的 ``labels`` 存的是**类型**标签（``['satellite']``、
+    ``['monitoring','national','water']``），不是名字，所以 ``search_by_label``
+    查不到 "Brazil"——人名/地名在 ``properties`` 里。
+    """
+    for key in _NAME_KEYS:
+        value = entity.properties.get(key)
+        if value:
+            return str(value)
+    return entity.id
+
+
+def graph(monitor_levels: list[str] | None = None,
+          include_monitoring: bool = True) -> dict[str, Any]:
+    """取得（必要时构建并缓存）当前数据对应的图。
+
+    Returns:
+        缓存条目：``graph`` 是 :class:`KnowledgeGraph`，另含 stamp、数据集版本
+        与指纹、实体/关系数、建图耗时、命中次数。
+    """
+    levels = ["country"] if monitor_levels is None else list(monitor_levels)
+    key = (tuple(levels), bool(include_monitoring))
+    stamp = _data_stamp()
+    with _GRAPH_LOCK:
+        entry = _GRAPH_CACHE.get(key)
+        if entry is not None and entry["stamp"] == stamp:
+            entry["hits"] += 1
+            return entry
+
+        from geonexus.kg import KnowledgeGraph
+
+        from .ingest import run_full_ingestion
+
+        started = time.time()
+        kg = KnowledgeGraph("geokg")
+        run_full_ingestion(kg, monitor_levels=levels,
+                          include_monitoring=include_monitoring)
+        mf = manifest()
+        entry = {
+            "graph": kg,
+            "stamp": stamp,
+            "monitor_levels": levels,
+            "include_monitoring": bool(include_monitoring),
+            "dataset_version": mf["dataset_version"],
+            "fingerprint": mf["fingerprint"],
+            "entities": kg.entity_count(),
+            "relations": kg.relation_count(),
+            "seconds": round(time.time() - started, 2),
+            "built_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+            "hits": 0,
+        }
+        _GRAPH_CACHE[key] = entry
+        return entry
+
+
+def _dataset_view(entry: dict[str, Any]) -> dict[str, Any]:
+    """缓存条目里可以对外暴露的部分（不含图对象本身）。
+
+    **刻意不含命中计数**：那会让同一个查询每次响应都不同，破坏"响应只由数据
+    与查询决定"这一条（``/version`` 也遵循同一原则）。缓存诊断走
+    :func:`graph_cache`，挂在 ``/health`` 上。
+    """
+    return {
+        "dataset_version": entry["dataset_version"],
+        "fingerprint": entry["fingerprint"],
+        "monitor_levels": entry["monitor_levels"],
+        "entities": entry["entities"],
+        "relations": entry["relations"],
+        "built_at": entry["built_at"],
+        "build_seconds": entry["seconds"],
+    }
+
+
+def graph_cache() -> dict[str, Any]:
+    """图缓存诊断：有哪些层级的图被缓存、各自建了多久、命中多少次。"""
+    with _GRAPH_LOCK:
+        return {
+            "entries": [
+                {
+                    "monitor_levels": entry["monitor_levels"],
+                    "include_monitoring": entry["include_monitoring"],
+                    "entities": entry["entities"],
+                    "relations": entry["relations"],
+                    "built_at": entry["built_at"],
+                    "build_seconds": entry["seconds"],
+                    "hits": entry["hits"],
+                }
+                for entry in _GRAPH_CACHE.values()
+            ],
+            "cached": len(_GRAPH_CACHE),
+        }
+
+
+def _node_view(entity: Any) -> dict[str, Any]:
+    """图视图里的紧凑节点：详情另走 ``entity()``，避免子图响应膨胀。"""
+    return {
+        "id": entity.id,
+        "type": entity.type,
+        "name": display_name(entity),
+        "labels": list(entity.labels),
+    }
+
+
+def _entity_view(entity: Any) -> dict[str, Any]:
+    """详情视图：紧凑节点 + 溯源字段 + 全量属性。"""
+    view = _node_view(entity)
+    view["provenance"] = {
+        k: entity.properties[k] for k in _PROVENANCE_KEYS
+        if entity.properties.get(k)
+    }
+    view["properties"] = dict(entity.properties)
+    return view
+
+
+def _score(entity: Any, query: str) -> int:
+    """检索打分：id 精确 > 名字精确 > 前缀 > 子串 > 属性命中。
+
+    只按 id 排序会让 ``country.BRA`` 落到一堆 ``*brazil*`` 卫星后面，所以名字
+    与 id 分开给权，且精确匹配优先。
+    """
+    name = display_name(entity).lower()
+    eid = entity.id.lower()
+    if eid == query:
+        return 100
+    if name == query:
+        return 90
+    if eid.startswith(query) or name.startswith(query):
+        return 70
+    if query in eid or query in name:
+        return 50
+    if any(query in str(v).lower() for v in entity.properties.values()):
+        return 30
+    if query in " ".join(entity.labels).lower():
+        return 10
+    return 0
+
+
+def search(query: str, *, types: list[str] | None = None, limit: int = 20,
+           monitor_levels: list[str] | None = None,
+           include_monitoring: bool = True) -> dict[str, Any]:
+    """按关键词检索实体（图谱视图的搜索框后端）。
+
+    Args:
+        query: 关键词；大小写不敏感，空串表示只做类型过滤。
+        types: 只返回这些实体类型的命中。
+        limit: 最多返回多少条（按分数降序）。
+    """
+    entry = graph(monitor_levels, include_monitoring)
+    kg = entry["graph"]
+    needle = (query or "").strip().lower()
+    wanted = set(types) if types else None
+
+    hits: list[tuple[int, Any]] = []
+    for entity in kg.entities():
+        if wanted is not None and entity.type not in wanted:
+            continue
+        score = 100 if not needle else _score(entity, needle)
+        if score:
+            hits.append((score, entity))
+
+    hits.sort(key=lambda pair: (-pair[0], pair[1].type, pair[1].id))
+    top = hits[:max(0, limit)]
+    return {
+        "query": query,
+        "count": len(hits),
+        "returned": len(top),
+        "truncated": len(hits) > len(top),
+        "types": sorted(wanted) if wanted else None,
+        "results": [{**_entity_view(e), "score": s} for s, e in top],
+        "dataset": _dataset_view(entry),
+    }
+
+
+def entity(entity_id: str, *, monitor_levels: list[str] | None = None,
+           include_monitoring: bool = True) -> dict[str, Any]:
+    """单个实体的详情：属性、溯源，以及**两个方向**的关系。
+
+    出边与入边必须分开给：领域图里大量边指向宿主（监测单元 → 国家、行政区 →
+    国家），只看 ``neighbors()`` 会让国家节点看起来几乎是孤立的。
+    """
+    entry = graph(monitor_levels, include_monitoring)
+    kg = entry["graph"]
+    found = kg.get_entity(entity_id)
+    if found is None:
+        return {"found": False, "id": entity_id, "dataset": _dataset_view(entry)}
+    return {
+        "found": True,
+        "entity": _entity_view(found),
+        "out": [{"relation": rel.relation, "entity": _node_view(other)}
+                for other, rel in kg.neighbors(entity_id)],
+        "in": [{"relation": rel.relation, "entity": _node_view(other)}
+               for other, rel in kg.incoming(entity_id)],
+        "dataset": _dataset_view(entry),
+    }
+
+
+def entity_types(monitor_levels: list[str] | None = None,
+                 include_monitoring: bool = True) -> dict[str, Any]:
+    """实体类型清单与计数——给检索界面做筛选与图例。"""
+    entry = graph(monitor_levels, include_monitoring)
+    kg = entry["graph"]
+    counts: dict[str, int] = {}
+    sample: dict[str, str] = {}
+    for e in kg.entities():
+        counts[e.type] = counts.get(e.type, 0) + 1
+        sample.setdefault(e.type, display_name(e))
+    return {
+        "count": len(counts),
+        "types": [
+            {"type": t, "entities": counts[t], "example": sample[t]}
+            for t in sorted(counts, key=lambda t: (-counts[t], t))
+        ],
+        "relations": sorted({r.relation for r in kg.relations()}),
+        "dataset": _dataset_view(entry),
+    }
+
+
+def subgraph(focus: str, *, depth: int = 2, direction: str = "both",
+             limit: int = 200, types: list[str] | None = None,
+             monitor_levels: list[str] | None = None,
+             include_monitoring: bool = True) -> dict[str, Any]:
+    """以 ``focus`` 为中心做 BFS，返回可直接渲染的子图。
+
+    不做力导向布局：按 BFS 层级（``depth`` 字段）分层摆放既简单又**更有信息量**
+    ——"离这个实体一跳/两跳"是读者真正关心的，而力导向图的距离没有语义。
+    渲染端按 depth 画同心环即可。
+
+    Args:
+        depth: 展开层数（1 = 只看直接邻居）。
+        direction: ``out`` / ``in`` / ``both``。
+        limit: 节点数上限；超出时截断并置 ``truncated``。
+        types: 只保留这些类型的节点（focus 本身始终保留）。
+    """
+    if direction not in ("out", "in", "both"):
+        raise ValueError(f"direction 必须是 out/in/both，收到 {direction!r}")
+
+    entry = graph(monitor_levels, include_monitoring)
+    kg = entry["graph"]
+    root = kg.get_entity(focus)
+    if root is None:
+        return {"found": False, "focus": focus, "nodes": [], "edges": [],
+                "dataset": _dataset_view(entry)}
+
+    wanted = set(types) if types else None
+
+    def incident(node_id: str) -> list[tuple[Any, Any]]:
+        pairs: list[tuple[Any, Any]] = []
+        if direction in ("out", "both"):
+            pairs.extend(kg.neighbors(node_id))
+        if direction in ("in", "both"):
+            pairs.extend(kg.incoming(node_id))
+        return pairs
+
+    depth_of: dict[str, int] = {focus: 0}
+    allowed = {focus}
+    edges: dict[tuple[str, str, str], Any] = {}
+    queue = deque([(focus, 0)])
+    truncated = False
+
+    while queue:
+        node_id, d = queue.popleft()
+        if d >= depth:
+            continue
+        for other, rel in incident(node_id):
+            edges.setdefault((rel.source_id, rel.target_id, rel.relation), rel)
+            if other.id in depth_of:
+                continue
+            if wanted is not None and other.type not in wanted:
+                continue
+            if len(allowed) >= limit:
+                truncated = True
+                continue
+            depth_of[other.id] = d + 1
+            allowed.add(other.id)
+            queue.append((other.id, d + 1))
+
+    # 只保留两端都在子图里的边，否则会出现悬空连线
+    kept = [rel for (s, t, _), rel in edges.items() if s in allowed and t in allowed]
+    by_type: dict[str, int] = {}
+    for eid in allowed:
+        node = kg.get_entity(eid)
+        if node is not None:
+            by_type[node.type] = by_type.get(node.type, 0) + 1
+
+    return {
+        "found": True,
+        "focus": focus,
+        "depth": depth,
+        "direction": direction,
+        "truncated": truncated,
+        "limit": limit,
+        "nodes": [
+            {**_node_view(kg.get_entity(eid)), "depth": depth_of[eid]}
+            for eid in sorted(allowed, key=lambda i: (depth_of[i], i))
+            if kg.get_entity(eid) is not None
+        ],
+        "edges": [
+            {"source": rel.source_id, "target": rel.target_id,
+             "relation": rel.relation}
+            for rel in kept
+        ],
+        "by_type": by_type,
+        "max_depth": max(depth_of.values(), default=0),
+        "dataset": _dataset_view(entry),
     }
 
 

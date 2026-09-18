@@ -58,10 +58,11 @@ import threading
 import uuid
 from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
+from pathlib import Path
 from typing import Any
 
 from fastapi import APIRouter, Depends, FastAPI, HTTPException, Query
-from fastapi.responses import StreamingResponse
+from fastapi.responses import HTMLResponse, RedirectResponse, StreamingResponse
 from geonexus.web.auth import require_api_key
 from geonexus.web.tasks import (
     CANCELLED,
@@ -93,6 +94,21 @@ TERMINAL = (DONE, FAILED, CANCELLED)
 
 #: 摄入支持的监测层级（HTTP 层先校验，避免让用户等一个深层的报错）
 VALID_LEVELS = ("country", "admin1")
+
+#: 图谱视图页面（单文件，无构建步骤、无 CDN，离线可用）
+UI_FILE = Path(__file__).parent / "ui" / "index.html"
+
+
+def _check_levels(level: list[str] | None) -> list[str] | None:
+    """校验可重复的 ``level`` 查询参数，未知层级直接 400。"""
+    if level is None:
+        return None
+    bad = [x for x in level if x not in VALID_LEVELS]
+    if bad:
+        raise HTTPException(
+            status_code=400,
+            detail=f"未知监测层级 {bad}；可选 {list(VALID_LEVELS)}")
+    return level
 
 
 # --------------------------------------------------------------------------- #
@@ -240,6 +256,8 @@ def create_app(api_keys: set[str] | None = None, *,
             "dataset_version": DATASET_VERSION,
             "writable": bool(keys),
             "inflight": _inflight_view(),
+            # 易变的运行时状态只放这里；数据视图必须只由数据与查询决定
+            "graph_cache": admin.graph_cache(),
         }
 
     @router.get("/status", summary="数据集状态、陈旧度告警与严格门禁")
@@ -265,13 +283,62 @@ def create_app(api_keys: set[str] | None = None, *,
         level: list[str] | None = Query(
             default=None, description='监测层级，可重复，如 ?level=country&level=admin1'),
     ) -> dict[str, Any]:
-        if level is not None:
-            bad = [x for x in level if x not in VALID_LEVELS]
-            if bad:
-                raise HTTPException(
-                    status_code=400,
-                    detail=f"未知监测层级 {bad}；可选 {list(VALID_LEVELS)}")
-        return admin.counts(monitor_levels=level)
+        return admin.counts(monitor_levels=_check_levels(level))
+
+    # ------------------------------------------------------- 检索与图谱视图
+    # 只读、免鉴权，与治理接口同一批 admin.* 逻辑层（因此 CLI 与 HTTP 不会给出
+    # 不同答案）。这几个接口是 /ui 页面的后端，也可以被平台门户直接复用。
+    @router.get("/search", summary="按关键词检索实体")
+    def get_search(
+        q: str = Query(default="", description="关键词；空串表示只做类型过滤"),
+        type: list[str] | None = Query(default=None, description="实体类型，可重复"),
+        limit: int = Query(default=20, ge=1, le=200, description="最多返回条数"),
+        level: list[str] | None = Query(default=None, description="监测层级，可重复"),
+    ) -> dict[str, Any]:
+        return admin.search(
+            q, types=type, limit=limit, monitor_levels=_check_levels(level),
+            include_monitoring=True)
+
+    @router.get("/entity/{entity_id}", summary="实体详情：属性、溯源与双向关系")
+    def get_entity(
+        entity_id: str,
+        level: list[str] | None = Query(default=None, description="监测层级，可重复"),
+    ) -> dict[str, Any]:
+        result = admin.entity(entity_id, monitor_levels=_check_levels(level))
+        if not result["found"]:
+            raise HTTPException(
+                status_code=404,
+                detail=f"实体不存在: {entity_id}（可用 GET /search 先查 id）")
+        return result
+
+    @router.get("/graph", summary="以某实体为中心的子图（图谱视图数据）")
+    def get_graph(
+        focus: str = Query(description="中心实体 id；先用 /search 查 id"),
+        depth: int = Query(default=2, ge=1, le=4, description="展开层数"),
+        direction: str = Query(default="both", description="both / out / in"),
+        limit: int = Query(default=200, ge=1, le=2000, description="节点数上限"),
+        type: list[str] | None = Query(default=None, description="只保留这些实体类型"),
+        level: list[str] | None = Query(default=None, description="监测层级，可重复"),
+    ) -> dict[str, Any]:
+        try:
+            result = admin.subgraph(
+                focus, depth=depth, direction=direction, limit=limit, types=type,
+                monitor_levels=_check_levels(level), include_monitoring=True)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc)) from exc
+        # focus 是必填的身份而不是过滤器，所以查不到就是 404——与 /entity/{id}
+        # 保持一致，免得同一个"实体不存在"在一处是 404、另一处是 200 空图。
+        if not result["found"]:
+            raise HTTPException(
+                status_code=404,
+                detail=f"实体不存在: {focus}（可用 GET /search 先查 id）")
+        return result
+
+    @router.get("/types", summary="实体类型清单与计数（检索界面的图例）")
+    def get_types(
+        level: list[str] | None = Query(default=None, description="监测层级，可重复"),
+    ) -> dict[str, Any]:
+        return admin.entity_types(monitor_levels=_check_levels(level))
 
     @router.get("/manifest", summary="数据清单（指纹 / 行数 / 取数日期）")
     def get_manifest() -> dict[str, Any]:
@@ -381,11 +448,29 @@ def create_app(api_keys: set[str] | None = None, *,
     app = FastAPI(
         title="GeoKG 管理面",
         version=DATASET_VERSION,
-        description=("GeoKG 数据治理 API。只读接口免鉴权；变更接口需 "
-                     f"`X-API-Key`（{ENV_KEYS}），未配置时返回 503。"),
+        description=("GeoKG 数据治理与知识图谱 API。只读接口免鉴权；变更接口需 "
+                     f"`X-API-Key`（{ENV_KEYS}），未配置时返回 503。\n\n"
+                     "图谱视图（检索 + 子图可视化）在 [`/ui`](/ui)。"),
         lifespan=lifespan,
     )
     app.include_router(router)
+
+    # ------------------------------------------------------------------ 视图页
+    # 放在 /ui 而不是 API 前缀下：它是给人看的页面，不是 API。单独注册而不是
+    # 挂到 router 上，免得出现 /api/v1/geokg/ui 这种别扭路径。
+    @app.get("/ui", response_class=HTMLResponse, include_in_schema=False)
+    def ui_page() -> HTMLResponse:
+        if not UI_FILE.exists():
+            raise HTTPException(
+                status_code=500,
+                detail=f"视图资源缺失: {UI_FILE}（重装本包以恢复）")
+        return HTMLResponse(UI_FILE.read_text(encoding="utf-8"))
+
+    @app.get("/", include_in_schema=False)
+    def root() -> RedirectResponse:
+        # 直接访问端口时给个去处，而不是 404
+        return RedirectResponse(url="/ui")
+
     # 便于测试与平台 Web 直接取用同一个任务管理器
     app.state.tasks = tasks
     app.state.geokg_api_keys = keys

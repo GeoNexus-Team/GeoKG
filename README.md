@@ -178,17 +178,70 @@ export GEOKG_API_KEYS='key-1,key-2'   # 不设则变更接口 503（失败关闭
 geokg-api --port 8788                 # 默认只监听 127.0.0.1；/docs 有 OpenAPI
 ```
 
-只读接口（`/api/v1/geokg/{status,verify,licenses,counts,manifest,version}`）免鉴权，
-与 CLI 读**同一批** `admin.py` 函数——不存在两套逻辑。变更接口
+只读接口（`/api/v1/geokg/{status,verify,licenses,counts,manifest,version,search,entity,graph,types}`）
+免鉴权，与 CLI 读**同一批** `admin.py` 函数——不存在两套逻辑。变更接口
 （`POST manifest|refresh|build`）需 `X-API-Key`，长任务返回 `task_id`，
 可轮询 `GET /tasks/{id}` 或订阅 SSE `GET /tasks/{id}/events`。
 
 架构、鉴权与长任务设计见 [`docs/management-plane.md`](docs/management-plane.md)。
 
+## 知识图谱视图
+
+**知识检索与图谱可视化在 `http://127.0.0.1:8788/ui`**（根路径 `/` 会跳过去）。
+单文件页面：零构建、零 CDN、零外部请求，离线也能用——GeoKG 常部署在没有外网的
+机器上，页面依赖 CDN 就是白屏。
+
+下图为 `country.BRA` 一跳邻域（41 节点 / 40 边）的静态渲染，由
+`scripts/preview_graph.mjs` 用**页面里同一份** `layoutRadial()` 生成，
+所以看到的布局就是页面里的布局：
+
+![GeoKG 子图预览](docs/ui-preview.svg)
+
+再生成一张（需先启动服务）：
+
+```bash
+node scripts/preview_graph.mjs /tmp/g.svg sdg.indicator.6.6.1 2
+```
+
+能做四件事：
+
+| 操作 | 说明 |
+|------|------|
+| **检索** | 搜关键词（`Brazil`、`sentinel`、`6.6.1`、`flood`…）。打分顺序为 id 精确 > 名字精确 > 前缀 > 子串 > 属性，所以 `country.BRA` 排在名字含 Brazil 的卫星之前 |
+| **看邻域** | 点结果即以它为中心展开子图，可调 1–3 跳、双向/只出边/只入边、节点上限；滚轮缩放、拖拽平移 |
+| **看溯源** | 点任意节点看详情：`origin` / `source` / `source_tier` / `license` / `retrieved`——每条实体都能回答"凭什么可信" |
+| **顺着走** | 详情列出全部入边与出边，点任意一条即换中心继续走（Brazil → 监测单元 → SDG 指标 6.6.1） |
+
+底层是四条只读接口，也可以被平台门户直接复用：
+
+```bash
+curl 'localhost:8788/api/v1/geokg/search?q=brazil&limit=5'   # 检索（每条带溯源）
+curl 'localhost:8788/api/v1/geokg/entity/country.BRA'        # 详情 + 双向关系
+curl 'localhost:8788/api/v1/geokg/graph?focus=country.BRA&depth=2&direction=both'
+curl 'localhost:8788/api/v1/geokg/types'                     # 类型清单与计数
+```
+
+`/graph` 返回按 **BFS 层级**（`nodes[].depth`）分好的节点与边，渲染端画同心环即可。
+刻意不做力导向布局：层级本身就是有意义的距离（"离它一跳/两跳"），而力导向图的
+距离没有语义，还会每次重排都抖动。环半径按该环节点数自适应，所以
+`sdg.indicator.6.6.1` 那种一跳 250 个邻居的枢纽也不会挤成一坨。
+
+图按**数据文件的 (mtime, size)** 缓存失效，不设 TTL：同一批数据只建一次图
+（country 层 0.17 s，命中后检索 ~68 ms），数据一变自动重建，不可能读到过期图。
+缓存诊断在 `/api/v1/geokg/health` 的 `graph_cache` 字段。
+
+### 为什么邻域必须走双向
+
+领域图里**大量边是指向宿主的**（`monitor.AFG.6.6.1 --LOCATED_IN--> country.AFG`、
+`admin1.BRA.* --LOCATED_IN--> country.BRA`）。引擎的 `neighbors()` 只走出边，因此
+只看它时 `country.BRA` 的邻域只有 **1** 条，而入边有 **39** 条——照这个做图视图，
+从国家点进去几乎空白。为此 SDK 补了 `KnowledgeGraph.incoming()`（反向索引本来就
+在 `add_relation` 里维护，只是从来没被读过），`direction=both` 是默认值。
+
 ### 快速自检
 
 ```bash
-pytest tests -q                              # 190 项测试
+pytest tests -q                              # 223 项测试
 python -m geokg.cli verify                   # 数据完整性 + 溯源门禁（离线）
 python -m geokg.cli status --strict          # CI 门禁：有陈旧/缺失数据即非零退出
 curl -s localhost:8788/api/v1/geokg/version  # 数据集版本与指纹

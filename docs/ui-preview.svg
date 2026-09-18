@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="153.54927739502233 3.5492773950223295 692.9014452099553 692.9014452099553" width="1200" height="1200" font-family="-apple-system,PingFang SC,Helvetica,Arial,sans-serif">
+<title>GeoKG 子图预览：country.BRA 深度 1</title>
+<rect x="153.54927739502233" y="3.5492773950223295" width="692.9014452099553" height="692.9014452099553" fill="#0f1419"/>
+<circle cx="500" cy="350" r="216.45072260497767" fill="none" stroke="#243040" stroke-dasharray="6 12" stroke-width="2"/>
+<line x1="500" y1="350" x2="466.13964700171886" y2="136.21414496967114" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="483.06982350085946" y="243.10707248483556" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="346.94622625329197" y1="503.0537737467081" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="423.473113126646" y="426.52688687335404" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="705.8568701902586" y1="283.1130482703243" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="602.9284350951293" y="316.55652413516214" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="692.8590060063218" y1="251.7334282755802" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="596.4295030031609" y="300.8667141377901" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="372.7734574047451" y1="525.1123130321646" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="436.3867287023726" y="437.5561565160823" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="466.1396470017189" y1="563.7858550303289" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="483.06982350085946" y="456.89292751516444" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="675.1123130321646" y1="222.7734574047451" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="587.5561565160823" y="286.3867287023726" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="500" y1="566.4507226049777" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="500" y="458.22536130248886" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="533.8603529982811" y1="563.7858550303289" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="516.9301764991405" y="456.89292751516444" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="566.8869517296757" y1="555.8568701902586" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="533.4434758648379" y="452.9284350951293" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="653.0537737467081" y1="196.94622625329197" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="576.526886873354" y="273.473113126646" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="598.2665717244198" y1="542.8590060063217" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="549.13328586221" y="446.42950300316085" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="627.226542595255" y1="525.1123130321646" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="563.6132712976275" y="437.5561565160823" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="653.0537737467081" y1="503.05377374670803" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="576.526886873354" y="426.526886873354" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="675.1123130321646" y1="477.2265425952549" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="587.5561565160823" y="413.6132712976274" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="598.2665717244198" y1="157.14099399367828" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="549.13328586221" y="253.57049699683915" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="627.226542595255" y1="174.88768696783546" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="563.6132712976275" y="262.4438434839177" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="566.8869517296757" y1="144.1431298097413" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="533.4434758648379" y="247.07156490487066" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="533.8603529982811" y1="136.21414496967114" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="516.9301764991405" y="243.10707248483556" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="500" y1="133.54927739502233" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="500" y="241.77463869751116" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="705.8568701902586" y1="416.8869517296757" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="602.9284350951293" y="383.44347586483786" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="692.8590060063218" y1="448.2665717244198" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="596.4295030031609" y="399.1332858622099" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="324.8876869678355" y1="477.22654259525495" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="412.44384348391776" y="413.6132712976275" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="401.7334282755803" y1="542.8590060063218" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="450.86671413779015" y="446.4295030031609" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="713.7858550303289" y1="383.86035299828114" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="606.8929275151645" y="366.93017649914054" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="713.7858550303289" y1="316.1396470017189" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="606.8929275151645" y="333.06982350085946" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="716.4507226049777" y1="350" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="608.2253613024889" y="350" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="433.1130482703242" y1="555.8568701902586" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="466.55652413516214" y="452.9284350951293" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="433.11304827032427" y1="144.1431298097413" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="466.55652413516214" y="247.07156490487066" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="401.73342827558014" y1="157.14099399367828" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="450.86671413779004" y="253.57049699683915" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="286.2141449696711" y1="316.1396470017189" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="393.10707248483556" y="333.06982350085946" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="294.14312980974125" y1="283.1130482703243" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="397.0715649048706" y="316.55652413516214" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="307.14099399367825" y1="251.7334282755802" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="403.5704969968391" y="300.8667141377901" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="324.8876869678354" y1="222.7734574047451" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="412.4438434839177" y="286.3867287023726" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="307.1409939936783" y1="448.26657172441986" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="403.57049699683915" y="399.13328586220996" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="294.1431298097413" y1="416.88695172967573" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="397.0715649048707" y="383.44347586483786" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="346.9462262532919" y1="196.94622625329197" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="423.47311312664596" y="273.473113126646" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="286.2141449696711" y1="383.8603529982811" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="393.10707248483556" y="366.93017649914054" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="283.54927739502233" y1="350" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="391.77463869751114" y="350" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<line x1="372.77345740474505" y1="174.8876869678355" x2="500" y2="350" stroke="#3a4a5e" stroke-width="1.4"/>
+<text x="436.3867287023725" y="262.44384348391776" fill="#8b98a5" font-size="11" text-anchor="middle">LOCATED_IN</text>
+<circle cx="500" cy="133.54927739502233" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="500" y="121.54927739502233" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Rio Grande do Norte</text>
+<circle cx="533.8603529982811" cy="136.21414496967114" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="533.8603529982811" y="124.21414496967114" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Piauí</text>
+<circle cx="566.8869517296757" cy="144.1431298097413" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="566.8869517296757" y="132.1431298097413" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Pernambuco</text>
+<circle cx="598.2665717244198" cy="157.14099399367828" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="598.2665717244198" y="145.14099399367828" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Paraíba</text>
+<circle cx="627.226542595255" cy="174.88768696783546" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="627.226542595255" y="162.88768696783546" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Pará</text>
+<circle cx="653.0537737467081" cy="196.94622625329197" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="653.0537737467081" y="184.94622625329197" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Maranhão</text>
+<circle cx="675.1123130321646" cy="222.7734574047451" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="675.1123130321646" y="210.7734574047451" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Ceará</text>
+<circle cx="692.8590060063218" cy="251.7334282755802" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="692.8590060063218" y="239.7334282755802" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Amapá</text>
+<circle cx="705.8568701902586" cy="283.1130482703243" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="705.8568701902586" y="271.1130482703243" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Alagoas</text>
+<circle cx="713.7858550303289" cy="316.1396470017189" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="713.7858550303289" y="304.1396470017189" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Sergipe</text>
+<circle cx="716.4507226049777" cy="350" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="716.4507226049777" y="338" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">São Paulo</text>
+<circle cx="713.7858550303289" cy="383.86035299828114" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="713.7858550303289" y="371.86035299828114" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Santa Catarina</text>
+<circle cx="705.8568701902586" cy="416.8869517296757" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="705.8568701902586" y="404.8869517296757" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Rio Grande do Sul</text>
+<circle cx="692.8590060063218" cy="448.2665717244198" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="692.8590060063218" y="436.2665717244198" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Rio de Janeiro</text>
+<circle cx="675.1123130321646" cy="477.2265425952549" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="675.1123130321646" y="465.2265425952549" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Paraná</text>
+<circle cx="653.0537737467081" cy="503.05377374670803" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="653.0537737467081" y="491.05377374670803" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Minas Gerais</text>
+<circle cx="627.226542595255" cy="525.1123130321646" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="627.226542595255" y="513.1123130321646" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Mato Grosso do Sul</text>
+<circle cx="598.2665717244198" cy="542.8590060063217" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="598.2665717244198" y="530.8590060063217" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Mato Grosso</text>
+<circle cx="566.8869517296757" cy="555.8568701902586" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="566.8869517296757" y="543.8568701902586" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Goiás</text>
+<circle cx="533.8603529982811" cy="563.7858550303289" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="533.8603529982811" y="551.7858550303289" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Federal District</text>
+<circle cx="500" cy="566.4507226049777" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="500" y="554.4507226049777" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Espírito Santo</text>
+<circle cx="466.1396470017189" cy="563.7858550303289" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="466.1396470017189" y="551.7858550303289" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Bahia</text>
+<circle cx="433.1130482703242" cy="555.8568701902586" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="433.1130482703242" y="543.8568701902586" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Tocantins</text>
+<circle cx="401.7334282755803" cy="542.8590060063218" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="401.7334282755803" y="530.8590060063218" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Roraima</text>
+<circle cx="372.7734574047451" cy="525.1123130321646" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="372.7734574047451" y="513.1123130321646" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Amazonas</text>
+<circle cx="346.94622625329197" cy="503.0537737467081" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="346.94622625329197" y="491.0537737467081" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Acre</text>
+<circle cx="324.8876869678355" cy="477.22654259525495" r="6" fill="#4a9eff" stroke="#0f1419" stroke-width="2"/>
+<text x="324.8876869678355" y="465.22654259525495" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Rondônia</text>
+<circle cx="307.1409939936783" cy="448.26657172441986" r="6" fill="#e3b341" stroke="#0f1419" stroke-width="2"/>
+<text x="307.1409939936783" y="436.26657172441986" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Ratio of land consumption rate to population growth rate</text>
+<circle cx="294.1431298097413" cy="416.88695172967573" r="6" fill="#e3b341" stroke="#0f1419" stroke-width="2"/>
+<text x="294.1431298097413" y="404.88695172967573" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Average share of the built-up area of cities that is open space</text>
+<circle cx="286.2141449696711" cy="383.8603529982811" r="6" fill="#e3b341" stroke="#0f1419" stroke-width="2"/>
+<text x="286.2141449696711" y="371.8603529982811" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Number of deaths and missing persons attributed to disasters</text>
+<circle cx="283.54927739502233" cy="350" r="6" fill="#e3b341" stroke="#0f1419" stroke-width="2"/>
+<text x="283.54927739502233" y="338" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Index of coastal eutrophication and floating plastic debris density</text>
+<circle cx="286.2141449696711" cy="316.1396470017189" r="6" fill="#e3b341" stroke="#0f1419" stroke-width="2"/>
+<text x="286.2141449696711" y="304.1396470017189" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Forest area as a proportion of total land area</text>
+<circle cx="294.14312980974125" cy="283.1130482703243" r="6" fill="#e3b341" stroke="#0f1419" stroke-width="2"/>
+<text x="294.14312980974125" y="271.1130482703243" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Progress towards sustainable forest management</text>
+<circle cx="307.14099399367825" cy="251.7334282755802" r="6" fill="#e3b341" stroke="#0f1419" stroke-width="2"/>
+<text x="307.14099399367825" y="239.7334282755802" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Proportion of land that is degraded over total land area</text>
+<circle cx="324.8876869678354" cy="222.7734574047451" r="6" fill="#e3b341" stroke="#0f1419" stroke-width="2"/>
+<text x="324.8876869678354" y="210.7734574047451" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Mountain Green Cover Index</text>
+<circle cx="346.9462262532919" cy="196.94622625329197" r="6" fill="#e3b341" stroke="#0f1419" stroke-width="2"/>
+<text x="346.9462262532919" y="184.94622625329197" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Proportion of agricultural area under sustainable agriculture</text>
+<circle cx="372.77345740474505" cy="174.8876869678355" r="6" fill="#e3b341" stroke="#0f1419" stroke-width="2"/>
+<text x="372.77345740474505" y="162.8876869678355" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Mortality rate attributed to household and ambient air pollution</text>
+<circle cx="401.73342827558014" cy="157.14099399367828" r="6" fill="#e3b341" stroke="#0f1419" stroke-width="2"/>
+<text x="401.73342827558014" y="145.14099399367828" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Proportion of bodies of water with good ambient water quality</text>
+<circle cx="433.11304827032427" cy="144.1431298097413" r="6" fill="#e3b341" stroke="#0f1419" stroke-width="2"/>
+<text x="433.11304827032427" y="132.1431298097413" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Change in the extent of water-related ecosystems</text>
+<circle cx="466.13964700171886" cy="136.21414496967114" r="6" fill="#f778ba" stroke="#0f1419" stroke-width="2"/>
+<text x="466.13964700171886" y="124.21414496967114" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">South America</text>
+<circle cx="500" cy="350" r="23" fill="none" stroke="#4a9eff" stroke-width="2" opacity="0.55"/>
+<circle cx="500" cy="350" r="16" fill="#3fb950" stroke="#0f1419" stroke-width="2"/>
+<text x="500" y="328" fill="#e6edf3" font-size="13" text-anchor="middle" paint-order="stroke" stroke="#0f1419" stroke-width="3.5">Brazil</text>
+<g transform="translate(596.4507226049777,562.4507226049777)"><g transform="translate(0,0)"><rect width="14" height="14" rx="3" fill="#4a9eff"/><text x="22" y="12" fill="#8b98a5" font-size="14">AdminRegion (27)</text></g><g transform="translate(0,26)"><rect width="14" height="14" rx="3" fill="#3fb950"/><text x="22" y="12" fill="#8b98a5" font-size="14">Country (1)</text></g><g transform="translate(0,52)"><rect width="14" height="14" rx="3" fill="#e3b341"/><text x="22" y="12" fill="#8b98a5" font-size="14">MonitoringUnit (12)</text></g><g transform="translate(0,78)"><rect width="14" height="14" rx="3" fill="#f778ba"/><text x="22" y="12" fill="#8b98a5" font-size="14">Region (1)</text></g></g>
+</svg>

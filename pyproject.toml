@@ -34,7 +34,7 @@ where = ["src"]
 [tool.setuptools.package-data]
 # 参考数据以数据文件形式随包分发（由 scripts/fetch_*.py 生成）。
 # 缺了它，安装后 load_countries()/load_admin1() 会直接失败。
-"geokg" = ["data/*.tsv", "data/*.json"]
+"geokg" = ["data/*.tsv", "data/*.json", "ui/*.html"]
 
 [tool.ruff]
 target-version = "py310"

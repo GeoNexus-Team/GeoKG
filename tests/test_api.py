@@ -367,3 +367,210 @@ class TestSse:
     def test_stream_on_unknown_task_404(self, client) -> None:
         assert client.get(f"{PREFIX}/tasks/ghost/events",
                           headers=HEAD).status_code == 404
+
+
+# --------------------------------------------------------------------------- #
+# 检索与图谱视图
+# --------------------------------------------------------------------------- #
+class TestRetrieval:
+    """`/search` `/entity` `/graph` `/types` —— 图谱视图的后端。
+
+    这一组同时钉住"HTTP 不重复实现逻辑"：返回必须与 admin.* 相等。
+    图是**数据文件的函数**，所以这些测试跑的是真实数据（无网络、无副作用）。
+    """
+
+    def test_search_equals_admin(self, client) -> None:
+        got = client.get(f"{PREFIX}/search", params={"q": "brazil", "limit": 5}).json()
+        assert got == admin.search("brazil", limit=5)
+
+    def test_search_ranks_exact_name_above_substring(self, client) -> None:
+        """只按 id 排会把 country.BRA 排到一堆 *brazil* 卫星后面。"""
+        got = client.get(f"{PREFIX}/search", params={"q": "brazil"}).json()
+        assert got["count"] >= 1
+        assert got["results"][0]["id"] == "country.BRA"
+        scores = [r["score"] for r in got["results"]]
+        assert scores == sorted(scores, reverse=True)
+
+    def test_search_carries_provenance_on_every_hit(self, client) -> None:
+        """检索结果必须能回答"这条凭什么可信"——否则界面只能显示一个名字。"""
+        got = client.get(f"{PREFIX}/search", params={"q": "sentinel", "limit": 10}).json()
+        assert got["results"]
+        for hit in got["results"]:
+            prov = hit["provenance"]
+            assert prov.get("source"), hit["id"]
+            assert prov.get("source_tier"), hit["id"]
+            assert prov.get("license"), hit["id"]
+
+    def test_search_type_filter(self, client) -> None:
+        got = client.get(f"{PREFIX}/search",
+                         params={"q": "", "type": "Satellite", "limit": 5}).json()
+        assert got["results"] and all(r["type"] == "Satellite" for r in got["results"])
+
+    def test_search_limit_and_truncation_flag(self, client) -> None:
+        got = client.get(f"{PREFIX}/search", params={"q": "a", "limit": 3}).json()
+        assert got["returned"] == 3
+        assert got["truncated"] is True and got["count"] > 3
+
+    def test_entity_equals_admin_and_is_bidirectional(self, client) -> None:
+        got = client.get(f"{PREFIX}/entity/country.BRA").json()
+        assert got == admin.entity("country.BRA")
+        # 领域图里大量边指向宿主：只看 out 边国家节点几乎是孤立的
+        assert len(got["in"]) > len(got["out"]), (len(got["in"]), len(got["out"]))
+        assert got["entity"]["provenance"]["source"] == "un-m49"
+
+    def test_entity_unknown_is_404(self, client) -> None:
+        r = client.get(f"{PREFIX}/entity/ghost")
+        assert r.status_code == 404 and "实体不存在" in r.json()["detail"]
+
+    def test_graph_equals_admin(self, client) -> None:
+        got = client.get(f"{PREFIX}/graph",
+                         params={"focus": "country.BRA", "depth": 1}).json()
+        assert got == admin.subgraph("country.BRA", depth=1)
+
+    def test_graph_is_layered_and_connected(self, client) -> None:
+        """按 BFS 层级返回，且不得出现悬空边（两端都必须落在 nodes 里）。"""
+        got = client.get(f"{PREFIX}/graph",
+                         params={"focus": "country.BRA", "depth": 2, "limit": 500}).json()
+        ids = {n["id"] for n in got["nodes"]}
+        assert got["nodes"][0]["id"] == "country.BRA"
+        assert got["nodes"][0]["depth"] == 0
+        assert {n["depth"] for n in got["nodes"]} == {0, 1, 2}
+        assert all(e["source"] in ids and e["target"] in ids for e in got["edges"])
+        assert got["by_type"]["Country"] >= 2   # 2 跳会走到邻国
+
+    def test_graph_direction_changes_the_neighbourhood(self, client) -> None:
+        """`neighbors()` 只走出边——这个接口必须能把两个方向分开。"""
+        both = client.get(f"{PREFIX}/graph",
+                          params={"focus": "country.BRA", "depth": 1,
+                                  "direction": "both"}).json()
+        out = client.get(f"{PREFIX}/graph",
+                         params={"focus": "country.BRA", "depth": 1,
+                                 "direction": "out"}).json()
+        assert len(both["nodes"]) == 41      # 1 出 + 39 入
+        assert len(out["nodes"]) == 2        # country.BRA + region.south-america
+        assert len(both["nodes"]) > len(out["nodes"])
+
+    def test_graph_unknown_focus_is_404(self, client) -> None:
+        r = client.get(f"{PREFIX}/graph", params={"focus": "ghost"})
+        assert r.status_code == 404, r.text
+        assert "实体不存在" in r.json()["detail"]
+
+    def test_graph_bad_direction_is_400(self, client) -> None:
+        r = client.get(f"{PREFIX}/graph",
+                       params={"focus": "country.BRA", "direction": "sideways"})
+        assert r.status_code == 400 and "direction" in r.json()["detail"]
+
+    def test_graph_truncates_at_limit(self, client) -> None:
+        got = client.get(f"{PREFIX}/graph",
+                         params={"focus": "country.BRA", "depth": 2, "limit": 5}).json()
+        assert len(got["nodes"]) == 5 and got["truncated"] is True
+
+    def test_types_equals_admin(self, client) -> None:
+        got = client.get(f"{PREFIX}/types").json()
+        assert got == admin.entity_types()
+        assert {t["type"] for t in got["types"]} >= {
+            "Country", "Satellite", "SDG_Indicator", "HazardType"}
+
+    def test_dataset_identity_in_every_view(self, client) -> None:
+        """每个视图都要能回答"这张图对应哪个数据集版本"。"""
+        for path, params in (("/search", {"q": "brazil"}), ("/types", {}),
+                             ("/graph", {"focus": "country.BRA", "depth": 1}),
+                             ("/entity/country.BRA", {})):
+            ds = client.get(f"{PREFIX}{path}", params=params).json()["dataset"]
+            assert ds["dataset_version"] == DATASET_VERSION
+            assert len(ds["fingerprint"]) == 64
+            assert ds["entities"] > 0 and ds["relations"] > 0
+
+
+class TestUiPage:
+    """视图页本身：能打开、脚本能解析、**它调的接口都真实存在**。"""
+
+    def test_root_redirects_to_ui(self, client) -> None:
+        r = client.get("/", follow_redirects=False)
+        assert r.status_code in (307, 308) and r.headers["location"] == "/ui"
+
+    def test_ui_page_served(self, client) -> None:
+        r = client.get("/ui")
+        assert r.status_code == 200
+        assert r.headers["content-type"].startswith("text/html")
+        body = r.text
+        assert "GeoKG" in body and "<svg" in body
+
+    def test_ui_page_is_self_contained(self, client) -> None:
+        """单文件、离线可用：不得引用任何外部资源。
+
+        GeoKG 常部署在没有外网的机器上，页面一旦依赖 CDN 就是白屏。这里查的是
+        "有没有外部引用"而不是子串——页面注释里就写着"零 CDN"，用 `"cdn" not in body`
+        会被自己的注释绊倒。
+        """
+        import re
+
+        body = client.get("/ui").text
+        for pattern in (r"<script[^>]+src=", r"<link[^>]+href=", r"<img[^>]+src=",
+                        r"@import"):
+            assert not re.search(pattern, body), f"页面引用了外部资源: {pattern}"
+        assert "http://" not in body and "https://" not in body
+
+    def test_every_endpoint_the_page_calls_exists(self, client) -> None:
+        """页面里的每个 fetch 路径都必须真实存在。
+
+        防的是"页面写了个不存在的接口，只有人打开浏览器才发现"——我没有浏览器，
+        所以让测试代替点一遍。
+        """
+        import re
+
+        routes = {r.path for r in client.app.routes if getattr(r, "path", "").startswith(PREFIX)}
+        page = client.get("/ui").text
+        # 取到模板字符串的收尾反引号为止，否则 /entity/${encodeURIComponent(id)}
+        # 会在括号处被截断
+        calls = set(re.findall(r"\$\{API\}(/[^`\"'\s]*)", page))
+        assert calls, "页面里没有解析到任何 API 调用，测试本身失效了"
+        for call in calls:
+            # 页面里的模板变量（如 /entity/${encodeURIComponent(id)}）→ 路由占位符
+            normalized = PREFIX + re.sub(r"\$\{[^}]*\}", "{entity_id}", call).rstrip("/")
+            assert normalized in routes, f"页面调用了不存在的接口: {call} → {normalized}"
+
+    def test_page_field_contract(self, client) -> None:
+        """页面读的每个字段都必须在响应里——否则打开就是空白或 NaN。
+
+        我没有浏览器可以点一遍，所以把 JS 实际读取的字段在这里逐个断言。
+        """
+        v = client.get(f"{PREFIX}/version").json()
+        assert {"dataset_version", "fingerprint", "rows"} <= set(v)
+
+        t = client.get(f"{PREFIX}/types").json()
+        assert {"types", "relations"} <= set(t)
+        assert {"type", "entities", "example"} <= set(t["types"][0])
+
+        s = client.get(f"{PREFIX}/search", params={"q": "brazil", "limit": 5}).json()
+        assert {"count", "returned", "truncated", "results", "dataset"} <= set(s)
+        hit = s["results"][0]
+        assert {"id", "name", "type", "score", "provenance"} <= set(hit)
+
+        g = client.get(f"{PREFIX}/graph", params={"focus": "country.BRA"}).json()
+        assert {"found", "focus", "nodes", "edges", "by_type", "truncated",
+                "limit", "dataset"} <= set(g)
+        assert {"id", "name", "type", "depth"} <= set(g["nodes"][0])
+        assert {"source", "target", "relation"} <= set(g["edges"][0])
+        assert g["nodes"][0]["depth"] == 0
+
+        e = client.get(f"{PREFIX}/entity/country.BRA").json()
+        assert {"found", "entity", "in", "out", "dataset"} <= set(e)
+        assert {"id", "name", "type", "provenance", "properties"} <= set(e["entity"])
+        assert {"relation", "entity"} <= set(e["in"][0])
+        assert {"id", "name", "type"} <= set(e["in"][0]["entity"])
+
+    def test_page_dom_ids_all_exist(self, client) -> None:
+        """JS 里 `$("foo")` 引用的每个 id 都必须在 HTML 里定义。
+
+        手写页面最常见的坏法就是 id 打错 → `null.addEventListener` → 整页不响应，
+        而且只有打开浏览器才看得到。这里用静态检查代替点击。
+        """
+        import re
+
+        body = client.get("/ui").text
+        js = re.search(r"<script>(.*?)</script>", body, re.S).group(1)
+        defined = set(re.findall(r'id="([^"]+)"', body))
+        used = set(re.findall(r'\$\("([^"]+)"\)', js))
+        assert used, "没有解析到 $() 调用，测试本身失效了"
+        assert not (used - defined), f"引用了不存在的 DOM id: {sorted(used - defined)}"

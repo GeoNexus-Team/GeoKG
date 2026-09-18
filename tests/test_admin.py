@@ -368,3 +368,94 @@ class TestCli:
             "manifest", "refresh", "build", "version",
         }, f"子命令与文档不符: {choices}"
         assert subs  # 确认上面的遍历确实取到了 subparsers
+
+
+class TestGraphRetrieval:
+    """图谱检索逻辑层：缓存、失效、检索排序、子图。
+
+    这一层刻意与 HTTP 分开测——HTTP 测试用 `==` 比对结果，但**缓存行为**（同一批
+    数据只建一次图、数据一变就重建）只能在逻辑层观察到。
+    """
+
+    @pytest.fixture(autouse=True)
+    def _clean_cache(self):
+        """图缓存是模块级全局状态，测试之间必须隔离。"""
+        admin._GRAPH_CACHE.clear()
+        yield
+        admin._GRAPH_CACHE.clear()
+
+    def test_graph_builds_once_then_hits_cache(self) -> None:
+        first = admin.graph()
+        second = admin.graph()
+        assert first["graph"] is second["graph"], "第二次调用应复用同一张图"
+        assert second["hits"] == 1
+        assert first["entities"] > 0 and first["relations"] > 0
+        assert len(first["fingerprint"]) == 64
+
+    def test_graph_rebuilds_when_data_stamp_changes(self, monkeypatch) -> None:
+        """数据文件一变（mtime/size 变）就必须重建，而不是继续用旧图。"""
+        first = admin.graph()
+        monkeypatch.setattr(admin, "_data_stamp", lambda: (("fake", 1, 1),))
+        second = admin.graph()
+        assert second["graph"] is not first["graph"]
+        assert second["stamp"] == (("fake", 1, 1),)
+        # 同一个键只留一份：失效是**替换**而不是追加，否则数据每变一次就往内存里
+        # 多留一张上万实体的图。
+        assert len(admin._GRAPH_CACHE) == 1
+
+    def test_dataset_view_is_stable_across_calls(self) -> None:
+        """对外视图不得含命中计数之类的易变字段，否则响应不可比对/不可缓存。"""
+        a = admin.search("brazil")["dataset"]
+        b = admin.search("brazil")["dataset"]
+        assert a == b
+        assert "cache_hits" not in a
+
+    def test_graph_cache_reports_hits(self) -> None:
+        admin.search("brazil")
+        admin.search("brazil")
+        diag = admin.graph_cache()
+        assert diag["cached"] == 1
+        assert diag["entries"][0]["hits"] >= 1
+
+    def test_display_name_falls_back_to_id(self) -> None:
+        from geonexus.kg import KGEntity
+
+        assert admin.display_name(KGEntity("x.y", "Thing", {"name": "Named"}, [])) == "Named"
+        assert admin.display_name(KGEntity("x.y", "Thing", {}, [])) == "x.y"
+        # labels 存的是类型标签不是名字，不能拿来当显示名
+        assert admin.display_name(KGEntity("x.y", "T", {}, ["satellite"])) == "x.y"
+
+    def test_search_empty_query_lists_by_type(self) -> None:
+        got = admin.search("", types=["Country"], limit=5)
+        assert got["results"] and all(r["type"] == "Country" for r in got["results"])
+        assert got["count"] == 249          # UN M49 国家/地区
+
+    def test_search_scores_are_monotonic(self) -> None:
+        got = admin.search("sentinel", limit=10)
+        scores = [r["score"] for r in got["results"]]
+        assert scores == sorted(scores, reverse=True)
+
+    def test_subgraph_keeps_focus_even_if_type_filtered_out(self) -> None:
+        """筛选类型时中心节点必须保留，否则整张图没有锚点。"""
+        got = admin.subgraph("country.BRA", depth=1, types=["Satellite"])
+        assert got["nodes"][0]["id"] == "country.BRA"
+        assert all(n["type"] in ("Satellite", "Country") for n in got["nodes"])
+
+    def test_subgraph_depth_zero_is_focus_only(self) -> None:
+        got = admin.subgraph("country.BRA", depth=0)
+        assert [n["id"] for n in got["nodes"]] == ["country.BRA"]
+        assert got["edges"] == []
+
+    def test_subgraph_rejects_unknown_direction(self) -> None:
+        with pytest.raises(ValueError):
+            admin.subgraph("country.BRA", direction="sideways")
+
+    def test_subgraph_unknown_focus_is_not_an_error(self) -> None:
+        """逻辑层返回 found=False；404 是 HTTP 层的决定。"""
+        got = admin.subgraph("ghost")
+        assert got["found"] is False and got["nodes"] == []
+
+    def test_entity_types_counts_sum_to_entity_count(self) -> None:
+        got = admin.entity_types()
+        assert sum(t["entities"] for t in got["types"]) == got["dataset"]["entities"]
+        assert "LOCATED_IN" in got["relations"]

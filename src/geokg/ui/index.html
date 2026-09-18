@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GeoKG 知识图谱视图</title>
+<!--
+  单文件视图：零构建、零 CDN、零外部请求。GeoKG 的部署环境经常没有外网，
+  页面必须只依赖同源的那几个只读接口，所以布局算法也自己写（BFS 分层，
+  见 layoutRadial）——不引 d3。
+
+  数据来源（全部同源、只读、免鉴权）：
+    GET /api/v1/geokg/version   版本与指纹（页头徽标）
+    GET /api/v1/geokg/types     类型清单与计数（筛选与图例）
+    GET /api/v1/geokg/search    关键词检索
+    GET /api/v1/geokg/graph     以某实体为中心的子图
+    GET /api/v1/geokg/entity/*  实体详情（属性 + 溯源 + 双向关系）
+-->
+<style>
+  :root{
+    --bg:#0f1419; --panel:#161c23; --panel2:#1d252e; --line:#2b3644;
+    --fg:#e6edf3; --dim:#8b98a5; --accent:#4a9eff; --warn:#e3b341; --ok:#3fb950;
+    --ring:#243040;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
+  body{
+    background:var(--bg); color:var(--fg); font:13px/1.5 -apple-system,"PingFang SC",
+    "Helvetica Neue",Arial,sans-serif; display:flex; flex-direction:column;
+  }
+  header{
+    display:flex; align-items:center; gap:14px; padding:10px 16px;
+    background:var(--panel); border-bottom:1px solid var(--line); flex:0 0 auto;
+  }
+  header h1{font-size:15px; margin:0; font-weight:600}
+  header .badge{
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:11px;
+    color:var(--dim); background:var(--panel2); border:1px solid var(--line);
+    border-radius:4px; padding:2px 7px;
+  }
+  header .spacer{flex:1}
+  header a{color:var(--accent); text-decoration:none; font-size:12px}
+  header a:hover{text-decoration:underline}
+  main{flex:1; display:flex; min-height:0}
+
+  /* 左栏：检索 */
+  aside{
+    width:330px; flex:0 0 330px; background:var(--panel);
+    border-right:1px solid var(--line); display:flex; flex-direction:column; min-height:0;
+  }
+  .pad{padding:12px}
+  .searchrow{display:flex; gap:6px}
+  input[type=search],select{
+    background:var(--panel2); border:1px solid var(--line); color:var(--fg);
+    border-radius:5px; padding:7px 9px; font-size:13px; width:100%;
+  }
+  input[type=search]:focus,select:focus{outline:1px solid var(--accent); border-color:var(--accent)}
+  button{
+    background:var(--panel2); border:1px solid var(--line); color:var(--fg);
+    border-radius:5px; padding:7px 11px; font-size:12px; cursor:pointer;
+  }
+  button:hover{border-color:var(--accent); color:var(--accent)}
+  button.primary{background:var(--accent); border-color:var(--accent); color:#08131f; font-weight:600}
+  .hint{color:var(--dim); font-size:11px; margin-top:6px}
+  .section{border-top:1px solid var(--line); display:flex; flex-direction:column; min-height:0}
+  .section > h2{
+    font-size:11px; text-transform:uppercase; letter-spacing:.06em; color:var(--dim);
+    margin:0; padding:9px 12px 6px; font-weight:600;
+  }
+  #results{overflow:auto; padding:0 8px 10px; flex:1; min-height:80px}
+  .hit{
+    padding:7px 9px; border:1px solid transparent; border-radius:5px; cursor:pointer;
+    display:flex; flex-direction:column; gap:1px;
+  }
+  .hit:hover{background:var(--panel2); border-color:var(--line)}
+  .hit.active{background:#12283f; border-color:var(--accent)}
+  .hit .name{font-weight:600}
+  .hit .meta{color:var(--dim); font-size:11px; font-family:ui-monospace,Menlo,monospace}
+  .hit .prov{font-size:10px; color:var(--dim)}
+  .pill{
+    display:inline-block; padding:0 5px; border-radius:3px; font-size:10px;
+    border:1px solid var(--line); background:var(--panel2); color:var(--dim);
+  }
+  #types{max-height:190px; overflow:auto; padding:0 12px 10px}
+  #types label{
+    display:flex; align-items:center; gap:7px; padding:2px 0; cursor:pointer; font-size:12px;
+  }
+  #types .sw{width:9px; height:9px; border-radius:2px; flex:0 0 9px}
+  #types .n{margin-left:auto; color:var(--dim); font-size:11px;
+    font-family:ui-monospace,Menlo,monospace}
+
+  /* 右栏：图 */
+  section.stage{flex:1; display:flex; flex-direction:column; min-width:0; min-height:0}
+  .toolbar{
+    display:flex; align-items:center; gap:10px; padding:8px 14px;
+    background:var(--panel); border-bottom:1px solid var(--line); flex-wrap:wrap;
+  }
+  .toolbar .grp{display:flex; align-items:center; gap:5px}
+  .toolbar label{color:var(--dim); font-size:11px}
+  .toolbar select{width:auto; padding:4px 7px; font-size:12px}
+  .toolbar .stat{margin-left:auto; color:var(--dim); font-size:11px;
+    font-family:ui-monospace,Menlo,monospace}
+  #wrap{flex:1; position:relative; min-height:0; overflow:hidden}
+  svg{width:100%; height:100%; display:block; cursor:grab}
+  svg.dragging{cursor:grabbing}
+  .edge{stroke:#3a4a5e; stroke-width:1}
+  .edge.hot{stroke:var(--accent); stroke-width:1.8}
+  .elabel{fill:var(--dim); font-size:7px; pointer-events:none}
+  .node circle{stroke:#0f1419; stroke-width:1.5; cursor:pointer}
+  .node.focus circle{stroke:var(--accent); stroke-width:3}
+  .node text{fill:var(--fg); font-size:9px; pointer-events:none; paint-order:stroke;
+    stroke:#0f1419; stroke-width:2.5px}
+  .node.dim{opacity:.25}
+  .ring{fill:none; stroke:var(--ring); stroke-dasharray:3 5}
+  .empty{
+    position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    color:var(--dim); text-align:center; padding:30px; pointer-events:none;
+  }
+
+  /* 详情抽屉 */
+  #detail{
+    position:absolute; top:0; right:0; bottom:0; width:390px; max-width:75%;
+    background:var(--panel); border-left:1px solid var(--line); overflow:auto;
+    transform:translateX(100%); transition:transform .18s ease; padding:0 0 20px;
+  }
+  #detail.open{transform:none}
+  #detail .hd{
+    display:flex; align-items:flex-start; gap:8px; padding:12px 14px;
+    border-bottom:1px solid var(--line); position:sticky; top:0; background:var(--panel);
+  }
+  #detail h3{margin:0; font-size:14px; flex:1}
+  #detail .close{background:none; border:none; color:var(--dim); font-size:18px;
+    cursor:pointer; padding:0 4px; line-height:1}
+  #detail .body{padding:12px 14px}
+  table.kv{width:100%; border-collapse:collapse; margin:0 0 10px}
+  table.kv td{padding:3px 0; vertical-align:top; font-size:12px}
+  table.kv td.k{color:var(--dim); width:96px; flex:0 0 auto}
+  table.kv td.v{font-family:ui-monospace,Menlo,monospace; font-size:11px; word-break:break-word}
+  .relgroup{margin:10px 0 0}
+  .relgroup h4{margin:0 0 5px; font-size:11px; color:var(--dim); text-transform:uppercase;
+    letter-spacing:.05em}
+  .rel{
+    display:flex; gap:7px; align-items:baseline; padding:3px 0; cursor:pointer;
+    border-bottom:1px solid #1b222b;
+  }
+  .rel:hover{background:var(--panel2)}
+  .rel .r{color:var(--warn); font-size:10px; font-family:ui-monospace,Menlo,monospace;
+    flex:0 0 auto}
+  .rel .t{flex:1; font-size:12px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  .rel .c{color:var(--dim); font-size:10px}
+  .svg-legend{
+    position:absolute; left:12px; bottom:10px; background:rgba(22,28,35,.92);
+    border:1px solid var(--line); border-radius:6px; padding:6px 9px; font-size:10px;
+    color:var(--dim); max-width:320px;
+  }
+  .err{color:#f85149}
+</style>
+</head>
+<body>
+<header>
+  <h1>GeoKG 知识图谱</h1>
+  <span class="badge" id="version">载入中…</span>
+  <span class="badge" id="graphinfo"></span>
+  <span class="spacer"></span>
+  <a href="/docs">API 文档 /docs</a>
+</header>
+
+<main>
+  <aside>
+    <div class="pad">
+      <div class="searchrow">
+        <input id="q" type="search" placeholder="搜实体：Brazil、sentinel、6.6.1、flood…"
+               autocomplete="off" spellcheck="false">
+        <button class="primary" id="go">搜索</button>
+      </div>
+      <div class="hint" id="searchhint">回车搜索。点结果即在右侧展开它的邻域。</div>
+    </div>
+
+    <div class="section" style="flex:1">
+      <h2>检索结果 <span id="count" style="color:var(--dim)"></span></h2>
+      <div id="results"><div class="hint pad">还没有结果。</div></div>
+    </div>
+
+    <div class="section">
+      <h2>实体类型（点击筛选）</h2>
+      <div id="types"><div class="hint pad">载入中…</div></div>
+    </div>
+  </aside>
+
+  <section class="stage">
+    <div class="toolbar">
+      <div class="grp">
+        <label for="depth">展开层数</label>
+        <select id="depth">
+          <option value="1">1 跳</option>
+          <option value="2" selected>2 跳</option>
+          <option value="3">3 跳</option>
+        </select>
+      </div>
+      <div class="grp">
+        <label for="dir">方向</label>
+        <select id="dir">
+          <option value="both" selected>双向</option>
+          <option value="out">只出边</option>
+          <option value="in">只入边</option>
+        </select>
+      </div>
+      <div class="grp">
+        <label for="limit">节点上限</label>
+        <select id="limit">
+          <option value="80">80</option>
+          <option value="200" selected>200</option>
+          <option value="500">500</option>
+        </select>
+      </div>
+      <button id="fit">适应窗口</button>
+      <button id="reset">回到初始</button>
+      <span class="stat" id="stats"></span>
+    </div>
+    <div id="wrap">
+      <svg id="svg"></svg>
+      <div class="empty" id="empty">
+        搜一个实体，或在左侧点选结果。<br>
+        试试 <b>Brazil</b>、<b>6.6.1</b>、<b>Geophysical</b>、<b>WorldCover</b>。
+      </div>
+      <div class="svg-legend" id="legend" hidden></div>
+      <div id="detail">
+        <div class="hd"><h3 id="dtitle">—</h3><button class="close" id="dclose">×</button></div>
+        <div class="body" id="dbody"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+"use strict";
+const API = "/api/v1/geokg";
+const $ = (id) => document.getElementById(id);
+
+/* ---------------------------------------------------------------- 状态 */
+const state = {
+  focus: null,
+  graph: null,
+  types: [],          // 全部类型（含计数）
+  activeTypes: new Set(),
+  view: {x: 0, y: 0, w: 1000, h: 700},   // SVG viewBox（缩放/平移就改它）
+  initialFocus: null,
+};
+
+/* ---------------------------------------------------------------- 工具 */
+async function getJSON(path, params) {
+  const url = new URL(path, location.origin);
+  for (const [k, v] of Object.entries(params || {})) {
+    if (v === null || v === undefined || v === "") continue;
+    if (Array.isArray(v)) v.forEach((x) => url.searchParams.append(k, x));
+    else url.searchParams.set(k, v);
+  }
+  const res = await fetch(url, {headers: {"Accept": "application/json"}});
+  if (!res.ok) {
+    let detail = res.status + " " + res.statusText;
+    try { detail = (await res.json()).detail || detail; } catch (e) { /* 非 JSON */ }
+    throw new Error(detail);
+  }
+  return res.json();
+}
+
+function esc(s) {
+  return String(s === null || s === undefined ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/* 类型 → 颜色：按排序后的下标取色，稳定且不依赖后端 */
+const PALETTE = ["#4a9eff","#3fb950","#e3b341","#f778ba","#a371f7","#ff9e64",
+                 "#39c5cf","#d29922","#db6d28","#7ee787","#79c0ff","#ffa657",
+                 "#bc8cff","#56d364","#e3b341","#8b949e"];
+const colorOf = (type) => {
+  const i = state.types.findIndex((t) => t.type === type);
+  return PALETTE[(i < 0 ? PALETTE.length - 1 : i) % PALETTE.length];
+};
+
+/* ---------------------------------------------------------------- 布局 */
+/*
+  刻意不做力导向：BFS 层级本身就是有意义的距离（"离这个实体一跳/两跳"），
+  而力导向图的距离没有语义，还会在每次重排时抖动。同心环 + 同类型相邻。
+
+  环半径按**该环节点数**算（保证弧间距不低于 SPACING），而不是固定步长：
+  实测 `sdg.indicator.6.6.1` 一跳就有 250 个监测单元，固定半径会让它们挤成一坨。
+  viewBox 再按算出来的最大半径自适应，所以大中心点也能整体看全。
+*/
+const RING_SPACING = 34;   // 同环相邻节点的最小弧间距（px）
+function layoutRadial(nodes) {
+  const W = 1000, H = 700, cx = W / 2, cy = H / 2;
+  const maxDepth = nodes.reduce((m, n) => Math.max(m, n.depth), 0);
+  const byDepth = new Map();
+  nodes.forEach((n) => {
+    if (!byDepth.has(n.depth)) byDepth.set(n.depth, []);
+    byDepth.get(n.depth).push(n);
+  });
+  const pos = new Map();
+  const radii = [];
+  let maxR = 0;
+  let prevR = 0;
+  // 按深度升序铺环。**半径必须单调递增**：否则节点多的一跳环会算出一个比二跳环
+  // 更大的半径，于是"两跳"反而画在"一跳"里面——深度就失去意义了。实测
+  // sdg.indicator.6.6.1 一跳 250 个邻居时正好踩到这一点（1353 vs 806）。
+  [...byDepth.keys()].sort((a, b) => a - b).forEach((depth) => {
+    const group = byDepth.get(depth);
+    if (depth === 0) {
+      pos.set(group[0].id, {x: cx, y: cy});
+      return;
+    }
+    // 按类型排序 → 同类型相邻
+    group.sort((a, b) => (a.type + a.id).localeCompare(b.type + b.id));
+    const needed = (group.length * RING_SPACING) / (2 * Math.PI);
+    const r = Math.max(90 * depth, needed, prevR + 90);
+    prevR = r;
+    radii.push({depth, r});
+    maxR = Math.max(maxR, r);
+    group.forEach((n, i) => {
+      const a = (i / group.length) * Math.PI * 2 - Math.PI / 2;
+      pos.set(n.id, {x: cx + r * Math.cos(a), y: cy + r * Math.sin(a)});
+    });
+  });
+  return {pos, W, H, maxDepth, radii, maxR, cx, cy};
+}
+
+/* ---------------------------------------------------------------- 渲染 */
+function render() {
+  const g = state.graph;
+  const svg = $("svg");
+  if (!g || !g.nodes.length) {
+    svg.innerHTML = "";
+    $("empty").hidden = false;
+    $("legend").hidden = true;
+    $("stats").textContent = "";
+    $("graphinfo").textContent = "";
+    return;
+  }
+  $("empty").hidden = true;
+
+  const {pos, maxDepth, radii, maxR, cx, cy} = layoutRadial(g.nodes);
+  const focusId = g.focus;
+  const degree = new Map();
+  g.edges.forEach((e) => {
+    degree.set(e.source, (degree.get(e.source) || 0) + 1);
+    degree.set(e.target, (degree.get(e.target) || 0) + 1);
+  });
+
+  const parts = [];
+  // 同心环底纹（用实际半径，而不是固定步长）
+  radii.forEach((ring) => {
+    parts.push(`<circle class="ring" cx="${cx}" cy="${cy}" r="${ring.r}"></circle>`);
+  });
+  // 边
+  const showEdgeLabel = g.edges.length <= 45;
+  g.edges.forEach((e, i) => {
+    const a = pos.get(e.source), b = pos.get(e.target);
+    if (!a || !b) return;
+    parts.push(`<line class="edge" data-i="${i}" x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}">` +
+               `<title>${esc(e.source)} --${esc(e.relation)}--> ${esc(e.target)}</title></line>`);
+    if (showEdgeLabel) {
+      const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2;
+      parts.push(`<text class="elabel" x="${mx}" y="${my}" text-anchor="middle">${esc(e.relation)}</text>`);
+    }
+  });
+  // 节点（focus 最后画，保证在最上层）
+  // 标签：节点少时才全标；多了会糊成一片，只标中心，其余靠悬停 title
+  const showLabels = g.nodes.length <= 60;
+  const ordered = g.nodes.slice().sort((a, b) => (a.id === focusId) - (b.id === focusId));
+  ordered.forEach((n) => {
+    const p = pos.get(n.id);
+    if (!p) return;
+    const deg = degree.get(n.id) || 0;
+    const r = n.id === focusId ? 11 : Math.max(4, Math.min(9, 3 + deg * 0.35));
+    const label = showLabels || n.id === focusId;
+    parts.push(
+      `<g class="node${n.id === focusId ? " focus" : ""}" data-id="${esc(n.id)}">` +
+      `<circle cx="${p.x}" cy="${p.y}" r="${r}" fill="${colorOf(n.type)}">` +
+      `<title>${esc(n.name)} · ${esc(n.type)} · 深度 ${n.depth} · 度数 ${deg}</title></circle>` +
+      (label ? `<text x="${p.x}" y="${p.y - r - 3}" text-anchor="middle">${esc(n.name)}</text>` : "") +
+      `</g>`);
+  });
+  svg.innerHTML = parts.join("");
+
+  // 图例
+  const used = [...new Set(g.nodes.map((n) => n.type))].sort();
+  $("legend").hidden = false;
+  $("legend").innerHTML = used.map((t) =>
+    `<div><span class="pill" style="border-color:${colorOf(t)};color:${colorOf(t)}">` +
+    `${esc(t)}</span></div>`).join("");
+
+  const counts = g.by_type || {};
+  $("stats").textContent =
+    `${g.nodes.length} 节点 / ${g.edges.length} 边 · ${maxDepth} 层` +
+    (g.truncated ? ` · 已按上限 ${g.limit} 截断` : "") +
+    ` · ${Object.entries(counts).map(([k, v]) => k + " " + v).join("、")}`;
+  $("graphinfo").textContent = g.dataset
+    ? `数据集 ${g.dataset.dataset_version} · ${g.dataset.entities.toLocaleString()} 实体`
+    : "";
+
+  // 自适应视野：把整张图框进 viewBox（否则 250 个一跳邻居会被裁掉）
+  state.home = {x: cx - maxR - 120, y: cy - maxR - 120,
+                w: 2 * (maxR + 120), h: 2 * (maxR + 120)};
+  state.view = {...state.home};
+  applyView();
+
+  bindGraph();
+}
+
+/* 适应窗口：回到渲染时算出的自适应视野 */
+function fitView() {
+  if (state.home) {
+    state.view = {...state.home};
+    applyView();
+  }
+}
+function applyView() {
+  const v = state.view;
+  $("svg").setAttribute("viewBox", `${v.x} ${v.y} ${v.w} ${v.h}`);
+}
+
+/* ---------------------------------------------------------------- 交互 */
+function bindGraph() {
+  const svg = $("svg");
+  svg.querySelectorAll(".node").forEach((el) => {
+    el.addEventListener("click", (ev) => {
+      ev.stopPropagation();
+      const id = el.dataset.id;
+      loadEntity(id);              // 右栏详情
+      if (id !== state.focus) expand(id);   // 重新以它为中心
+    });
+    el.addEventListener("mouseenter", () => {
+      const id = el.dataset.id;
+      svg.querySelectorAll(".node").forEach((n) => {
+        if (n.dataset.id === id) return;
+        const connected = state.graph.edges.some(
+          (e) => (e.source === id && e.target === n.dataset.id) ||
+                 (e.target === id && e.source === n.dataset.id));
+        n.classList.toggle("dim", !connected);
+      });
+    });
+    el.addEventListener("mouseleave", () => {
+      svg.querySelectorAll(".node").forEach((n) => n.classList.remove("dim"));
+    });
+  });
+}
+
+/* 滚轮缩放 + 拖拽平移（改 viewBox，不重排） */
+function bindPanZoom() {
+  const svg = $("svg");
+  svg.addEventListener("wheel", (ev) => {
+    ev.preventDefault();
+    const rect = svg.getBoundingClientRect();
+    const v = state.view;
+    const mx = v.x + (ev.clientX - rect.left) / rect.width * v.w;
+    const my = v.y + (ev.clientY - rect.top) / rect.height * v.h;
+    const k = ev.deltaY > 0 ? 1.12 : 1 / 1.12;
+    v.w *= k; v.h *= k;
+    v.x = mx - (mx - v.x) * k;
+    v.y = my - (my - v.y) * k;
+    applyView();
+  }, {passive: false});
+
+  let drag = null;
+  svg.addEventListener("mousedown", (ev) => {
+    if (ev.target.closest(".node")) return;
+    drag = {x: ev.clientX, y: ev.clientY, vx: state.view.x, vy: state.view.y};
+    svg.classList.add("dragging");
+  });
+  window.addEventListener("mousemove", (ev) => {
+    if (!drag) return;
+    const rect = svg.getBoundingClientRect();
+    state.view.x = drag.vx - (ev.clientX - drag.x) / rect.width * state.view.w;
+    state.view.y = drag.vy - (ev.clientY - drag.y) / rect.height * state.view.h;
+    applyView();
+  });
+  window.addEventListener("mouseup", () => {
+    drag = null;
+    $("svg").classList.remove("dragging");
+  });
+}
+
+/* ---------------------------------------------------------------- 数据 */
+async function loadVersion() {
+  try {
+    const v = await getJSON(`${API}/version`);
+    $("version").textContent =
+      `${v.dataset_version} · ${v.fingerprint.slice(0, 10)} · ${v.rows.toLocaleString()} 行`;
+  } catch (e) {
+    $("version").textContent = "版本不可用";
+  }
+}
+
+async function loadTypes() {
+  try {
+    const t = await getJSON(`${API}/types`);
+    state.types = t.types;
+    $("types").innerHTML = t.types.map((x) =>
+      `<label><input type="checkbox" data-type="${esc(x.type)}" checked>` +
+      `<span class="sw" style="background:${colorOf(x.type)}"></span>` +
+      `<span>${esc(x.type)}</span><span class="n">${x.entities.toLocaleString()}</span></label>`
+    ).join("");
+    state.activeTypes = new Set(t.types.map((x) => x.type));
+    $("types").querySelectorAll("input").forEach((cb) => {
+      cb.addEventListener("change", () => {
+        if (cb.checked) state.activeTypes.add(cb.dataset.type);
+        else state.activeTypes.delete(cb.dataset.type);
+        if (state.focus) expand(state.focus);
+      });
+    });
+  } catch (e) {
+    $("types").innerHTML = `<div class="hint err pad">${esc(e.message)}</div>`;
+  }
+}
+
+async function runSearch() {
+  const q = $("q").value.trim();
+  const box = $("results");
+  box.innerHTML = `<div class="hint pad">检索中…</div>`;
+  try {
+    const params = {q, limit: 40};
+    if (state.activeTypes.size && state.activeTypes.size < state.types.length) {
+      params.type = [...state.activeTypes];
+    }
+    const r = await getJSON(`${API}/search`, params);
+    $("count").textContent = `(${r.count}${r.truncated ? "，显示前 " + r.returned : ""})`;
+    if (!r.results.length) {
+      box.innerHTML = `<div class="hint pad">没有命中。试试更短的关键词，或取消类型筛选。</div>`;
+      return;
+    }
+    box.innerHTML = r.results.map((h) => {
+      const p = h.provenance || {};
+      const prov = [p.source, p.source_tier].filter(Boolean).join(" · ");
+      return `<div class="hit" data-id="${esc(h.id)}">
+        <span class="name">${esc(h.name)}</span>
+        <span class="meta">${esc(h.type)} · ${esc(h.id)}</span>
+        ${prov ? `<span class="prov">${esc(prov)}${p.retrieved ? " · " + esc(p.retrieved) : ""}</span>` : ""}
+      </div>`;
+    }).join("");
+    box.querySelectorAll(".hit").forEach((el) => {
+      el.addEventListener("click", () => {
+        box.querySelectorAll(".hit").forEach((x) => x.classList.remove("active"));
+        el.classList.add("active");
+        loadEntity(el.dataset.id);
+        expand(el.dataset.id);
+      });
+    });
+  } catch (e) {
+    box.innerHTML = `<div class="hint err pad">${esc(e.message)}</div>`;
+  }
+}
+
+async function expand(focusId) {
+  const params = {
+    focus: focusId,
+    depth: $("depth").value,
+    direction: $("dir").value,
+    limit: $("limit").value,
+  };
+  if (state.activeTypes.size && state.activeTypes.size < state.types.length) {
+    params.type = [...state.activeTypes];
+  }
+  try {
+    state.graph = await getJSON(`${API}/graph`, params);
+    if (!state.graph.found) {
+      $("stats").textContent = "该实体不在图中：" + focusId;
+      return;
+    }
+    state.focus = focusId;
+    if (!state.initialFocus) state.initialFocus = focusId;
+    render();
+  } catch (e) {
+    $("stats").textContent = "展开失败：" + e.message;
+  }
+}
+
+async function loadEntity(entityId) {
+  const d = $("detail");
+  $("dtitle").textContent = entityId;
+  $("dbody").innerHTML = `<div class="hint">载入中…</div>`;
+  d.classList.add("open");
+  try {
+    const r = await getJSON(`${API}/entity/${encodeURIComponent(entityId)}`);
+    if (!r.found) { $("dbody").innerHTML = `<div class="hint err">未找到该实体。</div>`; return; }
+    const e = r.entity, p = r.entity.properties || {}, prov = e.provenance || {};
+    const rows = (obj, keys) => keys.filter((k) => obj[k] !== undefined && obj[k] !== "")
+      .map((k) => `<tr><td class="k">${esc(k)}</td><td class="v">${esc(obj[k])}</td></tr>`).join("");
+    const rel = (list, arrow, cls) => {
+      if (!list.length) return `<div class="hint">（无）</div>`;
+      return list.map((x) =>
+        `<div class="rel" data-id="${esc(x.entity.id)}">` +
+        `<span class="r">${arrow} ${esc(x.relation)}</span>` +
+        `<span class="t">${esc(x.entity.name)}</span>` +
+        `<span class="c">${esc(x.entity.type)}</span></div>`).join("");
+    };
+    $("dtitle").innerHTML = `${esc(e.name)} <span class="pill">${esc(e.type)}</span>`;
+    $("dbody").innerHTML = `
+      <table class="kv">
+        <tr><td class="k">id</td><td class="v">${esc(e.id)}</td></tr>
+        ${rows(p, ["name", "title", "indicator_title", "acronym", "status", "level",
+                   "theme", "iso3", "code", "region", "space_agency"])}
+      </table>
+      <div class="relgroup">
+        <h4>溯源（GeoKG 强制字段）</h4>
+        <table class="kv">
+          ${rows(prov, ["origin", "source", "source_tier", "license", "retrieved", "attribution"])}
+        </table>
+      </div>
+      <div class="relgroup">
+        <h4>指向它（入边 ${r.in.length}）</h4>${rel(r.in, "←", "in")}
+      </div>
+      <div class="relgroup">
+        <h4>它指向（出边 ${r.out.length}）</h4>${rel(r.out, "→", "out")}
+      </div>
+      <div class="relgroup">
+        <h4>全部属性</h4>
+        <table class="kv">${rows(p, Object.keys(p).sort())}</table>
+      </div>`;
+    $("dbody").querySelectorAll(".rel").forEach((el) => {
+      el.addEventListener("click", () => {
+        loadEntity(el.dataset.id);
+        expand(el.dataset.id);
+      });
+    });
+  } catch (e) {
+    $("dbody").innerHTML = `<div class="hint err">${esc(e.message)}</div>`;
+  }
+}
+
+/* ---------------------------------------------------------------- 启动 */
+$("go").addEventListener("click", runSearch);
+$("q").addEventListener("keydown", (ev) => { if (ev.key === "Enter") runSearch(); });
+$("dclose").addEventListener("click", () => $("detail").classList.remove("open"));
+["depth", "dir", "limit"].forEach((id) =>
+  $(id).addEventListener("change", () => { if (state.focus) expand(state.focus); }));
+$("fit").addEventListener("click", fitView);
+$("reset").addEventListener("click", () => {
+  if (state.initialFocus) { loadEntity(state.initialFocus); expand(state.initialFocus); }
+});
+bindPanZoom();
+loadVersion();
+loadTypes().then(() => {
+  // 首屏给一个真实存在的例子，避免用户面对空画布。刻意**不**自动打开详情抽屉：
+  // 那会盖住右侧一半画面，而图才是这个页面的主线。
+  expand("country.BRA");
+});
+</script>
+</body>
+</html>
