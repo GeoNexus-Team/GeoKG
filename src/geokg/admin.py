@@ -24,6 +24,7 @@ import json
 import subprocess
 import sys
 import time
+from collections.abc import Callable
 from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -132,17 +133,22 @@ def status() -> dict[str, Any]:
     warnings: list[dict[str, Any]] = []
     for it in items:
         if not it["exists"]:
-            warnings.append({"level": "error", "dataset": it["id"],
+            warnings.append({"level": "error", "reason": "missing", "gate": True,
+                             "dataset": it["id"],
                              "message": f"数据文件缺失: {it['file']}"})
         elif it["stale"]:
             warnings.append({
-                "level": "warning", "dataset": it["id"],
+                "level": "warning", "reason": "stale", "gate": True,
+                "dataset": it["id"],
                 "message": (f"数据已 {it['age_days']} 天未更新"
                             f"（阈值 {it['staleness_days']} 天，上游 {it['upstream']}）"),
             })
         elif it["retrieved"] and not it["fingerprint_match"]:
+            # 指纹漂移不是数据本身的健康问题，只是"改了数据没重算清单"的提醒，
+            # 因此不参与严格门禁（gate=False）——修复方式是重算清单，不是去抓数。
             warnings.append({
-                "level": "warning", "dataset": it["id"],
+                "level": "warning", "reason": "drift", "gate": False,
+                "dataset": it["id"],
                 "message": "文件指纹与清单不符——数据已改但清单未重算，"
                            "请运行 `geokg manifest --write`",
             })
@@ -160,6 +166,9 @@ def status() -> dict[str, Any]:
             "rows_total": sum(i["rows"] for i in items),
         },
         "warnings": warnings,
+        # 严格门禁的唯一判据（CI 与 HTTP 门禁共用）。以前 CLI 靠中文子串
+        # 匹配 "未更新" 来推断，措辞一改门禁就静默失效——这里改成结构化字段。
+        "ok_strict": not any(w["gate"] for w in warnings),
     }
 
 
@@ -337,8 +346,18 @@ def manifest(*, write: bool = False) -> dict[str, Any]:
     ``write=True`` 时写回 ``data/manifest.json``（有副作用）。
     ``retrieved`` 保留清单里已有的日期，新文件才记今天——否则每次重算都会
     把"取数日期"刷成今天，陈旧度告警就永远不触发。
+
+    两个时间字段分工明确，别混用：
+
+    * ``generated_at`` —— **本次计算**的时间（每次都不同）；
+    * ``stored_generated_at`` —— **磁盘上清单**的生成时间（``write=False``
+      时才是"这份数据是什么时候定版的"）。
+
+    只想要一个稳定的版本标识时，用 ``fingerprint`` 或
+    ``stored_generated_at``；拿 ``generated_at`` 当版本时间会得到"永远刚刚生成"。
     """
-    old = _load_manifest().get("files", {})
+    stored = _load_manifest()
+    old = stored.get("files", {})
     today = date.today().isoformat()
     files: dict[str, Any] = {}
     for ds in DATASETS:
@@ -362,10 +381,14 @@ def manifest(*, write: bool = False) -> dict[str, Any]:
                    sort_keys=True).encode()
     ).hexdigest()
 
+    now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     out = {
         "manifest_format": MANIFEST_FORMAT,
         "dataset_version": DATASET_VERSION,
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "generated_at": now,
+        # 要写回时，"磁盘上的清单"就是这份——两个字段取同一个值，保证
+        # 落盘后的文件自洽（否则存进去的 stored_generated_at 永远是上一版的时间）。
+        "stored_generated_at": now if write else stored.get("generated_at", ""),
         "fingerprint": digest,
         "files": files,
     }
@@ -379,10 +402,18 @@ def manifest(*, write: bool = False) -> dict[str, Any]:
 # 有副作用：刷新
 # --------------------------------------------------------------------------- #
 def refresh(dataset_id: str | None = None, *, all_: bool = False,
-            timeout: int = 1800) -> dict[str, Any]:
+            timeout: int = 1800,
+            checkpoint: Callable[[dict[str, Any]], bool] | None = None) -> dict[str, Any]:
     """重新生成数据文件（联网抓取或离线转录），随后重算清单。
 
     一次只允许刷一个数据集或全部——避免"忘了刷某个"却以为已是最新。
+
+    Args:
+        checkpoint: 可选的**逐数据集**回调，在抓取每个数据集**之前**调用，
+            收到 ``{"dataset", "index", "total", "done", "ok"}``。返回
+            ``False`` 则不再开始下一个数据集（当前子进程仍会跑完——子进程
+            不可中断，这是"停止后续"而不是"立即杀死"）。CLI 不传，HTTP
+            管理面用它同时实现进度上报与协作式取消。
     """
     if all_:
         targets = list(DATASETS)
@@ -392,7 +423,14 @@ def refresh(dataset_id: str | None = None, *, all_: bool = False,
         raise ValueError("需指定 dataset_id 或 all_=True")
 
     results: list[dict[str, Any]] = []
-    for ds in targets:
+    aborted = False
+    for index, ds in enumerate(targets):
+        if checkpoint is not None and not checkpoint({
+            "dataset": ds.id, "index": index, "total": len(targets),
+            "done": list(results), "ok": all(r["ok"] for r in results),
+        }):
+            aborted = True
+            break
         gen = ds.generator_path
         if not gen.exists():
             results.append({"id": ds.id, "ok": False,
@@ -411,9 +449,12 @@ def refresh(dataset_id: str | None = None, *, all_: bool = False,
             results.append({"id": ds.id, "ok": False,
                             "detail": f"超时（>{timeout}s）"})
 
-    ok_all = all(r["ok"] for r in results)
-    mf = manifest(write=ok_all) if ok_all else None
-    return {"results": results, "ok": ok_all,
+    ok_all = bool(results) and all(r["ok"] for r in results)
+    # 只有**整套成功**才重算并写回清单。中止（半个批次刷完）或有失败项时：
+    # 写清单会把没刷新的部分一并登记成"当前版本"；而只算不写又会返回一个与
+    # 磁盘不符的指纹。所以这两种情况统一返回 manifest=None（= 清单未变）。
+    mf = manifest(write=True) if (ok_all and not aborted) else None
+    return {"results": results, "ok": ok_all, "aborted": aborted,
             "manifest": {"fingerprint": mf["fingerprint"],
                          "dataset_version": mf["dataset_version"]} if mf else None}
 

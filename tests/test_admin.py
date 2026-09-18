@@ -87,6 +87,49 @@ class TestReadOnlyApi:
         st = admin.status()
         assert st["manifest_present"], "清单缺失——请运行 geokg manifest --write"
 
+    def test_status_strict_gate_is_structured(self) -> None:
+        """严格门禁必须由结构化字段决定，而不是靠中文措辞匹配。
+
+        以前 CLI 用 ``"未更新" in message`` 推断门禁，改一次文案门禁就静默
+        失效。现在每条告警带 ``gate``，整体判据是 ``ok_strict``——CLI 与
+        HTTP 共用它。
+        """
+        st = admin.status()
+        assert st["ok_strict"] is (not any(w["gate"] for w in st["warnings"]))
+        for w in st["warnings"]:
+            assert set(w) >= {"level", "reason", "gate", "dataset", "message"}
+            assert w["reason"] in ("missing", "stale", "drift")
+
+    def test_status_strict_flags_missing_and_stale(self, monkeypatch) -> None:
+        """构造两类硬告警（缺失 / 陈旧）与一类软告警（指纹漂移）。"""
+        from datetime import date, timedelta
+
+        fast = S.BY_ID["geonames-admin1"]
+        old = (date.today() - timedelta(days=fast.staleness_days + 5)).isoformat()
+        today = date.today().isoformat()
+
+        def fake_status(d, mf=None):
+            return {
+                "id": d.id,
+                "exists": d.id != "un-m49",              # un-m49 → 缺失（硬）
+                "stale": d.id == fast.id,                # geonames → 陈旧（硬）
+                "age_days": 99 if d.id == fast.id else 0,
+                "staleness_days": d.staleness_days,
+                "upstream": d.upstream, "file": d.file,
+                "rows": 1, "size_bytes": 1,
+                "retrieved": old if d.id == fast.id else today,
+                "fingerprint_match": d.id != "vocabulary",  # vocabulary → 漂移（软）
+            }
+
+        monkeypatch.setattr(admin, "dataset_status", fake_status)
+        st = admin.status()
+        reasons = {w["reason"] for w in st["warnings"]}
+        assert reasons == {"missing", "stale", "drift"}
+        assert st["ok_strict"] is False, "缺失/陈旧必须让严格门禁失败"
+        # 指纹漂移不参与门禁：它是"忘了重算清单"，不是数据不健康
+        assert next(w for w in st["warnings"]
+                    if w["reason"] == "drift")["gate"] is False
+
     def test_verify_passes_offline(self) -> None:
         v = admin.verify(drift=False)
         assert v["ok"], [c for c in v["checks"] if not c["ok"]]
@@ -108,6 +151,18 @@ class TestReadOnlyApi:
     def test_manifest_fingerprint_stable(self) -> None:
         """同一批数据两次生成的指纹必须一致（这是引用版本号的基础）。"""
         assert admin.manifest()["fingerprint"] == admin.manifest()["fingerprint"]
+
+    def test_manifest_distinguishes_computed_and_stored_time(self) -> None:
+        """``generated_at`` 是本次计算时间，``stored_generated_at`` 是磁盘时间。
+
+        混用会让"这份数据什么时候定版的"永远显示成"刚刚"——CLI 与 /version
+        都曾踩到这个坑。
+        """
+        m = admin.manifest()
+        on_disk = json.loads(admin.MANIFEST_FILE.read_text(encoding="utf-8"))
+        assert m["stored_generated_at"] == on_disk["generated_at"] != ""
+        # 只读调用不得改变磁盘清单
+        assert admin.manifest()["stored_generated_at"] == m["stored_generated_at"]
 
     def test_manifest_rows_exclude_header(self) -> None:
         """L3 数据文件带列头行，行数不得把它算进去。"""
@@ -145,6 +200,102 @@ class TestStaleness:
         ds = S.BY_ID["un-m49"]
         st = admin.dataset_status(ds, {"files": {"un-m49": {"sha256": "deadbeef"}}})
         assert st["fingerprint_match"] is False
+
+
+class TestRefreshCheckpoint:
+    """``refresh`` 的逐数据集回调——HTTP 管理面靠它做进度与协作式取消。
+
+    这里不真的抓数（会联网），而是替换 ``subprocess.run`` 观察控制流。
+    """
+
+    def _fake_run(self, monkeypatch, calls: list[str], fail: set[str] | None = None):
+        def fake_run(cmd, **kw):
+            gen = cmd[2].rsplit("/", 1)[-1]
+            calls.append(gen)
+
+            class R:
+                returncode = 1 if fail and gen in fail else 0
+                stdout = f"{gen} ok"
+                stderr = ""
+
+            return R()
+
+        monkeypatch.setattr(admin.subprocess, "run", fake_run)
+
+    def test_checkpoint_sees_every_dataset(self, monkeypatch) -> None:
+        calls: list[str] = []
+        self._fake_run(monkeypatch, calls)
+        monkeypatch.setattr(admin, "manifest",
+                            lambda *, write=False: {"fingerprint": "f", "dataset_version": "v"})
+        seen: list[tuple[str, int, int]] = []
+        admin.refresh(all_=True,
+                      checkpoint=lambda ev: seen.append(
+                          (ev["dataset"], ev["index"], ev["total"])) or True)
+        assert [s[0] for s in seen] == [d.id for d in S.DATASETS]
+        assert all(s[2] == len(S.DATASETS) for s in seen)
+
+    def test_checkpoint_false_aborts_remaining(self, monkeypatch) -> None:
+        """返回 False 即不再开启下一个数据集（这是取消的语义）。"""
+        calls: list[str] = []
+        self._fake_run(monkeypatch, calls)
+        written: list[bool] = []
+        monkeypatch.setattr(
+            admin, "manifest",
+            lambda *, write=False: written.append(write) or
+            {"fingerprint": "f", "dataset_version": "v"})
+
+        stop_after = 2
+        res = admin.refresh(
+            all_=True,
+            checkpoint=lambda ev: ev["index"] < stop_after)
+
+        assert res["aborted"] is True
+        assert len(res["results"]) == stop_after
+        assert len(calls) == stop_after, f"中止后仍跑了生成脚本: {calls[stop_after:]}"
+        # 只刷了一半就落清单，会把未刷的部分一并登记成当前版本
+        assert written == [], "中止时不得写回清单"
+        assert res["manifest"] is None, "中止时不得报告一个与磁盘不符的指纹"
+
+    def test_success_writes_manifest_once(self, monkeypatch) -> None:
+        calls: list[str] = []
+        self._fake_run(monkeypatch, calls)
+        written: list[bool] = []
+        monkeypatch.setattr(
+            admin, "manifest",
+            lambda *, write=False: written.append(write) or
+            {"fingerprint": "f", "dataset_version": "v"})
+        res = admin.refresh(dataset_id="un-m49")
+        assert res["ok"] is True
+        assert written == [True], "成功时应当只写一次清单"
+        assert res["manifest"] == {"fingerprint": "f", "dataset_version": "v"}
+
+    def test_no_checkpoint_is_unchanged(self, monkeypatch) -> None:
+        """不给回调时行为与以前一致（CLI 路径不传回调）。"""
+        calls: list[str] = []
+        self._fake_run(monkeypatch, calls)
+        monkeypatch.setattr(
+            admin, "manifest",
+            lambda *, write=False: {"fingerprint": "f", "dataset_version": "v"})
+        res = admin.refresh(all_=True)
+        assert res["aborted"] is False and res["ok"] is True
+        assert len(res["results"]) == len(S.DATASETS)
+
+    def test_partial_failure_does_not_write_manifest(self, monkeypatch) -> None:
+        calls: list[str] = []
+        self._fake_run(monkeypatch, calls, fail={"fetch_un_m49.py"})
+        written: list[bool] = []
+        monkeypatch.setattr(
+            admin, "manifest",
+            lambda *, write=False: written.append(write) or
+            {"fingerprint": "f", "dataset_version": "v"})
+        res = admin.refresh(all_=True)
+        assert res["ok"] is False and res["aborted"] is False
+        assert written == [], "有失败项时不得改清单版本"
+        assert res["manifest"] is None
+
+    def test_refresh_requires_target(self) -> None:
+        with pytest.raises(ValueError):
+            admin.refresh()
 
 
 class TestCli:

@@ -20,6 +20,8 @@ dependencies = [
 [project.scripts]
 # 管理工具入口：pip install 后即可用 `geokg` 命令
 geokg = "geokg.cli:main"
+# HTTP 管理面（独立端口）。fastapi/uvicorn 由 geonexus-sdk 带入，无需额外 extra。
+geokg-api = "geokg.api:main"
 
 [project.optional-dependencies]
 # OSM 摄入路径（ingest_from_osm）所需
@@ -43,7 +45,8 @@ src = ["src"]
 select = ["E", "F", "I", "B", "UP", "SIM"]
 # 与 GeoNexus-SDK 保持一致：本包内有大段数据字面量与中文注释，
 # 长行不可避免，故不启用行宽限制。
-ignore = ["E501", "SIM108"]
+# B008: FastAPI 把 Query()/Depends() 写在参数默认值里是官方惯用法。
+ignore = ["E501", "SIM108", "B008"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

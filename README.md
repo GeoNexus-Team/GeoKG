@@ -160,7 +160,21 @@ geokg version               # 数据集版本与指纹
 数据集版本 `2026.09.1`，指纹见 `geokg version`。陈旧度按源设置阈值
 （GeoNames 30 天 / OSCAR 90 天 / 静态数据集永不陈旧）。
 
-架构与 Web 管理面设计见 [`docs/management-plane.md`](docs/management-plane.md)。
+### HTTP 管理面
+
+平台 Web 不需要依赖本包的 Python 代码，起一个独立端口的只读/变更服务即可：
+
+```bash
+export GEOKG_API_KEYS='key-1,key-2'   # 不设则变更接口 503（失败关闭）
+geokg-api --port 8788                 # 默认只监听 127.0.0.1；/docs 有 OpenAPI
+```
+
+只读接口（`/api/v1/geokg/{status,verify,licenses,counts,manifest,version}`）免鉴权，
+与 CLI 读**同一批** `admin.py` 函数——不存在两套逻辑。变更接口
+（`POST manifest|refresh|build`）需 `X-API-Key`，长任务返回 `task_id`，
+可轮询 `GET /tasks/{id}` 或订阅 SSE `GET /tasks/{id}/events`。
+
+架构、鉴权与长任务设计见 [`docs/management-plane.md`](docs/management-plane.md)。
 
 ## 数据来源审计
 
@@ -176,7 +190,7 @@ python scripts/counting_basis.py     # 口径 + 溯源审计；字段缺失则�
 ## 测试
 
 ```bash
-pytest tests -q     # 142 tests
+pytest tests -q     # 190 tests
 ```
 
 ## 相关仓库

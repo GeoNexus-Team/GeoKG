@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    # 阶段 5：数据陈旧度巡检。不依赖任何人推送——上游更新、数据变旧，
+    # 定时任务就会失败并通知，这才是"陈旧度告警"的落地方式。
+    - cron: '0 2 * * 1'   # 每周一 02:00 UTC
 
 jobs:
   test:
@@ -47,3 +51,23 @@ jobs:
         run: |
           python -m geokg.cli verify
           python -m geokg.cli status --strict
+
+      - name: HTTP management plane smoke test
+        # 单元测试用 TestClient 覆盖了应用本身；这一步覆盖 TestClient 测不到的
+        # 部分：控制台脚本 + uvicorn + 真实端口绑定。仅在一个 Python 版本上跑。
+        if: matrix.python-version == '3.12'
+        run: |
+          GEOKG_API_KEYS=ci-key geokg-api --port 8788 &
+          SERVER=$!
+          trap 'kill $SERVER' EXIT
+          curl -sf --retry 30 --retry-connrefused --retry-delay 1 \
+            http://127.0.0.1:8788/api/v1/geokg/health \
+            | python -c "import json,sys; assert json.load(sys.stdin)['status']=='ok'"
+          # 版本接口必须只由数据状态决定（可缓存、可比对）
+          curl -sf http://127.0.0.1:8788/api/v1/geokg/version > /tmp/v1.json
+          curl -sf http://127.0.0.1:8788/api/v1/geokg/version > /tmp/v2.json
+          cmp /tmp/v1.json /tmp/v2.json
+          # 变更接口无 key 必须是 401（失败关闭），不是 200
+          code=$(curl -s -o /dev/null -w '%{http_code}' \
+            -X POST http://127.0.0.1:8788/api/v1/geokg/manifest)
+          test "$code" = "401" || { echo "期望 401，实际 $code"; exit 1; }

@@ -106,10 +106,9 @@ def cmd_status(args: argparse.Namespace) -> int:
         print()
 
     if args.strict:
-        # 定时 CI 用：有错误级告警或数据缺失即失败；陈旧算错误
-        hard = any(w["level"] == "error" or "未更新" in w["message"]
-                   for w in st["warnings"])
-        st["ok"] = not hard
+        # 定时 CI 用：数据缺失或陈旧即失败（指纹漂移不算，它是"忘了重算清单"）。
+        # 判据由 admin.status() 以结构化字段给出，与 HTTP 门禁同源。
+        st["ok"] = st["ok_strict"]
     return _emit(args, st, render)
 
 
@@ -259,7 +258,8 @@ def cmd_version(args: argparse.Namespace) -> int:
         print(f"  数据集指纹: {m['fingerprint']}")
         rows = sum(d["rows"] for d in m["files"].values())
         print(f"  数据文件  : {len(m['files'])} 个 / {rows:,} 行")
-        print(f"  清单生成于: {m['generated_at']}")
+        # 用磁盘清单的时间，而不是 m['generated_at']（那永远是"刚刚"）
+        print(f"  清单生成于: {m['stored_generated_at'] or '（尚无清单文件）'}")
 
     return _emit(args, mf, render)
 
