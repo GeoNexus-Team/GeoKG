@@ -41,7 +41,9 @@ jobs:
       - name: Ruff check
         run: ruff check src/ tests/ scripts/ --output-format=github
 
-      - name: Provenance gate
-        # Hard gate: every entity must carry origin/source/license/retrieved.
-        # Unverified sources are reported as debt, not as a failure.
-        run: python scripts/counting_basis.py --no-monitoring
+      - name: Management gate
+        # 统一门禁：数据完整性 + 溯源强制 + 清单指纹一致性（全部离线）。
+        # --drift 需联网，刻意不放在 CI 里，避免网络抖动导致假失败。
+        run: |
+          python -m geokg.cli verify
+          python -m geokg.cli status --strict

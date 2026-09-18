@@ -87,6 +87,18 @@ HAZARD_TERMS: list[OntologyTerm] = load_terms(HAZARD_FILE)
 ALL_TERMS: list[OntologyTerm] = LANDCOVER_TERMS + CLIMATE_TERMS + HAZARD_TERMS
 
 
+def load_all_terms(path: str | Path | None = None) -> list[OntologyTerm]:
+    """加载全部 L3 本体条目。
+
+    签名与其它加载器（``load_countries`` / ``load_satellites`` …）保持一致：
+    **可无参调用**。``load_terms`` 因要服务三个不同文件而必须传路径，
+    管理面的通用校验需要这个统一入口。
+    """
+    if path is not None:
+        return load_terms(path)
+    return ALL_TERMS
+
+
 def ontology_stats() -> dict[str, int]:
     return {
         "landcover_classes": sum(1 for t in LANDCOVER_TERMS if t.level == "class"),

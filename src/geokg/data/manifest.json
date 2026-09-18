@@ -1,0 +1,129 @@
+{
+  "manifest_format": 1,
+  "dataset_version": "2026.09.1",
+  "generated_at": "2026-09-18T01:01:09+00:00",
+  "fingerprint": "9cc336f408a49006500762177d2d2d81c2d137818071300e89da2b7a1fd7b719",
+  "files": {
+    "un-m49": {
+      "file": "un_m49_countries.tsv",
+      "sha256": "2235ae73fc844c96fc30c7ba768c40aeb2d2e9e23d8ed9d806ca0608e9468a6e",
+      "rows": 249,
+      "size_bytes": 21009,
+      "retrieved": "2026-09-18",
+      "tier": "T1",
+      "license": "联合国公开数据",
+      "upstream": "https://unstats.un.org/unsd/methodology/m49/overview/",
+      "sources": [
+        "un-m49",
+        "iso-3166-1"
+      ]
+    },
+    "un-sdg-framework": {
+      "file": "un_sdg_framework.tsv",
+      "sha256": "c31a30d39cfcfd377d9b385514eeb071ce3c92d92826655accd8a29ba5cedbfc",
+      "rows": 437,
+      "size_bytes": 148255,
+      "retrieved": "2026-09-18",
+      "tier": "T1",
+      "license": "联合国公开文件（A/RES/71/313 及后续综合审议）",
+      "upstream": "https://unstats.un.org/SDGAPI/v1/sdg",
+      "sources": [
+        "un-sdg-framework"
+      ]
+    },
+    "geonames-admin1": {
+      "file": "geonames_admin1.tsv",
+      "sha256": "a253b2c1aa040a89d5f7555959c5f7b75e5e00e7a8cdbc86e721dab09c0967ee",
+      "rows": 3858,
+      "size_bytes": 167326,
+      "retrieved": "2026-09-18",
+      "tier": "T4",
+      "license": "Creative Commons Attribution 4.0 (CC BY 4.0)",
+      "upstream": "https://download.geonames.org/export/dump/",
+      "sources": [
+        "geonames-admin1"
+      ]
+    },
+    "wmo-oscar-satellites": {
+      "file": "oscar_satellites.tsv",
+      "sha256": "6a87ee1a57ddc3720dbc600216e75581acb0b3eaaab92f121667772348ace643",
+      "rows": 1044,
+      "size_bytes": 142064,
+      "retrieved": "2026-09-18",
+      "tier": "T2",
+      "license": "可自由使用与再分发，须致谢 WMO；WMO 不对准确性作担保",
+      "upstream": "https://space.oscar.wmo.int/api/v1/satellites",
+      "sources": [
+        "wmo-oscar-satellites"
+      ]
+    },
+    "wmo-oscar-instruments": {
+      "file": "oscar_instruments.tsv",
+      "sha256": "a09e8e237a3db3c1ab14e14ff2380bc456fdc98f673b6b94946eb8c0c257d522",
+      "rows": 1244,
+      "size_bytes": 520628,
+      "retrieved": "2026-09-18",
+      "tier": "T2",
+      "license": "可自由使用与再分发，须致谢 WMO；WMO 不对准确性作担保",
+      "upstream": "https://space.oscar.wmo.int/api/v1/instruments",
+      "sources": [
+        "wmo-oscar-instruments"
+      ]
+    },
+    "esa-worldcover": {
+      "file": "worldcover_landcover.tsv",
+      "sha256": "1b7b8cb05b943b78e85bc0d227ab8f68ed2b735e3a488cd456d77d217c14a500",
+      "rows": 11,
+      "size_bytes": 1188,
+      "retrieved": "2026-09-18",
+      "tier": "T2",
+      "license": "Creative Commons Attribution 4.0 (CC BY 4.0)",
+      "upstream": "https://docs.planet.com/data/public-data/other-datasets/esa-worldcover/",
+      "sources": [
+        "esa-worldcover"
+      ]
+    },
+    "koppen-geiger": {
+      "file": "koppen_geiger_climate.tsv",
+      "sha256": "23460206c3f279b16dfd0f88b9a271d485a141fe8e0beeab92dd1c951f152b72",
+      "rows": 35,
+      "size_bytes": 2516,
+      "retrieved": "2026-09-18",
+      "tier": "T3",
+      "license": "Creative Commons Attribution 4.0 (CC BY 4.0)",
+      "upstream": "https://doi.org/10.1038/sdata.2018.214",
+      "sources": [
+        "koppen-geiger-beck2018"
+      ]
+    },
+    "irdr-hazards": {
+      "file": "irdr_hazards.tsv",
+      "sha256": "62a5fec66311da4b1d5d5c6c8ed015d591baa725a3f8fc80a22b8f46fde7d936",
+      "rows": 73,
+      "size_bytes": 6058,
+      "retrieved": "2026-09-18",
+      "tier": "T3",
+      "license": "IRDR 公开技术报告（引用 IRDR DATA Publication No. 1）",
+      "upstream": "https://www.irdrinternational.org/pdf/uploads/files/sc11/IRDR_DATA-Project-Report-No.-1.pdf",
+      "sources": [
+        "irdr-peril-classification-2014"
+      ]
+    },
+    "vocabulary": {
+      "file": "vocabulary.tsv",
+      "sha256": "8097b975a49d5e7a716567b12e4cef319a21087a5fcd7b669a975cf352138d64",
+      "rows": 294,
+      "size_bytes": 13425,
+      "retrieved": "2026-09-18",
+      "tier": "混合",
+      "license": "混合：EOF 见下（含 Apache-2.0 自编内容）",
+      "upstream": "（逐类标注：IOGP EPSG / ISO·OGC / 联合国 / 本仓库自编）",
+      "sources": [
+        "iogp-epsg",
+        "iso-ogc-standards",
+        "un-frameworks",
+        "geokg-authored"
+      ]
+    }
+  }
+}

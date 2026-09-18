@@ -140,6 +140,28 @@ python scripts/counting_basis.py --no-monitoring
 这三个分类只以论文/报告形式发布，无官方机器可读清单，因此由
 `scripts/build_l3_ontology.py` **转录**并标注引用，署名随实体分发。
 
+## 管理工具
+
+安装后可用 `geokg` 命令（也可 `python -m geokg.cli`）：
+
+```bash
+geokg status [--strict]     # 整体状态 + 陈旧度告警
+geokg verify [--drift]      # 数据完整性 + 溯源门禁（--drift 才联网）
+geokg licenses              # 许可与署名汇总
+geokg counts [--admin1]     # 计数口径 + 溯源审计
+geokg manifest [--write]    # 查看/重算数据清单
+geokg refresh <id>|--all    # 重新生成数据（联网）
+geokg build [--admin1]      # 构建图谱并报告统计
+geokg version               # 数据集版本与指纹
+```
+
+只读命令**零网络、零副作用**，可离线与 CI 中使用；加 `--json` 输出结构化结果。
+
+数据集版本 `2026.09.1`，指纹见 `geokg version`。陈旧度按源设置阈值
+（GeoNames 30 天 / OSCAR 90 天 / 静态数据集永不陈旧）。
+
+架构与 Web 管理面设计见 [`docs/management-plane.md`](docs/management-plane.md)。
+
 ## 数据来源审计
 
 **47.3% 的实体来源未核实**（P0 前为 90.7%）——详见 [`docs/provenance-audit.md`](docs/provenance-audit.md)。
@@ -154,7 +176,7 @@ python scripts/counting_basis.py     # 口径 + 溯源审计；字段缺失则�
 ## 测试
 
 ```bash
-pytest tests -q     # 112 tests
+pytest tests -q     # 142 tests
 ```
 
 ## 相关仓库

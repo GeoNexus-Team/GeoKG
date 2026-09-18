@@ -17,6 +17,10 @@ dependencies = [
     "geonexus-sdk>=1.0.0",
 ]
 
+[project.scripts]
+# 管理工具入口：pip install 后即可用 `geokg` 命令
+geokg = "geokg.cli:main"
+
 [project.optional-dependencies]
 # OSM 摄入路径（ingest_from_osm）所需
 osm = ["httpx>=0.27"]
@@ -28,7 +32,7 @@ where = ["src"]
 [tool.setuptools.package-data]
 # 参考数据以数据文件形式随包分发（由 scripts/fetch_*.py 生成）。
 # 缺了它，安装后 load_countries()/load_admin1() 会直接失败。
-"geokg" = ["data/*.tsv"]
+"geokg" = ["data/*.tsv", "data/*.json"]
 
 [tool.ruff]
 target-version = "py310"
